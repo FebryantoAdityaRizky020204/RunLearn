@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learn One</title>
+    <!-- <link rel="stylesheet" href="./output.css"> -->
+     <script src="https://cdn.tailwindcss.com"></script>
+     <!-- <style type="text/tailwindcss">
+        * {
+            border: 1px solid red;
+        }
+     </style> -->
+     <script>
+        tailwind.config = {
+            theme: {
+                extend: {},
+                FontFamily: {
+                    poppins: ['Poppins', 'sans-serif'],
+                }
+            }
+        }
+     </script>
+</head>
+<body class="min-h-screen p-2">
+    <!-- 
+    # Spacing & Sizing
+    # Typography
+    # Colors
+    -->
+
+    <h1>Belajar Tailwind</h1>
+    <br/>
+    <section>
+        <h2>Spacing - Margin</h2>
+        <div class="-ml-8">minus Margin</div>
+        <div class="m-2">Margin</div>
+        <!-- mirip seperti bootstrap mx my ms me mt mb -->
+         <div class="mt-6">mt-6</div>
+        <div class="mr-4">mr-4</div>
+        <div class="mb-8">mb-8</div>
+        <div class="ml-2">ml-2</div>
+        <div class="max-w-28 mx-auto">Margin auto</div>
+    </section>
+    <section class="mt-6">
+        <h2>Spacing - Padding</h2>
+        <!-- mirip seperti margin cuman nggak ada minus dan auto -->
+         <div class="pt-6">pt-6</div>
+        <div class="pr-4">pr-4</div>
+        <div class="pb-8">pb-8</div>
+        <div class="pl-2">pl-2</div>
+    </section>
+    <section class="mt-6">
+        <h2>Spacing  - Width</h2>
+        <div class="w-32">Kotak 1</div>
+        <div class="w-1/2">Kotak 2</div>
+        <div class="h-32 w-1/2">Kotak 3 - Height</div>
+    </section>
+    <section class="mt-3 mb-96 font-mono">
+        <h2>Typography</h2>
+        <div>
+            By Aditya Rizky Febryanto
+        </div>
+        <p class="mb-4 font-sans">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Iusto iste consequatur iure, reiciendis eos cum provident tempore facilis est repellat eveniet consequuntur recusandae, ad nostrum nihil debitis pariatur cupiditate aspernatur?</p>
+        <p class="mb-4 font-serif">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quo, ab iusto? Velit fugiat accusantium eum voluptatibus obcaecati dolorum corrupti minima?</p>
+        <p class="mb-4 font-mono">Lorem ipsum dolor sit amet consectetur adipisicing elit. Magnam nulla consequatur id ducimus ipsa! Libero dolores tempore saepe ducimus? Repellat.</p>
+        <p class="mb-4 font-poppins">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Culpa illo nisi explicabo non odio error repellendus atque, enim quaerat natus.</p>
+    </section>
+
+    <section>
+        <h2>Colors</h2>
+        <div class="bg-amber-200">background color</div>
+        <div class="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">background Gradient color</div>
+        <p class="text-amber-900 font-bold">Text Color</p>
+        <p class="bg-gradient-to-r from-red-500 via-purple-500 to-blue-600 text-transparent bg-clip-text font-semibold">Text Gradient Color</p>
+    </section>
+</body>
+</html>
