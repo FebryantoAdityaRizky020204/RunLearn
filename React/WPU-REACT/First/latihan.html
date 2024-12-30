@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Latihan Video 1</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+        button, p {
+            display: inline;
+            margin: 5px 8px;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const container = document.getElementById('root');
+        const root = ReactDOM.createRoot(container);
+        root.render(<HomePage />);
+
+
+        function HomePage() {
+            return (
+                <>
+                <SimpleCounter />
+                <ComplexCounter />
+                </>
+            );
+        }
+
+        function SimpleCounter() {
+            let [count, setCount] = React.useState(0);
+            let kurang = () => { setCount(count - 1); }
+            let tambah = () => { setCount(count + 1); }
+
+            let reset = () => { setCount(0); }
+            return (
+                <>
+                    <h4>Simple Counter</h4>
+                    <button onClick={kurang}>-</button>
+                    <p>{count}</p>
+                    <button onClick={tambah}>+</button>
+                    <br />
+                    <button onClick={reset}>Reset!</button>
+                </>
+            );
+        }
+
+        function ComplexCounter(){
+            let [count, setCount] = React.useState(0);
+
+            let kurang = () => { setCount(count - 1); }
+            let tambah = () => { setCount(count + 1); }
+            let reset = () => { setCount(0); }
+            
+            const disabled = (count > 9 || count < 0) ? true : false;
+
+            return(
+                <>
+                <h4>Complex Counter</h4>
+                    <button disabled={disabled} onClick={kurang}>-</button>
+                    <p>{(count > 9 || count < 0) ? 'done!' : count}</p>
+                    <button disabled={disabled} onClick={tambah}>+</button>
+                    <br />
+                    <button disabled={!disabled} onClick={reset}>Reset!</button>
+                </>
+            );
+        }
+    </script>
+</body>
+</html>
