@@ -9,6 +9,12 @@ void main() {
    * ? <= kurang dari atau sama dengan
    */
 
-  // STUB : Menggunakan Operator Perbandingan
-  print('halo semua apa kabar kalian');
+  // NOTE : Menggunakan Operator Perbandingan
+  print(10 == 10);
+  print(10 != 10);
+  print(10 > 10);
+  print(10 < 10);
+  print(10 >= 10);
+  print(10 <= 10);
+  print('adit' == 'adit');
 }

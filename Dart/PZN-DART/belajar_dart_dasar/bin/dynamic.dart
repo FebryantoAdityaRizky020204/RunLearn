@@ -8,6 +8,7 @@ void main() {
   variable = 'Halo'; // disini tipe data berubah menjadi string
   print(variable);
 
+  // ignore: prefer_typing_uninitialized_variables
   var contoh; //ini secara otomatis akan bertipe dynamic
   contoh = 21;
   print(contoh);
