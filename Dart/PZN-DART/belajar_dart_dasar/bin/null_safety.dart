@@ -67,4 +67,20 @@ void main() {
   nullableNumber2 = 2; // nullablenumber harus diberi nilai agar tidak error
   var number = nullableNumber2;
   print(number);
+
+  /**
+   * ? Mengakses nullable member
+   * * saat mengakses nullable member (property, method, operator) maka secara 
+   * * ->default dart akan memberi peringatanuntuk melakukan null check.
+   * * namun kita bisa mengakses nullable member secara aman, tanpa harus memaksa konversi
+   * * -> dengan menggunakan tanda tanya ?
+   * * namun konsekuensinya, ketika mengakses nullable member, hasil dari member tersebut
+   * * -> bisa jadi null jika datanya null
+   */
+
+  int? intNumber;
+  // ignore: dead_code
+  double? doubleNumber = intNumber?.toDouble();
+
+  print(doubleNumber);
 }
