@@ -6,6 +6,7 @@ void main() {
    * * -> setelah tipeData sebuah variabel
    */
 
+  // ignore: unused_local_variable
   String namaDepan;
   String? namaLengkap;
   // print(namaDepan); // ? ini akan error karena namaDepan belum selesai dideklarasikan
