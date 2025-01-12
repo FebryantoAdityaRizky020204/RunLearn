@@ -26,7 +26,7 @@
 let john = {
   name: "John",
   sayHi: function() {
-    alert("Hi buddy!");
+    console.log("Hi buddy!");
   }
 };
 john.sayHi(); // Hi buddy!
