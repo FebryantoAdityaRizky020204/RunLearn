@@ -1,0 +1,1 @@
+// ? agak membingungkan baca saja di [https://id.javascript.info/iterable]
