@@ -168,3 +168,21 @@ let objDefault = Object.fromEntries(mapDefault); // ? sekarang map menjadi objec
 console.log('====================================');
 
 
+// TODO - SET
+
+/**
+ * ? Set adalah tipe koleksi spesial – “set nilai-nilai” (tanpa kunci), dimana setiap nilai hanya 
+ * ? -> dapat terjadi sekali.
+ * 
+ * ? Method utamanya adalah:
+ * * new Set(iterable) – menciptakan set, dan jika objek iterable disediakan (biasanya array), 
+ * * -> menyalin nilai darinya ke set.
+ * * set.add(value) – menambahkan nilai, mengembalikan set itu sendiri.
+ * * set.delete(value) – menghapus nilai, mengembalikan true jika value ada pada saat panggilan 
+ * * -> berlangsung, jika tidak false.
+ * * set.has(value) – mengembalikan true jika nilai ada di set, jika tidak false.
+ * * set.clear() – menghapus semuanya dari set.
+ * * set.size – adalah hitungan elemen.
+ * * Fitur utamanya adalah panggilan berulang set.add(value) dengan nilai yang sama tidak melakukan 
+ * * -> apa-apa. Itulah alasan mengapa setiap nilai hanya muncul dalam Set sekali.
+ */
