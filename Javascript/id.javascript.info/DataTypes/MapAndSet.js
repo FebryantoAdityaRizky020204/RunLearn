@@ -183,6 +183,40 @@ console.log('====================================');
  * * set.has(value) – mengembalikan true jika nilai ada di set, jika tidak false.
  * * set.clear() – menghapus semuanya dari set.
  * * set.size – adalah hitungan elemen.
- * * Fitur utamanya adalah panggilan berulang set.add(value) dengan nilai yang sama tidak melakukan 
- * * -> apa-apa. Itulah alasan mengapa setiap nilai hanya muncul dalam Set sekali.
+ * 
+ * ? Fitur utamanya adalah panggilan berulang set.add(value) dengan nilai yang sama tidak melakukan 
+ * ? -> apa-apa. Itulah alasan mengapa setiap nilai hanya muncul dalam Set sekali.
  */
+
+let set = new Set()
+let johnS = { nama: 'John' }
+let benS = { nama: 'Ben' }
+
+set.add(johnS)
+set.add(benS)
+set.add(johnS)
+
+console.log(set); // ? Set { { nama: 'John' }, { nama: 'Ben' } }
+console.log(set.size); // ? 2
+
+// ? Iterasi pada SET
+// * bisa menggunakan for...of dan forEach
+
+let setArr = new Set([1, 2, 3, 4, 5])
+
+for (let angka of setArr) {
+    console.log(angka); // ? 1, 2, 3, 4, 5
+}
+console.log('------------------------------------');
+setArr.forEach((angka) => {
+    console.log(angka); // ? 1, 2, 3, 4, 5
+})
+
+/**
+ *  ? set memiliki Metode yang sama yang dimiliki Map untuk iterator juga didukung: 
+ * * set.keys() – mengembalikan objek iterable untuk nilai,
+ * * set.values() – sama dengan set.keys(), untuk kompatibilitas dengan Map,
+ * * set.entries() – mengembalikan objek iterable untuk entri [nilai, nilai], ada untuk kompatibilitas dengan Map.set
+ */
+
+console.log('====================================');
