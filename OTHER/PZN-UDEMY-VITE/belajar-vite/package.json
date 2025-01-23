@@ -1,0 +1,15 @@
+{
+  "name": "belajar-vite",
+  "version": "1.0.0",
+  "description": "belajar vite by PZN",
+  "license": "ISC",
+  "author": "Aditya Rizky F",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "vite": "^6.0.11"
+  }
+}

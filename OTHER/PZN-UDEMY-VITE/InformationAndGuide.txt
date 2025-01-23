@@ -1,0 +1,26 @@
+================= Pengenalan Vite
+Development Tool
+- saat membuat aplikasi menggunakan NodeJS, baik itu menggunakan js ataupun ts
+-> banyak hal yang perlu kita lakukan manual, seperti menjalankan aplikasinya, restart/refresh 
+-> ketika dilakukan perubahan, atau jika di typscript perlu dilakukan compile terlebih dahulu sebelum
+-> menjalankan ulang aplikasinya
+
+Pengenalan Vite
+- Vite (dibava vite), adalah tool untuk mempercepat dev app menggunakan NodeJS,
+- Vite memiliki fitur HMR (Hot Module Replacement), yang dapat melakukan perubahan module secara cepat
+-> tanpa perlu melakukan reload/refresh halaman.
+- vite juga memiliki fitur untuk melakukan bundling (membungkus) kode" yang kita buat menjadi kode
+-> yang dipotimasi dengan baik untuk mode prod menggunakan libarary Roolup [https://roolupjs.org]
+- website resmi vite: https://vitejs.dev
+
+
+================= Membuat Project
+- buat folder belajar-vite
+- npm init
+- ubah/tambah type di package.json menjadi module
+
+================= Menjalankan Aplikasi
+- vite bisa digunakan untuk menjalankan aplikasi web
+- vite menggunakan file index.html (tergantung) sebagai entry point
+- untuk menjalankan menggunakan perintah [npx vite]
+- terdapat banyak opsi [vite --help] untuk lebih jelas
