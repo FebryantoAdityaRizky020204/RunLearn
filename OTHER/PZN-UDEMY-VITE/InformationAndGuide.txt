@@ -5,7 +5,7 @@ Development Tool
 -> ketika dilakukan perubahan, atau jika di typscript perlu dilakukan compile terlebih dahulu sebelum
 -> menjalankan ulang aplikasinya
 
-Pengenalan Vite
+---------- Pengenalan Vite
 - Vite (dibava vite), adalah tool untuk mempercepat dev app menggunakan NodeJS,
 - Vite memiliki fitur HMR (Hot Module Replacement), yang dapat melakukan perubahan module secara cepat
 -> tanpa perlu melakukan reload/refresh halaman.
@@ -24,3 +24,43 @@ Pengenalan Vite
 - vite menggunakan file index.html (tergantung) sebagai entry point
 - untuk menjalankan menggunakan perintah [npx vite]
 - terdapat banyak opsi [vite --help] untuk lebih jelas
+
+================= JavaScript
+- secara default, vite mendukung javascript module, sehingga kita bisa membuat kode javascript dengan
+-> menggunakan javascript module.
+=> membuat file say-hello.js [module]
+
+================= TypeScript
+- selain js, vite juga mendukung kompilasi TypeScript otomatis secara realtime
+- tambahkan dependensi typescript [npm i --save-dev typescript]
+- setup typescript [npx tsc --init]
+
+================= Build
+- ketika aplikasi siap/selesai dan ingin di up ke production, kita perlu melakukan build
+- vite akan melakukan dependency Pre-Bundling, dimana vite akan menggabungkan banyak module yang kita 
+-> gunakan menjadi satu, yang akan mempercepat performa web
+- dan vite dapat mendeteksi/mengetahui module mana yang kita gunakan, sehingga file build ini akan
+-> optimal
+---------- Perintah Build
+- [npx vite build] [--help (untuk mengetahui lebih jelas)]
+- secara default, hasil build akan disimpan di filder dist
+---------- menjalankan hasil build
+- harus berada di directory hasil buildnya (dist)
+- sama saja [npx vite]
+
+================= Node Dependency
+- vite juga bisa secara otomatis melakukan build dari dependency yang kita install menggunakan
+-> NodeJS packages
+- namun, tidak semua NodeJS packages itu compatible dengan WebBrowser, jadi harus dipastikan 
+-> bisa terlebih dahulu di WebBrowser!!!!!.
+- contohnya jika kita memasukkan dependency ExpressJS, ini tidak bisa berjalan di web, karena
+-> membutuhkan NodeJS HTTP Server, sedangkan di WebBrowser tidak ada.
+---------- contoh Dependency UUID
+- menambah dependency UUID [npm i uuid]
+
+================= CSS
+- vite juga bisa melakukan build pada CSS, dan otomatis akan di bundle nantinya, sehingga bisa
+-> lebih optimal
+
+
+

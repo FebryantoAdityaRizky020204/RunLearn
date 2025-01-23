@@ -4,11 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Belajar Menjalankan Vite</title>
+    <link rel="stylesheet" href="./style.css">
 </head>
 <body>
     <h1>Halo Semua</h1>
     <script type="module">
-        console.info('Hello World!')
+        // Javascript
+        import {sayHello} from './say-hello.js'
+        sayHello('Aditya');
+
+        // TypeScript
+        import {sayGoodbye} from './say-goodbye.ts'
+        sayGoodbye('Rizky')
+
+        // UUID
+        import {v4} from 'uuid'
+        console.info(v4())
     </script>
 </body>
 </html>
