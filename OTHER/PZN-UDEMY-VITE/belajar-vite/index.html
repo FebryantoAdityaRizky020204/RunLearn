@@ -5,9 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Belajar Menjalankan Vite</title>
     <link rel="stylesheet" href="./style.css">
+    <style>
+        @import url('./sample.sass');
+    </style>
 </head>
 <body>
     <h1>Halo Semua</h1>
+    <h2>Ini adalah H2</h2>
+    <img src="./img.jpg" alt="gambar" width="150px" />
+    <br />
+    <br />
+    <img src="./sample-img.jpg" alt="gambar" width="150px" />
     <script type="module">
         // Javascript
         import {sayHello} from './say-hello.js'
@@ -20,6 +28,14 @@
         // UUID
         import {v4} from 'uuid'
         console.info(v4())
+
+        // JSON
+        import * as person from './person.json'
+        console.info(person)
+
+        // Assets File
+        import textFile from './hello.txt?raw'
+        console.info(textFile)
     </script>
 </body>
 </html>

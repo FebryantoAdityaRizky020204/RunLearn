@@ -62,5 +62,35 @@ Development Tool
 - vite juga bisa melakukan build pada CSS, dan otomatis akan di bundle nantinya, sehingga bisa
 -> lebih optimal
 
+================= CSS Pre-processor
+- saat ini banyak sekali Css Pre-.. famework yang digunakan untuk memudahkan pembuatan kode css
+- Contohnya: SASS, LESS, STYLUS
+- vite juga mendukung CSS Pre-.., sehingga tidak perlu melakukan kompilasi manual
+---------- Contoh : SASS
+- [npm i --save-dev sass]
+
+================= JSON
+- vite juga mendukung bundle file JSON
+- dan kita bisa dengan mudah mengambil data tersebut menggunakan javascript module
+
+================= Static Assets
+- terkadang kita akan menggunakan static assets ketika dev, seperti foto maupun video
+- assets tersebut juga akan dibundle oleh vite
+---------- Public Directory
+- kadang-kadang kita juga perlu sebuah static assets yang ditampilkan secara dinamis, sehingga lokasinya tidak ada di
+-> halaman web HTML
+- atau assets yang nama filenya tidak berubah seperti favicon.ico atau robott.txt dll..
+- vite mendukung oublic directory untuk meletakkan assets" tersebut, yang tidak akan di optimize ketika di build
+=> caranya tiggal buat saja folder public, dan letakkan assets tersebut di dalamnya
+
+================= Preview
+- setelah kita melakukan build kita mungkin ingin melihat hasilnya terlebih dahulu sebelum deloyment
+-> ke server production
+- bisa dilakukan menggunakan [npx vite preview]
+- !!!! ingat ini hanya preview di proses deployment, jangan dilakukan di server production
 
 
+================= Configuration
+- secara default, vite sudah memiliki default conf.. 
+- namun jika kita ingin mengubah pengaturannya, kita dapat membuatnya di file {vite.config.js}
+- semua konfigurasi bisa baca disini [https://vite.dev/config/]
