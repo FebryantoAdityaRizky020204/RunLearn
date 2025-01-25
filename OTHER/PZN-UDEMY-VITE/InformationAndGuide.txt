@@ -18,6 +18,8 @@ Development Tool
 - buat folder belajar-vite
 - npm init
 - ubah/tambah type di package.json menjadi module
+---------- Menginstall Vite Dependency
+=> [npm i --save-dev vite]
 
 ================= Menjalankan Aplikasi
 - vite bisa digunakan untuk menjalankan aplikasi web
@@ -94,3 +96,26 @@ Development Tool
 - secara default, vite sudah memiliki default conf.. 
 - namun jika kita ingin mengubah pengaturannya, kita dapat membuatnya di file {vite.config.js}
 - semua konfigurasi bisa baca disini [https://vite.dev/config/]
+
+================= Multi-Page Application
+- saat membuat web, seringnya kita akan membuat lebih dari satu halaman
+- vite juga mendukung build lebih dari satu halaman
+- namun, khusus untuk Multi-page app, kita harus daftarkan file" mana saja yang akan di build pada 
+-> vite configuration
+
+
+================= Plugin
+- vite sudah sangat mendukung dalam proses dev website
+- namun, kadang kita perlu framework tambahan seperti VueJS, ReactJS, dll.
+- vite juga memiliki banyak sekali plugin tambahan, yang bisa dilihat pada daftar di
+-> [https://vite.dev/plugins]
+
+
+================= Template
+- diawal kitamembuat project vite secara manual, agar mengetahui bagaimana membuat project dari awal
+- namun, sebenarnya vite memiliki template yang bisa kita gunakan
+- gunakan perintah [npm create vite@latest]
+
+================= Materi Selanjutnya
+- Vitest
+- VueJS
