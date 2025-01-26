@@ -1,0 +1,110 @@
+PZN RESOURCES
+ => Slide : https://docs.google.com/presentation/d/1c0D8SAtrsh3eQIe7E_anYStCxj6KPJWodaZxxVyC7-E/edit?usp=sharing
+ => Source Code : https://github.com/ProgrammerZamanNow/belajar-vitest
+
+===== Pengenalan VITEST
+- vitest adalah unit test framework yang dipersembahkan oleh dev vite
+- vitest mirip dengan unit test framewrok lainnya, seperti jest, mocha, dll..
+- vitest secara default mendukung JavaScript module
+- vitest juga terintegrasi baik dengan TypeScript
+- [https://vitest.dev]
+----- kenapa vitest
+- vitest sangat cepat, mendukung paralel testing, sehingga bisa melakukan unit test dengan cepat
+- compatible dengan jest
+- vitest sangat ringan, dan ber-hati" saat menambahkan dependency agar tetap cepat
+- terintegrasi baik dengan vite
+
+===== Membuat Project
+- npm create vite@latest
+- tambahkan vitest [npm i --save-dev vitest]
+
+===== Menjalankan Unit Test
+- secara default, kita tidak perlu membuat konfigurasi apapun
+- setelah menginstall vitest, kita bisa langsung menjalankan unit testnya menggunakan vitest
+- sama seperti jest, vitest secara default akan menjalankan unit test untuk file dengan akhiran
+--> test.js/ts atau spec.js/ts
+- untuk menjalankan unit test menggunakan vitest, kita bisa menggunakan perintah
+=> [npx vitest --run nama-file.test.js/ts]
+----- percobaan
+- install typescript [npm i -save-dev typescript]
+- file tests/sample.test.ts
+- kemudian jalankan menggunakan perintah [npx vitest --run tests/sample.test.ts]
+----- watch mode
+- vitest memiliki fitur watch mode, yang bisa mendeteksi perubahan pada file unit test
+--> sehingga menjalankan unit test ulang secara otomatis
+- menggunakan perintah [npx vitest]
+
+===== configuration
+- walaupun vitest secara default tidak memerlukan konfigurasi
+- tapi jika kita ingin membuat konfigurasi sendiri
+- bisa ditambahkan di file {vitest.config.js}
+- semua konfigurasi bisa dilihat di [https://vitest.dev/config]
+
+===== JEst Compatible
+- API yang dibuat Vitest kompatible dengan API Jest, dengan begitu untuk menggunakan vitest
+--> sama seperti saat menggunakan Jest
+- namun pada kode sebelumnya, kita memerlukan import {describe, expect, it} dari package vitest
+--> sedangakn di jest, secara default func" tersebut sudah terdaftar global scope
+- kita juga bisa melakukan hal yang sama dengan mengubah konfigurasi vitest 
+- tambahkan [globals: true], agar semua func" terdaftar di global scope
+----- fitur jest lainnya
+- hampir semua fitur jest didukung oleh vitest, seperti
+ * Timeout pada test function
+ * Concurrent Test
+ * Skip test
+ * dll
+
+
+===== Multi Threading
+- secara default, vitest menjalankan unit test menggunakan multi-thread
+- walaupun dijalankan di worker thread yg berbeda, namun secara default vitest akan menjalankan 
+--> unit test satu-per-satu, karena kebanyak programmer membuat unit test yg sequential
+- namun, pada kasus jika kita tidak butuh berjalan secara squential, kita bisa gunakan fitur
+--> Concurrent Test seperti di jest
+=> file slow [slow.test.ts] done sekitar 6 detik
+=> file menggunakan multi-threading [multi.test.ts] done sekitar 3 detik
+
+===== Chai [Jest Expect]
+- saat kita menggunakan Expect di vitest, cara penggunaannya mirip di jest expect
+- tapi, selain kompatibel dengan Jest expect, vitest juga menggunakan library chai untuk fitur expect
+----- Chai
+- chai adalah test assertions yang populer [https://www.chaijs.com/]
+- chai memiliki fitur expect dan juga assert, yang bisa kita import dari package vitest
+- [https://www.chaijs.com/api/bdd] [https://www.chaijs.com/api/dessert]
+- test [chai.test.ts]
+
+===== Mocking
+- mocking adalah membuat object tiruan/palsu, sehingga memudahkan ketika ingin melakukan test interaksi
+--> dengan object lain
+- vitest juga mendukung mocking, yang penggunaannya kompatible dengan jest mocking, sehingga kita bisa
+--> melakukan mock function, mock module, dan mock class
+- mocking => import {vi} from 'vitest'
+
+===== Benchmarking
+- salah satu fitur menarik di vitest adalah Benchmarking
+- benchmarking melakukan performance test terhadap kode yang kita buat
+- benchmarking bisa digunakan untuk menjalankan kode kita ber-kali", sehingga kita bisa melihat
+--> performa kecepatan dari kode yang kita buat
+- untuk membuat benchmarking harus menggunakan format file berakhiran .bench.js/ts, atau .benchmark.js/ts
+- untuk menjalankannya [npx vitest bench --run namafile]
+- PERLU DIINGAT, fitur benchmarking masih experimental, jadi bisa dimungkinkan kedepannya aka berubah
+- import {bench} from 'vitest'
+
+===== Coverage
+- sama seperti di jest, vitest juga memiliki Coverage
+- untuk melihat kode mana yang belum tercover oleh unit test yang kita buat
+- vitest support library V8 atau istambul sebagai library untuk code coverage
+- [https://v8.dev/blog/javascript-code-coverage] [https://istanbul.js.org]
+- kita bisa memilih ibrary apa yang kita digunakan dan mengaturnya di file configurasi, 
+--> secara default adalah V8, 
+- untuk menjalankan tambahkan --coverage ketika menjalankan vitest
+- [npx vitest --run --coverage namaFile]
+
+===== Vitest UI
+- Vitest UI adalah web dashboard untuk memonitor unit test yang kita buat, mana yang sukses mana yang gagal
+- kita juga bisa menjalankan unit test melalui web yang sudah disediakan vitest ui
+- kita bisa menjalankannya dengan menambahkan --ui
+=> [npx vitest --ui]
+
+===== Materi Selanjutnya
+- Frontend Framework: VueJS, ReactJS, Svelte, dll

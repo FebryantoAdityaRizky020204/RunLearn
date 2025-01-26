@@ -1,3 +1,7 @@
+PZN REOSURCES
+ => Slide : https://docs.google.com/presentation/d/1mmV1JIoh3FALwFiVXN1ORBp4nnkp28cw5pf_Z3SALSU/edit?usp=sharing
+ => Source Code : https://github.com/ProgrammerZamanNow/belajar-vite
+
 ================= Pengenalan Vite
 Development Tool
 - saat membuat aplikasi menggunakan NodeJS, baik itu menggunakan js ataupun ts
