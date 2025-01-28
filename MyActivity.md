@@ -6,8 +6,8 @@
 Aktivitas Belajarku <br />
 Mungkin Agak Terlambat Tapi Yaudahlahyaa <br/>
 
-``Start: Selasa 28 Januari 2025``
-```👨‍💻👨‍🎓📚🚀💻```
+``Start: Selasa 28 Januari 2025`` <br />
+```👨‍💻👨‍🎓📚🚀💻``` <br />
 <small>Semoga Tercatat Semua ---</small>
 </p>
 
