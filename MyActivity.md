@@ -6,7 +6,7 @@
 Aktivitas Belajarku <br />
 Mungkin Agak Terlambat Tapi Yaudahlahyaa <br/>
 
-``Start: Selasa 28 Januari 2025`` <br />
+``Start:`` <a href="#start">Selasa 28 Januari 2025</a> <br />
 ```👨‍💻👨‍🎓📚🚀💻``` <br />
 <small>Semoga Tercatat Semua ---</small>
 </p>
@@ -15,8 +15,7 @@ Mungkin Agak Terlambat Tapi Yaudahlahyaa <br/>
 ---
 
 
-
 ``[28 Januari 2025]``
-<small>
+<small id="start">
 - Belajar ``Introduction to Cybersecurity`` dari netacad.com
 </small>
