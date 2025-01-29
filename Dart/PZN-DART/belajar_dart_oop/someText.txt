@@ -1,5 +1,8 @@
-Tutorial OOP Dart dari PZN - 
+-- Programmer Zaman Now - TUTORIAL DART OOP (BAHASA INDONESIA)
 source: https://youtu.be/k0ycD2aqPzU?si=9Cllne357t1bv4xl -
+
+!! untuk kemudahan pembelajaran, penjelasan ada di pdf:Dart Object Oriented Programming.pdf
+-- source: https://www.youtube.com/redirect?event=video_description&redir_token=QUFFLUhqbEp1dUdMWFZuaTl2Y2ttWDJ2Y0xGd0hNQ1g0d3xBQ3Jtc0ttSWwtWWxOVGJUVms3b0lCYXhTbnFlM05Db3NNQjQxeFhZTGF6QTktM0NyazZLQnpIdjlvMlVYeWM5TWF6dTl3aTVDdjM1RmZIbHU3WVlWc003dXEyeXFlampkZzh2X20yckV2eTBuUGJISTMzTDMxRQ&q=https%3A%2F%2Fdocs.google.com%2Fpresentation%2Fd%2F1RjLOY1crzgp5CmkLsQCJmfi4ohrVKxUso_Ka_Z8TDhY%2Fedit%3Fusp%3Dsharing&v=k0ycD2aqPzU
 
 AGENDA
 - Pengenalan Object Oriented Programming
@@ -12,7 +15,5 @@ AGENDA
 - dll
 
 ===== Membuat Project
-
-
-
+- dart create nama_project
 
