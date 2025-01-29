@@ -1,0 +1,15 @@
+Tutorial OOP Dart dari PZN - 
+source: https://youtu.be/k0ycD2aqPzU?si=9Cllne357t1bv4xl -
+
+AGENDA
+- Pengenalan Object Oriented Programming
+- Class
+- Field
+- Method
+- Constructor
+- Inheritance
+- Exception
+- dll
+
+
+
