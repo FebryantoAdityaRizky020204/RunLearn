@@ -14,6 +14,12 @@ Mungkin Agak Terlambat Tapi Yaudahlahyaa <br/>
 
 ---
 
+``[3 Februari 2025]``
+<small>
+- Belajar ``Introduction to Cybersecurity`` dari netacad.com
+</small>
+
+
 ``[30 Januari 2025]``
 <small id="start">
 - Belajar ``DART OOP`` dari Programmer Zaman Now
