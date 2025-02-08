@@ -14,6 +14,11 @@ Mungkin Agak Terlambat Tapi Yaudahlahyaa <br/>
 
 ---
 
+``[8 Februari 2025]``
+<small>
+- Belajar ``Introduction to Cybersecurity`` dari netacad.com
+</small>
+
 ``[7 Februari 2025]``
 <small>
 - Belajar ``Introduction to Cybersecurity`` dari netacad.com
