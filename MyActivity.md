@@ -17,6 +17,7 @@ Mungkin Agak Terlambat Tapi Yaudahlahyaa <br/>
 ``[9 Februari 2025]``
 <small>
 - Belajar ``Introduction to Cybersecurity`` dari netacad.com
+> Modul Selesai: https://www.credly.com/badges/7d8ac960-7897-4258-afa0-9e6dd1603e89
 </small>
 
 ``[8 Februari 2025]``
