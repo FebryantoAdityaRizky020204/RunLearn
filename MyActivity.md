@@ -17,6 +17,12 @@ Mungkin Agak Terlambat Tapi Yaudahlahyaa <br/>
 ``[11 Februari 2025]``
 <small>
 - Belajar ``Getting Started with Cisco Packet Tracer`` dari netacad.com
+> Modul Selesai
+</small>
+
+``[11 Februari 2025]``
+<small>
+- Belajar ``Getting Started with Cisco Packet Tracer`` dari netacad.com
 </small>
 
 ``[9 Februari 2025]``
