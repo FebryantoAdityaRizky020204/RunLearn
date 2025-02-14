@@ -14,6 +14,12 @@ Mungkin Agak Terlambat Tapi Yaudahlahyaa <br/>
 
 ---
 
+``[14 Februari 2025]``
+<small id="start">
+- Belajar ``ReactJS Dasar`` dari Programmer Zaman Now
+  > (youtube: https://www.youtube.com/watch?v=yOIO5h3ENIw)
+</small>
+
 ``[13 Februari 2025]``
 <small>
 - Belajar ``Getting Started with Cisco Packet Tracer`` dari netacad.com
