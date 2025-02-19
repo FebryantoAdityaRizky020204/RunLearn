@@ -14,6 +14,11 @@ Mungkin Agak Terlambat Tapi Yaudahlahyaa <br/>
 
 ---
 
+``[19 Februari 2025]``
+<small>
+- Membuat website untuk tugas Administrasi Basis Data Menggunakan Laravel
+</small>
+
 ``[17 Februari 2025]``
 <small>
 - Belajar ``Networking Basics`` dari netacad.com
