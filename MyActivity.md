@@ -14,6 +14,11 @@ Mungkin Agak Terlambat Tapi Yaudahlahyaa <br/>
 
 ---
 
+``[20 Februari 2025]``
+<small>
+- Membuat website untuk tugas Penjaminan Mutu Perangkat Lunak [tambah testing ke website pp]
+</small>
+
 ``[19 Februari 2025]``
 <small>
 - Membuat website untuk tugas Administrasi Basis Data Menggunakan Laravel
