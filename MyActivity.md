@@ -14,6 +14,11 @@ Mungkin Agak Terlambat Tapi Yaudahlahyaa <br/>
 
 ---
 
+``[03 Maret 2025]``
+<small>
+- Mengerjakan Tugas Sekolah
+</small>
+
 ``[25 Februari 2025]``
 <small>
 - Finish E-Learning WEBSITE DEVELOPMENT FUNDAMENTAL di MySKill
