@@ -14,6 +14,22 @@ Mungkin Agak Terlambat Tapi Yaudahlahyaa <br/>
 
 ---
 
+``[04 Maret 2025]``
+<small>
+- Belajar ``Networking Basics`` dari netacad.com
+</small>
+
+``[03 Maret 2025]``
+<small>
+- Mengerjakan Tugas Sekolah
+</small>
+
+``[25 Februari 2025]``
+<small>
+- Finish E-Learning WEBSITE DEVELOPMENT FUNDAMENTAL di MySKill
+  > https://storage.googleapis.com/myskill-v2-certificates/topic-IXppB88r5Rj19e8Pm65p/79SiTFk0Q4MnleP17ZuG3oz18gz2-W4Sb18aF6bJUleJRneB0.pdf
+</small>
+
 ``[20 Februari 2025]``
 <small>
 - Membuat website untuk tugas Penjaminan Mutu Perangkat Lunak [tambah testing ke website pp]
