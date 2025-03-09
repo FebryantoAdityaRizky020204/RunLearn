@@ -14,6 +14,11 @@ Mungkin Agak Terlambat Tapi Yaudahlahyaa <br/>
 
 ---
 
+``[09 Maret 2025]``
+<small>
+- Belajar ``Networking Basics`` dari netacad.com
+</small>
+
 ``[04 Maret 2025]``
 <small>
 - Belajar ``Networking Basics`` dari netacad.com
