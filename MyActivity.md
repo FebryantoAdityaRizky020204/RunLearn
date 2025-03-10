@@ -14,6 +14,12 @@ Mungkin Agak Terlambat Tapi Yaudahlahyaa <br/>
 
 ---
 
+``[10 Maret 2025]``
+<small>
+- Belajar ``Networking Basics`` dari netacad.com
+- dari modul 9 (tceha)
+</small>
+
 ``[09 Maret 2025]``
 <small>
 - Belajar ``Networking Basics`` dari netacad.com
