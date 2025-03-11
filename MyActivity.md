@@ -14,6 +14,12 @@ Mungkin Agak Terlambat Tapi Yaudahlahyaa <br/>
 
 ---
 
+``[11 Maret 2025]``
+<small>
+- Belajar ``Networking Basics`` dari netacad.com
+  > Modul Selesai: https://www.credly.com/badges/f4524d1d-6620-4afe-8e39-4976c1f38709
+</small>
+
 ``[10 Maret 2025]``
 <small>
 - Belajar ``Networking Basics`` dari netacad.com
