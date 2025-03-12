@@ -14,6 +14,11 @@ Mungkin Agak Terlambat Tapi Yaudahlahyaa <br/>
 
 ---
 
+``[12 Maret 2025]``
+<small>
+- Belajar ``Networking Devices and Initial Configuration`` dari netacad.com
+</small>
+
 ``[11 Maret 2025]``
 <small>
 - Belajar ``Networking Basics`` dari netacad.com
