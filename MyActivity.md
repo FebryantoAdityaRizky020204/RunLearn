@@ -14,6 +14,34 @@ Mungkin Agak Terlambat Tapi Yaudahlahyaa <br/>
 
 ---
 
+``[13 Maret 2025]``
+<small>
+- Belajar ``Networking Devices and Initial Configuration`` dari netacad.com
+  > Modul Selesai: https://www.credly.com/badges/dcd178e6-62b6-46b2-b212-6415dbf39c8c
+</small>
+
+``[12 Maret 2025]``
+<small>
+- Belajar ``Networking Devices and Initial Configuration`` dari netacad.com
+</small>
+
+``[11 Maret 2025]``
+<small>
+- Belajar ``Networking Basics`` dari netacad.com
+  > Modul Selesai: https://www.credly.com/badges/f4524d1d-6620-4afe-8e39-4976c1f38709
+</small>
+
+``[10 Maret 2025]``
+<small>
+- Belajar ``Networking Basics`` dari netacad.com
+- dari modul 9 (tceha)
+</small>
+
+``[09 Maret 2025]``
+<small>
+- Belajar ``Networking Basics`` dari netacad.com
+</small>
+
 ``[04 Maret 2025]``
 <small>
 - Belajar ``Networking Basics`` dari netacad.com
