@@ -3,18 +3,19 @@
         session_start();
     }
 
-    var_dump($_POST);
 
-    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['connectAs'])) {
+    if (isset($_POST['connectAs']) && !empty($_POST['connectAs'])) {
         $_SESSION['connectAs'] = $_POST['connectAs'];
-        unset($_POST);
     }
+    
+    if (!isset($_SESSION['connectAs'])) { $_SESSION['connectAs'] = 'root'; }
 
     include_once './Connection.php';
+    $conn = new Connection();
 
     $theGet = isset($_GET['page']) && ! empty($_GET['page']) ? $_GET['page'] : 'home';
 
-    $operationPath = "./page/operation/$theGet/operation.php";
+    $operationPath = "./operation/$theGet/operation.php";
     if (file_exists($operationPath)) {
         require_once $operationPath;
         $opr = new Operation();

@@ -28,7 +28,6 @@
             $username_pg =$data["username_pg"];
             $password_pg =$data["password_pg"];
             $query = "CALL Insert_Pegawai('$id_pegawai', '$id_role', '$nama_pg', '$alamat', '$username_pg', '$password_pg')";
-            die($query);
             if($this->conn->runSql($query)){
                 $result = true;
             }
