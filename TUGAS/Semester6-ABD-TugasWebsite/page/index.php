@@ -3,7 +3,6 @@
         session_start();
     }
 
-
     if (isset($_POST['connectAs']) && !empty($_POST['connectAs'])) {
         $_SESSION['connectAs'] = $_POST['connectAs'];
     }
@@ -24,7 +23,10 @@
     if (isset($_POST['submit']) && isset($opr)) {
         $result = $opr->checkOperation($_POST);
         unset($_POST);
+        $_SESSION['flash_status'] = $result['status'];
+        $_SESSION['flash_msg'] = $result['msg'];
         header("Location: ./$theGet");
+        exit();
     }
 
 ?>
@@ -41,7 +43,9 @@
     <title>Sahabat Satwa</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- <link href="./vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet"> -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/js/all.min.js"
         integrity="sha512-u3fPA7V8qQmhBPNT5quvaXVa1mnnLSXUep5PS1qo5NRzHwG19aHmNJnj1Q8hpA/nBWZtZD4r4AX6YOt5ynLN2g=="
@@ -59,6 +63,27 @@
 </head>
 
 <body>
+    <?php if (isset($_SESSION['flash_status'])): ?>
+    <div class="row position-absolute top-0 start-0 p-3 px-4" style="z-index: 9999;" id="flash-message">
+        <div class="card border-<?= $_SESSION['flash_status'] ? 'success' : 'danger' ?> border-2" style="width: 20rem;">
+            <div class="card-body">
+                <?php if($_SESSION['flash_status']) :?>
+                <h6 class="card-subtitle mb-1 text-success">SUCCESS</h6>
+                <?php else:?>
+                <h6 class="card-subtitle mb-1 text-danger">FAILED</h6>
+                <?php endif; ?>
+
+                <p class="card-text text-dark">
+                    Data <?= $_SESSION['flash_msg']; ?>
+                </p>
+            </div>
+        </div>
+    </div>
+    <?php 
+        unset($_SESSION['flash_status']);
+        unset($_SESSION['flash_msg']);
+     ?>
+    <?php endif; ?>
     <!-- ***** Header Area Start ***** -->
     <header class="header-area header-sticky">
         <div class="container">
@@ -124,6 +149,20 @@
     </div>
 
 
+    <!-- Scripts -->
+    <!-- Bootstrap core JavaScript -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <!-- <script src="vendor/bootstrap/js/bootstrap.min.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous">
+    </script>
+
+    <script src="assets/js/isotope.min.js"></script>
+    <script src="assets/js/owl-carousel.js"></script>
+    <script src="assets/js/tabs.js"></script>
+    <script src="assets/js/popup.js"></script>
+    <script src="assets/js/custom.js"></script>
+
     <!-- LOAD PAGES -->
     <script>
         const container = document.getElementById('container');
@@ -152,19 +191,16 @@
                 location.reload();
             });
         });
+
+        setTimeout(() => {
+        const flashCard = document.getElementById('flash-message');
+        if (flashCard) {
+            flashCard.style.transition = "opacity 0.5s ease";
+            flashCard.style.opacity = 0;
+            setTimeout(() => flashCard.remove(), 500); // hapus setelah transisi selesai
+        }
+    }, 4000);
     </script>
-
-
-    <!-- Scripts -->
-    <!-- Bootstrap core JavaScript -->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
-
-    <script src="assets/js/isotope.min.js"></script>
-    <script src="assets/js/owl-carousel.js"></script>
-    <script src="assets/js/tabs.js"></script>
-    <script src="assets/js/popup.js"></script>
-    <script src="assets/js/custom.js"></script>
 </body>
 
 </html>
