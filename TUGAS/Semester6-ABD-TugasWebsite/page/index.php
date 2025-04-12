@@ -30,7 +30,7 @@
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ID-id">
 
 <head>
     <meta charset="UTF-8">
@@ -38,7 +38,7 @@
 
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
         rel="stylesheet">
-    <title>CHotel</title>
+    <title>Sahabat Satwa</title>
 
     <!-- Bootstrap core CSS -->
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -96,13 +96,17 @@
                         <!-- ***** Menu Start ***** -->
                         <ul class="nav" style="font-size: .7rem !important;">
                             <li><a id="link-home" href="home">Home</a></li>
-                            <li><a id="link-user" href="user">User</a></li>
+                            <li><a id="link-owners" href="owners">Owners</a></li>
+
+
+                            <!-- <li><a id="link-user" href="user">User</a></li>
                             <li><a id="link-role" href="role">Role</a></li>
                             <li><a id="link-pegawai" href="pegawai">Pegawai</a></li>
                             <li><a id="link-room" href="room">Room</a></li>
                             <li><a id="link-room-option" href="room-option">Room Option</a></li>
                             <li><a id="link-pemesanan" href="pemesanan">Pemesanan</a></li>
-                            <li><a id="link-function" href="function">Function</a></li>
+                            <li><a id="link-function" href="function">Function</a></li> -->
+                            <li><a id="reset" href="./reset.php">RESET</a></li>
                         </ul>
                         <a class='menu-trigger'>
                             <span>Menu</span>
@@ -128,7 +132,7 @@
         const pathSegments = window.location.pathname.split("/").filter(Boolean);
         const thePage = pathSegments[pathSegments.length - 1] || "home";
 
-        $(container).load(`view/${thePage}/index.php`, function (response, status, xhr) {
+        $(container).load(`views/${thePage}/index.php`, function (response, status, xhr) {
             if (status == "error") {
                 container.innerHTML = "<h4 class='text-danger'>Halaman tidak ditemukan.</h4>";
             }

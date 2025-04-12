@@ -4,7 +4,7 @@ if (session_status() == PHP_SESSION_NONE) {
 }
     class Connection {
         public $host = 'localhost';
-        public $dbname = 'chotel';
+        public $dbname = 'sahabat_satwa';
         public $conn;
 
         public function __construct() {

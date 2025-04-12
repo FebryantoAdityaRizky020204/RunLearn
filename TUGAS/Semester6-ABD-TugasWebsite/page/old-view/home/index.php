@@ -25,11 +25,11 @@
                                         <div class="container-fluid">
                                             <h4 class="mb-1">Nama Anggota Kelompok:</h4>
                                             <div class="p-4">
-                                                <h5>1. Ahsana Azmiara Ahmadiham (223020503108)</h5>
+                                                <h5>1. Ahsana Azmiara Ahmadiham (223020503081)</h5>
                                                 <h5>2. Ahmad Iqbal (223020503100)</h5>
                                                 <h5>3. Aditya Rizky Febryanto (223020503108)</h5>
-                                                <h5>4. Rey (223020503108)</h5>
-                                                <h5>5. Meylia Wijayanti (223020503108)</h5>
+                                                <h5>4. Reynaldi Dwi Saputra (223020503121)</h5>
+                                                <h5>5. Meylia Wijayanti(223030503212)</h5>
                                             </div>
                                         </div>
                                     </div>
