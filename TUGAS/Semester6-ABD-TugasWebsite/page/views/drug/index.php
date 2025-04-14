@@ -4,7 +4,7 @@ $conn = new Connection();
 
 $loc = dirname(__FILE__);
 
-$queryUsr = "SELECT * FROM `clinic`";
+$queryUsr = "SELECT * FROM `drug`";
 
 $datas = $conn->fetchAll($queryUsr);
 ?>
@@ -17,7 +17,7 @@ $datas = $conn->fetchAll($queryUsr);
                 <div class="row">
                     <div class="col-lg-7">
                         <div class="header-text">
-                            <h4>TABEL <em>CLINIC</em></h4>
+                            <h4>TABEL <em>DRUG</em></h4>
                         </div>
                     </div>
                 </div>
@@ -55,15 +55,11 @@ $datas = $conn->fetchAll($queryUsr);
                                                                             </th>
                                                                             <th
                                                                                 class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-1">
-                                                                                Clinic Name
+                                                                                Drug Name
                                                                             </th>
                                                                             <th
                                                                                 class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-1">
-                                                                                Address
-                                                                            </th>
-                                                                            <th
-                                                                                class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-1">
-                                                                                Num. Phone
+                                                                                Usage
                                                                             </th>
                                                                             <th
                                                                                 class="text-uppercase text-center text-secondary text-xs font-weight-bolder opacity-7 ps-1">
@@ -80,20 +76,16 @@ $datas = $conn->fetchAll($queryUsr);
                                                                                 <?= $num++ ?>
                                                                             </td>
                                                                             <td>
-                                                                                <?= $data['clinic_name'] ?>
+                                                                                <?= $data['drug_name'] ?>
                                                                             </td>
                                                                             <td>
-                                                                                <?= $data['clinic_address'] ?>
-                                                                            </td>
-                                                                            <td>
-                                                                                <?= $data['clinic_phone'] ?>
+                                                                                <?= $data['drug_usage'] ?>
                                                                             </td>
                                                                             <?php 
                                                                             $giveData = [
-                                                                                'clinic_id' => $data['clinic_id'],
-                                                                                'clinic_name' => $data['clinic_name'],
-                                                                                'clinic_address' => $data['clinic_address'],
-                                                                                'clinic_phone' => $data['clinic_phone'],
+                                                                                'drug_id' => $data['drug_id'],
+                                                                                'drug_name' => $data['drug_name'],
+                                                                                'drug_usage' => $data['drug_usage'],
                                                                             ]
                                                                             ?>
                                                                             <td class="text-center">
@@ -107,7 +99,7 @@ $datas = $conn->fetchAll($queryUsr);
                                                                                     EDIT
                                                                                 </button>
                                                                                 <button
-                                                                                    onclick="setFormDelete('<?= $data['clinic_id'] ?>', '<?= $data['clinic_name'] ?>')"
+                                                                                    onclick="setFormDelete('<?= $data['drug_id'] ?>', '<?= $data['drug_name'] ?>')"
                                                                                     class="btn btn-danger btn-sm"
                                                                                     data-bs-toggle="modal"
                                                                                     data-bs-target="#deleteModal">
@@ -154,16 +146,12 @@ $datas = $conn->fetchAll($queryUsr);
                                 <div class="card-body smd-form">
                                     <form role="form" method="post" action="">
                                         <div class="mb-3">
-                                            <input type="text" class="form-control" id="clinic_name"
-                                                placeholder="Clinic Name" name="clinic_name">
+                                            <input type="text" class="form-control" id="drug_name"
+                                                placeholder="Drug Name" name="drug_name">
                                         </div>
                                         <div class="mb-3">
-                                            <textarea name="clinic_address" class="form-control" id="clinic_address"
-                                                rows="3" placeholder="Address"></textarea>
-                                        </div>
-                                        <div class="mb-3">
-                                            <input type="number" class="form-control" id="clinic_phone"
-                                                placeholder="Num. Phone" name="clinic_phone">
+                                            <textarea name="drug_usage" class="form-control" id="drug_usage"
+                                                rows="3" placeholder="Usage"></textarea>
                                         </div>
                                         <input type="hidden" name="type" value="insert">
                                         <div class="text-center row">
@@ -208,18 +196,14 @@ $datas = $conn->fetchAll($queryUsr);
                                 </div>
                                 <div class="card-body smd-form">
                                     <form role="form" method="post" action="">
-                                        <input type="hidden" class="form-control" id="clinic_id" name="clinic_id">
+                                        <input type="hidden" class="form-control" id="drug_id" name="drug_id">
                                         <div class="mb-3">
-                                            <input type="text" class="form-control" id="clinic_name"
-                                                placeholder="Clinic Name" name="clinic_name">
+                                            <input type="text" class="form-control" id="drug_name"
+                                                placeholder="Drug Name" name="drug_name">
                                         </div>
                                         <div class="mb-3">
-                                            <textarea name="clinic_address" class="form-control" id="clinic_address"
-                                                rows="3" placeholder="Address"></textarea>
-                                        </div>
-                                        <div class="mb-3">
-                                            <input type="number" class="form-control" id="clinic_phone"
-                                                placeholder="Num. Phone" name="clinic_phone">
+                                            <textarea name="drug_usage" class="form-control" id="drug_usage"
+                                                rows="3" placeholder="Usage"></textarea>
                                         </div>
                                         <input type="hidden" name="type" value="edit">
                                         <div class="text-center row">
@@ -270,7 +254,7 @@ $datas = $conn->fetchAll($queryUsr);
                                 </div>
                                 <div class="card-body smd-form">
                                     <form role="form" method="post" action="">
-                                        <input type="hidden" class="form-control" id="clinic_id" name="clinic_id">
+                                        <input type="hidden" class="form-control" id="drug_id" name="drug_id">
                                         <input type="hidden" name="type" value="delete">
                                         <div class="text-center row">
                                             <div class="col-md-6">
@@ -306,10 +290,9 @@ $datas = $conn->fetchAll($queryUsr);
 
             let form = document.getElementById('editModal');
 
-            form.querySelector('#clinic_id').value = data.clinic_id;
-            form.querySelector('#clinic_name').value = data.clinic_name;
-            form.querySelector('#clinic_address').value = data.clinic_address;
-            form.querySelector('#clinic_phone').value = data.clinic_phone;
+            form.querySelector('#drug_id').value = data.drug_id;
+            form.querySelector('#drug_name').value = data.drug_name;
+            form.querySelector('#drug_usage').value = data.drug_usage;
 
         } catch (err) {
             console.error("Gagal set data form:", err);
@@ -319,7 +302,7 @@ $datas = $conn->fetchAll($queryUsr);
 
     function setFormDelete(id, name) {
         let deleteForm = document.getElementById("deleteModal");
-        deleteForm.querySelector("#clinic_id").value = id;
+        deleteForm.querySelector("#drug_id").value = id;
         deleteForm.querySelector("#delete-id").innerText = name;
     }
 

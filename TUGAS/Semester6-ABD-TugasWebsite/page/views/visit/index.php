@@ -4,9 +4,19 @@ $conn = new Connection();
 
 $loc = dirname(__FILE__);
 
-$queryUsr = "SELECT * FROM `clinic`";
+$queryUsr = "SELECT * FROM `animal` 
+    INNER JOIN `owners` ON animal.owner_id = owners.owner_id
+    INNER JOIN `animal_type` ON animal.at_id = animal_type.at_id
+    ORDER BY `animal`.`animal_id` ASC";
 
 $datas = $conn->fetchAll($queryUsr);
+
+
+$queryOwner = "SELECT `owner_id`, `owner_givenname`, `owner_familyname` FROM `owners`";
+$queryAnimalType = "SELECT `at_id`, `at_description` FROM `animal_type`";
+
+$owners = $conn->fetchAll($queryOwner);
+$animalTypes = $conn->fetchAll($queryAnimalType);
 ?>
 
 <div class="row">
@@ -17,7 +27,7 @@ $datas = $conn->fetchAll($queryUsr);
                 <div class="row">
                     <div class="col-lg-7">
                         <div class="header-text">
-                            <h4>TABEL <em>CLINIC</em></h4>
+                            <h4>TABEL <em>ANIMAL</em></h4>
                         </div>
                     </div>
                 </div>
@@ -55,15 +65,19 @@ $datas = $conn->fetchAll($queryUsr);
                                                                             </th>
                                                                             <th
                                                                                 class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-1">
-                                                                                Clinic Name
+                                                                                Animal Name
                                                                             </th>
                                                                             <th
                                                                                 class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-1">
-                                                                                Address
+                                                                                Born
                                                                             </th>
                                                                             <th
                                                                                 class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-1">
-                                                                                Num. Phone
+                                                                                Owner
+                                                                            </th>
+                                                                            <th
+                                                                                class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-1">
+                                                                                Type
                                                                             </th>
                                                                             <th
                                                                                 class="text-uppercase text-center text-secondary text-xs font-weight-bolder opacity-7 ps-1">
@@ -80,20 +94,25 @@ $datas = $conn->fetchAll($queryUsr);
                                                                                 <?= $num++ ?>
                                                                             </td>
                                                                             <td>
-                                                                                <?= $data['clinic_name'] ?>
+                                                                                <?= $data['animal_name'] ?>
                                                                             </td>
                                                                             <td>
-                                                                                <?= $data['clinic_address'] ?>
+                                                                                <?= $data['animal_born'] ?>
                                                                             </td>
                                                                             <td>
-                                                                                <?= $data['clinic_phone'] ?>
+                                                                                <?= $data['owner_givenname'] ?>
+                                                                                <?= $data['owner_familyname'] ?>
+                                                                            </td>
+                                                                            <td>
+                                                                                <?= $data['at_description'] ?>
                                                                             </td>
                                                                             <?php 
                                                                             $giveData = [
-                                                                                'clinic_id' => $data['clinic_id'],
-                                                                                'clinic_name' => $data['clinic_name'],
-                                                                                'clinic_address' => $data['clinic_address'],
-                                                                                'clinic_phone' => $data['clinic_phone'],
+                                                                                'animal_id' => $data['animal_id'],
+                                                                                'animal_name' => $data['animal_name'],
+                                                                                'animal_born' => $data['animal_born'],
+                                                                                'owner_id' => $data['owner_id'],
+                                                                                'at_id' => $data['at_id']
                                                                             ]
                                                                             ?>
                                                                             <td class="text-center">
@@ -107,7 +126,7 @@ $datas = $conn->fetchAll($queryUsr);
                                                                                     EDIT
                                                                                 </button>
                                                                                 <button
-                                                                                    onclick="setFormDelete('<?= $data['clinic_id'] ?>', '<?= $data['clinic_name'] ?>')"
+                                                                                    onclick="setFormDelete('<?= $data['animal_id'] ?>', '<?= $data['animal_name'] ?>')"
                                                                                     class="btn btn-danger btn-sm"
                                                                                     data-bs-toggle="modal"
                                                                                     data-bs-target="#deleteModal">
@@ -154,16 +173,29 @@ $datas = $conn->fetchAll($queryUsr);
                                 <div class="card-body smd-form">
                                     <form role="form" method="post" action="">
                                         <div class="mb-3">
-                                            <input type="text" class="form-control" id="clinic_name"
-                                                placeholder="Clinic Name" name="clinic_name">
+                                            <input type="text" class="form-control" id="animal_name"
+                                                placeholder="Animal Name" name="animal_name">
                                         </div>
                                         <div class="mb-3">
-                                            <textarea name="clinic_address" class="form-control" id="clinic_address"
-                                                rows="3" placeholder="Address"></textarea>
+                                            <input type="date" class="form-control" id="animal_born" placeholder="Born"
+                                                name="animal_born">
                                         </div>
                                         <div class="mb-3">
-                                            <input type="number" class="form-control" id="clinic_phone"
-                                                placeholder="Num. Phone" name="clinic_phone">
+                                            <select name="owner_id" id="owner_id" class="form-control">
+                                                <?php foreach($owners as $owr): ?>
+                                                <option value="<?= $owr['owner_id'] ?>">
+                                                    <?= $owr['owner_id'] . '-' . $owr['owner_givenname'] . ' ' . $owr['owner_familyname']; ?>
+                                                </option>
+                                                <?php endforeach; ?>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <select name="at_id" id="at_id" class="form-control">
+                                                <?php foreach($animalTypes as $antp): ?>
+                                                <option value="<?= $antp['at_id'] ?>">
+                                                    <?= $antp['at_id'] . '-' . $antp['at_description']; ?></option>
+                                                <?php endforeach; ?>
+                                            </select>
                                         </div>
                                         <input type="hidden" name="type" value="insert">
                                         <div class="text-center row">
@@ -208,18 +240,31 @@ $datas = $conn->fetchAll($queryUsr);
                                 </div>
                                 <div class="card-body smd-form">
                                     <form role="form" method="post" action="">
-                                        <input type="hidden" class="form-control" id="clinic_id" name="clinic_id">
+                                        <input type="hidden" class="form-control" id="animal_id" name="animal_id">
                                         <div class="mb-3">
-                                            <input type="text" class="form-control" id="clinic_name"
-                                                placeholder="Clinic Name" name="clinic_name">
+                                            <input type="text" class="form-control" id="animal_name"
+                                                placeholder="Animal Name" name="animal_name">
                                         </div>
                                         <div class="mb-3">
-                                            <textarea name="clinic_address" class="form-control" id="clinic_address"
-                                                rows="3" placeholder="Address"></textarea>
+                                            <input type="date" class="form-control" id="animal_born" placeholder="Born"
+                                                name="animal_born">
                                         </div>
                                         <div class="mb-3">
-                                            <input type="number" class="form-control" id="clinic_phone"
-                                                placeholder="Num. Phone" name="clinic_phone">
+                                            <select name="owner_id" id="owner_id" class="form-control">
+                                                <?php foreach($owners as $owr): ?>
+                                                <option value="<?= $owr['owner_id'] ?>">
+                                                    <?= $owr['owner_id'] . '-' . $owr['owner_givenname'] . ' ' . $owr['owner_familyname']; ?>
+                                                </option>
+                                                <?php endforeach; ?>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <select name="at_id" id="at_id" class="form-control">
+                                                <?php foreach($animalTypes as $antp): ?>
+                                                <option value="<?= $antp['at_id'] ?>">
+                                                    <?= $antp['at_id'] . '-' . $antp['at_description']; ?></option>
+                                                <?php endforeach; ?>
+                                            </select>
                                         </div>
                                         <input type="hidden" name="type" value="edit">
                                         <div class="text-center row">
@@ -270,7 +315,8 @@ $datas = $conn->fetchAll($queryUsr);
                                 </div>
                                 <div class="card-body smd-form">
                                     <form role="form" method="post" action="">
-                                        <input type="hidden" class="form-control" id="clinic_id" name="clinic_id">
+                                        <input type="hidden" class="form-control" id="animal_id" placeholder="Given Name"
+                                            name="animal_id">
                                         <input type="hidden" name="type" value="delete">
                                         <div class="text-center row">
                                             <div class="col-md-6">
@@ -306,10 +352,11 @@ $datas = $conn->fetchAll($queryUsr);
 
             let form = document.getElementById('editModal');
 
-            form.querySelector('#clinic_id').value = data.clinic_id;
-            form.querySelector('#clinic_name').value = data.clinic_name;
-            form.querySelector('#clinic_address').value = data.clinic_address;
-            form.querySelector('#clinic_phone').value = data.clinic_phone;
+            form.querySelector('#animal_id').value = data.animal_id;
+            form.querySelector('#animal_name').value = data.animal_name;
+            form.querySelector('#animal_born').value = data.animal_born;
+            form.querySelector('#owner_id').value = data.owner_id;
+            form.querySelector('#at_id').value = data.at_id;
 
         } catch (err) {
             console.error("Gagal set data form:", err);
@@ -319,7 +366,7 @@ $datas = $conn->fetchAll($queryUsr);
 
     function setFormDelete(id, name) {
         let deleteForm = document.getElementById("deleteModal");
-        deleteForm.querySelector("#clinic_id").value = id;
+        deleteForm.querySelector("#animal_id").value = id;
         deleteForm.querySelector("#delete-id").innerText = name;
     }
 

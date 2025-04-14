@@ -6,7 +6,7 @@ $loc = dirname(__FILE__);
 
 $queryUsr = "SELECT `owner_id`, `owner_givenname`, `owner_familyname`, `owner_address`, 
                 CAST(AES_DECRYPT(`owner_phone`, 'adit') AS CHAR) AS `owner_phone_decrypted`
-                FROM `owners`";
+                FROM `owners`"; 
 $datas = $conn->fetchAll($queryUsr);
 ?>
 

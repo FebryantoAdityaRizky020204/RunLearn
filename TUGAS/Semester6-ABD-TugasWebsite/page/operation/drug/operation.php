@@ -27,16 +27,13 @@ class Operation
 
     public function insert($data) {
         $result = ['status' => false, 'type' => 'insert', 'msg' => 'Gagal Ditambahkan'];
-
         try {
             if (!empty($data)) {
-                $owner_givenname = $data["owner_givenname"];
-                $owner_familyname = $data["owner_familyname"];
-                $owner_address = $data["owner_address"];
-                $owner_phone = $data["owner_phone"];
+                $drug_name = $data["drug_name"];
+                $drug_usage = $data["drug_usage"];
 
-                $query = "INSERT INTO `owners` (`owner_givenname`, `owner_familyname`, `owner_address`, `owner_phone`) 
-                    VALUES ('$owner_givenname', '$owner_familyname', '$owner_address', AES_ENCRYPT('$owner_phone', 'adit'))";
+                $query = "INSERT INTO `drug` (`drug_name`, `drug_usage`) VALUES
+                                ('$drug_name', '$drug_usage');";
 
                 if ($this->conn->runSql($query)) {
                     $result = ['status' => true, 'type' => 'insert', 'msg' => 'Berhasil Ditambahkan'];
@@ -45,27 +42,21 @@ class Operation
         } catch (Throwable $e) {
             $result['msg'] = 'Error Insert: ' . $e->getMessage();
         }
-
         return $result;
     }
 
     public function update($data) {
         $result = ['status' => false, 'type' => 'update', 'msg' => 'Gagal Diupdate'];
-
         try {
             if (!empty($data)) {
-                $owner_id = $data["owner_id"];
-                $owner_givenname = $data["owner_givenname"];
-                $owner_familyname = $data["owner_familyname"];
-                $owner_address = $data["owner_address"];
-                $owner_phone = $data["owner_phone"];
+                $drug_id = $data["drug_id"];
+                $drug_name = $data["drug_name"];
+                $drug_usage = $data["drug_usage"];
 
-                $query = "UPDATE `owners` SET 
-                            `owner_givenname` = '$owner_givenname',
-                            `owner_familyname` = '$owner_familyname',
-                            `owner_address` = '$owner_address',
-                            `owner_phone` = AES_ENCRYPT('$owner_phone', 'adit') 
-                          WHERE `owner_id` = $owner_id";
+                $query = "UPDATE `drug` SET
+                            `drug_name` = '$drug_name',
+                            `drug_usage` = '$drug_usage'
+                        WHERE drug_id = $drug_id;";
 
                 if ($this->conn->runSql($query)) {
                     $result = ['status' => true, 'type' => 'update', 'msg' => 'Berhasil Diupdate'];
@@ -74,16 +65,14 @@ class Operation
         } catch (Throwable $e) {
             $result['msg'] = 'Error Update: ' . $e->getMessage();
         }
-
         return $result;
     }
 
     public function delete($data) {
         $result = ['status' => false, 'type' => 'delete', 'msg' => 'Gagal Dihapus'];
-
         try {
-            $owner_id = $data["owner_id"];
-            $query = "DELETE FROM `owners` WHERE `owner_id` = $owner_id";
+            $drug_id = $data["drug_id"];
+            $query = "DELETE FROM `drug` WHERE `drug_id` = $drug_id";
 
             if ($this->conn->runSql($query)) {
                 $result = ['status' => true, 'type' => 'delete', 'msg' => 'Berhasil Dihapus'];
@@ -91,7 +80,6 @@ class Operation
         } catch (Throwable $e) {
             $result['msg'] = 'Error Delete: ' . $e->getMessage();
         }
-
         return $result;
     }
 }

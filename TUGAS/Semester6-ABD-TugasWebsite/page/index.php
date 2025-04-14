@@ -122,6 +122,12 @@
                         <ul class="nav" style="font-size: .7rem !important;">
                             <li><a id="link-home" href="home">Home</a></li>
                             <li><a id="link-owners" href="owners">Owners</a></li>
+                            <li><a id="link-animal" href="animal">Animal</a></li>
+                            <li><a id="link-animal_type" href="animal_type">AnimalType</a></li>
+                            <li><a id="link-clinic" href="clinic">Clinic</a></li>
+                            <li><a id="link-drug" href="drug">Drug</a></li>
+                            <li><a id="link-specialisation" href="specialisation">Specialisation</a></li>
+                            <li><a id="link-spec_visit" href="spec_visit">Spec.Visit</a></li>
 
 
                             <!-- <li><a id="link-user" href="user">User</a></li>
