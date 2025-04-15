@@ -4,19 +4,30 @@ $conn = new Connection();
 
 $loc = dirname(__FILE__);
 
-$queryUsr = "SELECT * FROM `animal` 
-    INNER JOIN `owners` ON animal.owner_id = owners.owner_id
-    INNER JOIN `animal_type` ON animal.at_id = animal_type.at_id
-    ORDER BY `animal`.`animal_id` ASC";
+$queryUsr = "SELECT 
+                `visit_drug`.*,
+                `drug`.`drug_id` AS `d_drug_id`, 
+                `drug`.`drug_name`,
+                `visit`.`visit_id` AS `v_visit_id`
+            FROM `visit_drug`
+            INNER JOIN `drug` ON `visit_drug`.`drug_id` = `drug`.`drug_id`
+            INNER JOIN `visit` ON `visit_drug`.`visit_id` = `visit`.`visit_id`
+            ORDER BY `visit_drug`.`visit_id` ASC;";
 
-$datas = $conn->fetchAll($queryUsr);
-
-
-$queryOwner = "SELECT `owner_id`, `owner_givenname`, `owner_familyname` FROM `owners`";
-$queryAnimalType = "SELECT `at_id`, `at_description` FROM `animal_type`";
-
-$owners = $conn->fetchAll($queryOwner);
-$animalTypes = $conn->fetchAll($queryAnimalType);
+try {
+    $datas = $conn->fetchAll($queryUsr);
+    
+    $queryDrug = "SELECT * FROM `drug`";
+    $drugs = $conn->fetchAll($queryDrug);
+    
+    $queryVisit = "SELECT * FROM `visit`";
+    $visits = $conn->fetchAll($queryVisit);
+} catch (Exception $e) {
+    $datas = [
+        'status' => false,
+        'msg' => $e->getMessage()
+    ];
+}
 ?>
 
 <div class="row">
@@ -27,7 +38,7 @@ $animalTypes = $conn->fetchAll($queryAnimalType);
                 <div class="row">
                     <div class="col-lg-7">
                         <div class="header-text">
-                            <h4>TABEL <em>ANIMAL</em></h4>
+                            <h4>TABEL <em>VISIT DRUG</em></h4>
                         </div>
                     </div>
                 </div>
@@ -46,6 +57,17 @@ $animalTypes = $conn->fetchAll($queryAnimalType);
                                         <div class="container-fluid">
                                             <div class="row">
                                                 <div class="col-12 p-0">
+                                                    <?php
+                                                        if(isset($datas['status'])) {
+                                                            if($datas['status'] == false) {
+                                                                echo '<div class="card mb-1">
+                                                                        <div class="alert alert-danger mb-0" role="alert">
+                                                                            <strong>Something Wrong!</strong> </br>'.$datas['msg'].'
+                                                                        </div>
+                                                                    </div>';
+                                                            }
+                                                        } else {
+                                                    ?>
                                                     <button class="btn btn-primary mb-2 btn-sm "
                                                         style="font-size: .7rem;" data-bs-toggle="modal"
                                                         data-bs-target="#exampleModal">
@@ -59,25 +81,29 @@ $animalTypes = $conn->fetchAll($queryAnimalType);
                                                                 <table class="table align-items-center mb-0">
                                                                     <thead>
                                                                         <tr>
+                                                                        <th
+                                                                            class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7">
+                                                                                Num
+                                                                            </th>
                                                                             <th
                                                                                 class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7">
-                                                                                NO
+                                                                                Drug Dose
                                                                             </th>
                                                                             <th
                                                                                 class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-1">
-                                                                                Animal Name
+                                                                                Frequency
                                                                             </th>
                                                                             <th
                                                                                 class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-1">
-                                                                                Born
+                                                                                Qty. Supplied
                                                                             </th>
                                                                             <th
                                                                                 class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-1">
-                                                                                Owner
+                                                                                Drug
                                                                             </th>
                                                                             <th
                                                                                 class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-1">
-                                                                                Type
+                                                                                Visit
                                                                             </th>
                                                                             <th
                                                                                 class="text-uppercase text-center text-secondary text-xs font-weight-bolder opacity-7 ps-1">
@@ -94,25 +120,27 @@ $animalTypes = $conn->fetchAll($queryAnimalType);
                                                                                 <?= $num++ ?>
                                                                             </td>
                                                                             <td>
-                                                                                <?= $data['animal_name'] ?>
+                                                                                <?= $data['visit_drug_dose'] ?>
                                                                             </td>
                                                                             <td>
-                                                                                <?= $data['animal_born'] ?>
+                                                                                <?= $data['visit_drug_frequency'] ?>
                                                                             </td>
                                                                             <td>
-                                                                                <?= $data['owner_givenname'] ?>
-                                                                                <?= $data['owner_familyname'] ?>
+                                                                                <?= $data['visit_drug_qtysupplied'] ?>
                                                                             </td>
                                                                             <td>
-                                                                                <?= $data['at_description'] ?>
+                                                                                <?= $data['d_drug_id'] ?> - <?= $data['drug_name'] ?>
+                                                                            </td>
+                                                                            <td>
+                                                                                id: <?= $data['v_visit_id'] ?>
                                                                             </td>
                                                                             <?php 
                                                                             $giveData = [
-                                                                                'animal_id' => $data['animal_id'],
-                                                                                'animal_name' => $data['animal_name'],
-                                                                                'animal_born' => $data['animal_born'],
-                                                                                'owner_id' => $data['owner_id'],
-                                                                                'at_id' => $data['at_id']
+                                                                                'visit_drug_dose' => $data['visit_drug_dose'],
+                                                                                'visit_drug_frequency' => $data['visit_drug_frequency'],
+                                                                                'visit_drug_qtysupplied' => $data['visit_drug_qtysupplied'],
+                                                                                'drug_id' => $data['d_drug_id'],
+                                                                                'visit_id' => $data['v_visit_id']
                                                                             ]
                                                                             ?>
                                                                             <td class="text-center">
@@ -126,7 +154,7 @@ $animalTypes = $conn->fetchAll($queryAnimalType);
                                                                                     EDIT
                                                                                 </button>
                                                                                 <button
-                                                                                    onclick="setFormDelete('<?= $data['animal_id'] ?>', '<?= $data['animal_name'] ?>')"
+                                                                                    onclick="setFormDelete('<?= $data['d_drug_id'] ?>', '<?= $data['v_visit_id'] ?>')"
                                                                                     class="btn btn-danger btn-sm"
                                                                                     data-bs-toggle="modal"
                                                                                     data-bs-target="#deleteModal">
@@ -141,6 +169,7 @@ $animalTypes = $conn->fetchAll($queryAnimalType);
                                                             </div>
                                                         </div>
                                                     </div>
+                                                    <?php } ?>
                                                 </div>
                                             </div>
                                         </div>
@@ -173,27 +202,31 @@ $animalTypes = $conn->fetchAll($queryAnimalType);
                                 <div class="card-body smd-form">
                                     <form role="form" method="post" action="">
                                         <div class="mb-3">
-                                            <input type="text" class="form-control" id="animal_name"
-                                                placeholder="Animal Name" name="animal_name">
+                                            <input type="text" class="form-control" id="visit_drug_dose"
+                                                placeholder="Drug Dose" name="visit_drug_dose">
                                         </div>
                                         <div class="mb-3">
-                                            <input type="date" class="form-control" id="animal_born" placeholder="Born"
-                                                name="animal_born">
+                                            <input type="text" class="form-control" id="visit_drug_frequency"
+                                                placeholder="Drug Frequency" name="visit_drug_frequency">
                                         </div>
                                         <div class="mb-3">
-                                            <select name="owner_id" id="owner_id" class="form-control">
-                                                <?php foreach($owners as $owr): ?>
-                                                <option value="<?= $owr['owner_id'] ?>">
-                                                    <?= $owr['owner_id'] . '-' . $owr['owner_givenname'] . ' ' . $owr['owner_familyname']; ?>
+                                            <input type="number" class="form-control" id="visit_drug_qtysupplied"
+                                                placeholder="Qty. Supplied" name="visit_drug_qtysupplied">
+                                        </div>
+                                        <div class="mb-3">
+                                            <select name="drug_id" id="drug_id" class="form-control">
+                                                <?php foreach($drugs as $drug): ?>
+                                                <option value="<?= $drug['drug_id'] ?>">
+                                                    <?= $drug['drug_id'] . '-' . $drug['drug_name']; ?>
                                                 </option>
                                                 <?php endforeach; ?>
                                             </select>
                                         </div>
                                         <div class="mb-3">
-                                            <select name="at_id" id="at_id" class="form-control">
-                                                <?php foreach($animalTypes as $antp): ?>
-                                                <option value="<?= $antp['at_id'] ?>">
-                                                    <?= $antp['at_id'] . '-' . $antp['at_description']; ?></option>
+                                            <select name="visit_id" id="visit_id" class="form-control">
+                                                <?php foreach($visits as $visit): ?>
+                                                <option value="<?= $visit['visit_id'] ?>">
+                                                    <?= 'id: ' . $visit['visit_id']; ?></option>
                                                 <?php endforeach; ?>
                                             </select>
                                         </div>
@@ -240,31 +273,19 @@ $animalTypes = $conn->fetchAll($queryAnimalType);
                                 </div>
                                 <div class="card-body smd-form">
                                     <form role="form" method="post" action="">
-                                        <input type="hidden" class="form-control" id="animal_id" name="animal_id">
+                                        <input type="hidden" class="form-control" id="drug_id" name="drug_id">
+                                        <input type="hidden" class="form-control" id="visit_id" name="visit_id">
                                         <div class="mb-3">
-                                            <input type="text" class="form-control" id="animal_name"
-                                                placeholder="Animal Name" name="animal_name">
+                                            <input type="text" class="form-control" id="visit_drug_dose"
+                                                placeholder="Drug Dose" name="visit_drug_dose">
                                         </div>
                                         <div class="mb-3">
-                                            <input type="date" class="form-control" id="animal_born" placeholder="Born"
-                                                name="animal_born">
+                                            <input type="text" class="form-control" id="visit_drug_frequency"
+                                                placeholder="Drug Frequency" name="visit_drug_frequency">
                                         </div>
                                         <div class="mb-3">
-                                            <select name="owner_id" id="owner_id" class="form-control">
-                                                <?php foreach($owners as $owr): ?>
-                                                <option value="<?= $owr['owner_id'] ?>">
-                                                    <?= $owr['owner_id'] . '-' . $owr['owner_givenname'] . ' ' . $owr['owner_familyname']; ?>
-                                                </option>
-                                                <?php endforeach; ?>
-                                            </select>
-                                        </div>
-                                        <div class="mb-3">
-                                            <select name="at_id" id="at_id" class="form-control">
-                                                <?php foreach($animalTypes as $antp): ?>
-                                                <option value="<?= $antp['at_id'] ?>">
-                                                    <?= $antp['at_id'] . '-' . $antp['at_description']; ?></option>
-                                                <?php endforeach; ?>
-                                            </select>
+                                            <input type="number" class="form-control" id="visit_drug_qtysupplied"
+                                                placeholder="Qty. Supplied" name="visit_drug_qtysupplied">
                                         </div>
                                         <input type="hidden" name="type" value="edit">
                                         <div class="text-center row">
@@ -315,8 +336,8 @@ $animalTypes = $conn->fetchAll($queryAnimalType);
                                 </div>
                                 <div class="card-body smd-form">
                                     <form role="form" method="post" action="">
-                                        <input type="hidden" class="form-control" id="animal_id" placeholder="Given Name"
-                                            name="animal_id">
+                                        <input type="hidden" class="form-control" id="drug_id" name="drug_id">
+                                        <input type="hidden" class="form-control" id="visit_id" name="visit_id">
                                         <input type="hidden" name="type" value="delete">
                                         <div class="text-center row">
                                             <div class="col-md-6">
@@ -352,11 +373,11 @@ $animalTypes = $conn->fetchAll($queryAnimalType);
 
             let form = document.getElementById('editModal');
 
-            form.querySelector('#animal_id').value = data.animal_id;
-            form.querySelector('#animal_name').value = data.animal_name;
-            form.querySelector('#animal_born').value = data.animal_born;
-            form.querySelector('#owner_id').value = data.owner_id;
-            form.querySelector('#at_id').value = data.at_id;
+            form.querySelector('#visit_drug_dose').value = data.visit_drug_dose;
+            form.querySelector('#visit_drug_frequency').value = data.visit_drug_frequency;
+            form.querySelector('#visit_drug_qtysupplied').value = data.visit_drug_qtysupplied;
+            form.querySelector('#drug_id').value = data.drug_id;
+            form.querySelector('#visit_id').value = data.visit_id;
 
         } catch (err) {
             console.error("Gagal set data form:", err);
@@ -364,10 +385,11 @@ $animalTypes = $conn->fetchAll($queryAnimalType);
     }
 
 
-    function setFormDelete(id, name) {
+    function setFormDelete(idDrug, idVisit) {
         let deleteForm = document.getElementById("deleteModal");
-        deleteForm.querySelector("#animal_id").value = id;
-        deleteForm.querySelector("#delete-id").innerText = name;
+        deleteForm.querySelector("#visit_id").value = idVisit;
+        deleteForm.querySelector("#drug_id").value = idDrug;
+        deleteForm.querySelector("#delete-id").innerText = `${idDrug} - ${idVisit}`;
     }
 
 

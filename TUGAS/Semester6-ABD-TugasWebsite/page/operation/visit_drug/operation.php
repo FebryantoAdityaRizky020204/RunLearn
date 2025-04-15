@@ -29,13 +29,17 @@ class Operation
         $result = ['status' => false, 'type' => 'insert', 'msg' => 'Gagal Ditambahkan'];
         try {
             if (!empty($data)) {
-                $animal_name = $data["animal_name"];
-                $animal_born = $data["animal_born"];
-                $owner_id = $data["owner_id"];
-                $at_id = $data["at_id"];
+                $visit_drug_dose = $data['visit_drug_dose'];
+                $visit_drug_frequency = $data['visit_drug_frequency'];
+                $visit_drug_qtysupplied = $data['visit_drug_qtysupplied'];
+                $drug_id = $data['drug_id'];
+                $visit_id = $data['visit_id'];
 
-                $query = "INSERT INTO `animal` (`animal_name`, `animal_born`, `owner_id`, `at_id`) VALUES
-                            ('$animal_name', '$animal_born', $owner_id, $at_id);";
+                $query = "INSERT INTO `visit_drug` (`visit_drug_dose`, `visit_drug_frequency`, `visit_drug_qtysupplied`, `drug_id`, `visit_id`) VALUES
+                            ('$visit_drug_dose', '$visit_drug_frequency', $visit_drug_qtysupplied, $drug_id, $visit_id);";
+                            // die($query);
+                
+                            
 
                 if ($this->conn->runSql($query)) {
                     $result = ['status' => true, 'type' => 'insert', 'msg' => 'Berhasil Ditambahkan'];
@@ -51,18 +55,17 @@ class Operation
         $result = ['status' => false, 'type' => 'update', 'msg' => 'Gagal Diupdate'];
         try {
             if (!empty($data)) {
-                $animal_id = $data["animal_id"];
-                $animal_name = $data["animal_name"];
-                $animal_born = $data["animal_born"];
-                $owner_id = $data["owner_id"];
-                $at_id = $data["at_id"];
+                $visit_drug_dose = $data['visit_drug_dose'];
+                $visit_drug_frequency = $data['visit_drug_frequency'];
+                $visit_drug_qtysupplied = $data['visit_drug_qtysupplied'];
+                $drug_id = $data['drug_id'];
+                $visit_id = $data['visit_id'];
 
-                $query = "UPDATE `animal` SET
-                            `animal_name` = '$animal_name',
-                            `animal_born` = '$animal_born',
-                            `owner_id` = $owner_id,
-                            `at_id` = $at_id
-                        WHERE animal_id = $animal_id;";
+                $query = "UPDATE `visit_drug` SET
+                            `visit_drug_dose` = '$visit_drug_dose',
+                            `visit_drug_frequency` = '$visit_drug_frequency',
+                            `visit_drug_qtysupplied` = $visit_drug_qtysupplied 
+                        WHERE `drug_id` = $drug_id AND `visit_id` = $visit_id;";
 
                 if ($this->conn->runSql($query)) {
                     $result = ['status' => true, 'type' => 'update', 'msg' => 'Berhasil Diupdate'];
@@ -77,8 +80,9 @@ class Operation
     public function delete($data) {
         $result = ['status' => false, 'type' => 'delete', 'msg' => 'Gagal Dihapus'];
         try {
-            $animal_id = $data["animal_id"];
-            $query = "DELETE FROM `animal` WHERE `animal_id` = $animal_id";
+            $visit_id = $data["visit_id"];
+            $drug_id = $data["drug_id"];
+            $query = "DELETE FROM `visit_drug` WHERE `visit_id` = $visit_id AND `drug_id` = $drug_id;";
 
             if ($this->conn->runSql($query)) {
                 $result = ['status' => true, 'type' => 'delete', 'msg' => 'Berhasil Dihapus'];

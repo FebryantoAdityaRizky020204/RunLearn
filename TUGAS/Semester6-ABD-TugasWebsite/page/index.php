@@ -6,6 +6,8 @@
     if (isset($_POST['connectAs']) && !empty($_POST['connectAs'])) {
         $_SESSION['connectAs'] = $_POST['connectAs'];
     }
+
+    $procedure = null;
     
     if (!isset($_SESSION['connectAs'])) { $_SESSION['connectAs'] = 'root'; }
 
@@ -22,13 +24,19 @@
 
     if (isset($_POST['submit']) && isset($opr)) {
         $result = $opr->checkOperation($_POST);
-        unset($_POST);
-        $_SESSION['flash_status'] = $result['status'];
-        $_SESSION['flash_msg'] = $result['msg'];
-        header("Location: ./$theGet");
-        exit();
+        if($result['status'] === 'PROCEDURE') {
+            $procedure = $result['result'];
+            unset($_POST);
+            // header("Location: ./$theGet");
+            // exit();
+        } else {
+            unset($_POST);
+            $_SESSION['flash_status'] = $result['status'];
+            $_SESSION['flash_msg'] = $result['msg'];
+            header("Location: ./$theGet");
+            exit();
+        }
     }
-
 ?>
 
 <!DOCTYPE html>
@@ -107,7 +115,7 @@
                                 </option>
                                 <option value="Pemilik"
                                     <?php echo ($_SESSION['connectAs'] ?? '') == 'Pemilik' ? 'selected' : ''?>>
-                                    Pemilik
+                                    Pet Owner
                                 </option>
                                 <option value="Dokter"
                                     <?php echo ($_SESSION['connectAs'] ?? '') == 'Dokter' ? 'selected' : ''?>>
@@ -128,15 +136,11 @@
                             <li><a id="link-drug" href="drug">Drug</a></li>
                             <li><a id="link-specialisation" href="specialisation">Specialisation</a></li>
                             <li><a id="link-spec_visit" href="spec_visit">Spec.Visit</a></li>
-
-
-                            <!-- <li><a id="link-user" href="user">User</a></li>
-                            <li><a id="link-role" href="role">Role</a></li>
-                            <li><a id="link-pegawai" href="pegawai">Pegawai</a></li>
-                            <li><a id="link-room" href="room">Room</a></li>
-                            <li><a id="link-room-option" href="room-option">Room Option</a></li>
-                            <li><a id="link-pemesanan" href="pemesanan">Pemesanan</a></li>
-                            <li><a id="link-function" href="function">Function</a></li> -->
+                            <li><a id="link-vet" href="vet">Vet</a></li>
+                            <li><a id="link-visit" href="visit">Visit</a></li>
+                            <li><a id="link-visit_drug" href="visit_drug">Visit Drug</a></li>
+                            <!-- <li><a id="link-audit-log" href="audit-log">AuditLog</a></li> -->
+                            <li><a id="link-procedure" href="procedure">Procedure</a></li>
                             <li><a id="reset" href="./reset.php">RESET</a></li>
                         </ul>
                         <a class='menu-trigger'>
@@ -151,13 +155,12 @@
     <!-- ***** Header Area End ***** -->
 
     <div class="container" id="container">
-
     </div>
-
+    <?php //include "./views/$thePage/index.php"; ?>
 
     <!-- Scripts -->
     <!-- Bootstrap core JavaScript -->
-    <script src="vendor/jquery/jquery.min.js"></script>
+    <!-- <script src="vendor/jquery/jquery.min.js"></script> -->
     <!-- <script src="vendor/bootstrap/js/bootstrap.min.js"></script> -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous">
@@ -176,12 +179,27 @@
         // Ambil path terakhir dari URL
         const pathSegments = window.location.pathname.split("/").filter(Boolean);
         const thePage = pathSegments[pathSegments.length - 1] || "home";
+        var dataFromPHP = <?= json_encode($procedure ?? ['result' => 0]); ?> ;
 
-        $(container).load(`views/${thePage}/index.php`, function (response, status, xhr) {
+        if (thePage === "procedure") {
+            // Gunakan $.post untuk halaman procedure
+            $.post(`views/${thePage}/index.php`, {
+                resultProcedure: dataFromPHP
+            }, function (response) {
+                $(container).html(response); // Isi kontainer dengan hasil prosedur
+                dataFromPHP = null;
+            }).fail(function () {
+                $(container).html("<h4 class='text-danger'>Halaman tidak ditemukan.</h4>");
+            });
+        } else {
+            $(container).load(`views/${thePage}/index.php`, function (response, status, xhr) {
             if (status == "error") {
                 container.innerHTML = "<h4 class='text-danger'>Halaman tidak ditemukan.</h4>";
             }
         });
+        }
+
+
 
         // Highlight menu aktif
         $('.nav').find("a.active").removeClass('active');
@@ -199,13 +217,13 @@
         });
 
         setTimeout(() => {
-        const flashCard = document.getElementById('flash-message');
-        if (flashCard) {
-            flashCard.style.transition = "opacity 0.5s ease";
-            flashCard.style.opacity = 0;
-            setTimeout(() => flashCard.remove(), 500); // hapus setelah transisi selesai
-        }
-    }, 4000);
+            const flashCard = document.getElementById('flash-message');
+            if (flashCard) {
+                flashCard.style.transition = "opacity 0.5s ease";
+                flashCard.style.opacity = 0;
+                setTimeout(() => flashCard.remove(), 500); // hapus setelah transisi selesai
+            }
+        }, 4000);
     </script>
 </body>
 

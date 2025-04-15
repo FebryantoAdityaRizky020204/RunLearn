@@ -4,19 +4,25 @@ $conn = new Connection();
 
 $loc = dirname(__FILE__);
 
-$queryUsr = "SELECT * FROM `animal` 
-    INNER JOIN `owners` ON animal.owner_id = owners.owner_id
-    INNER JOIN `animal_type` ON animal.at_id = animal_type.at_id
-    ORDER BY `animal`.`animal_id` ASC";
+try {
+    $queryUsr = "SELECT * FROM `animal` 
+        INNER JOIN `owners` ON animal.owner_id = owners.owner_id
+        INNER JOIN `animal_type` ON animal.at_id = animal_type.at_id
+        ORDER BY `animal`.`animal_id` ASC";
+    
+    $datas = $conn->fetchAll($queryUsr);
 
-$datas = $conn->fetchAll($queryUsr);
+    $queryOwner = "SELECT `owner_id`, `owner_givenname`, `owner_familyname` FROM `owners`";
+    $queryAnimalType = "SELECT `at_id`, `at_description` FROM `animal_type`";
 
-
-$queryOwner = "SELECT `owner_id`, `owner_givenname`, `owner_familyname` FROM `owners`";
-$queryAnimalType = "SELECT `at_id`, `at_description` FROM `animal_type`";
-
-$owners = $conn->fetchAll($queryOwner);
-$animalTypes = $conn->fetchAll($queryAnimalType);
+    $owners = $conn->fetchAll($queryOwner);
+    $animalTypes = $conn->fetchAll($queryAnimalType);
+} catch (Exception $e) {
+    $datas = [
+        'status' => false,
+        'msg' => $e->getMessage()
+    ];
+}
 ?>
 
 <div class="row">
@@ -46,6 +52,17 @@ $animalTypes = $conn->fetchAll($queryAnimalType);
                                         <div class="container-fluid">
                                             <div class="row">
                                                 <div class="col-12 p-0">
+                                                    <?php
+                                                        if(isset($datas['status'])) {
+                                                            if($datas['status'] == false) {
+                                                                echo '<div class="card mb-1">
+                                                                        <div class="alert alert-danger mb-0" role="alert">
+                                                                            <strong>Something Wrong!</strong> </br>'.$datas['msg'].'
+                                                                        </div>
+                                                                    </div>';
+                                                            }
+                                                        } else {
+                                                    ?>
                                                     <button class="btn btn-primary mb-2 btn-sm "
                                                         style="font-size: .7rem;" data-bs-toggle="modal"
                                                         data-bs-target="#exampleModal">
@@ -141,6 +158,7 @@ $animalTypes = $conn->fetchAll($queryAnimalType);
                                                             </div>
                                                         </div>
                                                     </div>
+                                                    <?php } ?>
                                                 </div>
                                             </div>
                                         </div>

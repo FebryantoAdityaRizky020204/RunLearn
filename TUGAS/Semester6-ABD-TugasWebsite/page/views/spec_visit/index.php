@@ -11,14 +11,22 @@ $queryUsr = "SELECT  `spec_visit`.`clinic_id`, `spec_visit`.`vet_id`, `spec_visi
     INNER JOIN `vet` ON  `spec_visit`.`vet_id` = `vet`.`vet_id`
     ORDER BY `clinic`.`clinic_id` ASC";
 
-$datas = $conn->fetchAll($queryUsr);
+try {
+    $datas = $conn->fetchAll($queryUsr);
+    
+    $queryClinic = "SELECT `clinic_id`, `clinic_name` FROM `clinic`";
+    $queryVet = "SELECT `vet_id`, `vet_title`, `vet_givenname`, 'vet_familyname' FROM `vet`";
+    
+    $clinics = $conn->fetchAll($queryClinic);
+    $vets = $conn->fetchAll($queryVet);
+} catch (Exception $e) {
+    $datas = [
+        'status' => false,
+        'msg' => $e->getMessage()
+    ];
+}
 
 
-$queryClinic = "SELECT `clinic_id`, `clinic_name` FROM `clinic`";
-$queryVet = "SELECT `vet_id`, `vet_title`, `vet_givenname`, 'vet_familyname' FROM `vet`";
-
-$clinics = $conn->fetchAll($queryClinic);
-$vets = $conn->fetchAll($queryVet);
 ?>
 
 <div class="row">
@@ -48,6 +56,17 @@ $vets = $conn->fetchAll($queryVet);
                                         <div class="container-fluid">
                                             <div class="row">
                                                 <div class="col-12 p-0">
+                                                    <?php
+                                                        if(isset($datas['status'])) {
+                                                            if($datas['status'] == false) {
+                                                                echo '<div class="card mb-1">
+                                                                        <div class="alert alert-danger mb-0" role="alert">
+                                                                            <strong>Something Wrong!</strong> </br>'.$datas['msg'].'
+                                                                        </div>
+                                                                    </div>';
+                                                            }
+                                                        } else {
+                                                    ?>
                                                     <button class="btn btn-primary mb-2 btn-sm "
                                                         style="font-size: .7rem;" data-bs-toggle="modal"
                                                         data-bs-target="#exampleModal">
@@ -135,6 +154,7 @@ $vets = $conn->fetchAll($queryVet);
                                                             </div>
                                                         </div>
                                                     </div>
+                                                    <?php } ?>
                                                 </div>
                                             </div>
                                         </div>

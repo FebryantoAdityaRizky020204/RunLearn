@@ -29,16 +29,12 @@ class Operation
         $result = ['status' => false, 'type' => 'insert', 'msg' => 'Gagal Ditambahkan'];
         try {
             if (!empty($data)) {
-                $vet_title = $data['vet_title'];
-                $vet_givenname = $data['vet_givenname'];
-                $vet_familyname = $data['vet_familyname'];
-                $vet_phone = $data['vet_phone'];
-                $vet_employed = $data['vet_employed'];
-                $spec_id = $data['spec_id'];
-                $clinic_id = $data['clinic_id'];
+                $clinic_name = $data["clinic_name"];
+                $clinic_address = $data["clinic_address"];
+                $clinic_phone = $data["clinic_phone"];
 
-                $query = "INSERT INTO `vet` (`vet_title`, `vet_givenname`, `vet_familyname`, `vet_phone`, `vet_employed`, `spec_id`, `clinic_id`) 
-                    VALUES ('$vet_title', '$vet_givenname', '$vet_familyname', '$vet_phone', '$vet_employed', $spec_id, $clinic_id);";
+                $query = "INSERT INTO `clinic` (`clinic_name`, `clinic_address`, `clinic_phone`) VALUES
+                                ('$clinic_name', '$clinic_address', '$clinic_phone');";
 
                 if ($this->conn->runSql($query)) {
                     $result = ['status' => true, 'type' => 'insert', 'msg' => 'Berhasil Ditambahkan'];
@@ -54,24 +50,17 @@ class Operation
         $result = ['status' => false, 'type' => 'update', 'msg' => 'Gagal Diupdate'];
         try {
             if (!empty($data)) {
-                $vet_id = $data['vet_id'];
-                $vet_title = $data['vet_title'];
-                $vet_givenname = $data['vet_givenname'];
-                $vet_familyname = $data['vet_familyname'];
-                $vet_phone = $data['vet_phone'];
-                $vet_employed = $data['vet_employed'];
-                $spec_id = $data['spec_id'];
-                $clinic_id = $data['clinic_id'];
+                $clinic_id = (int)$data["clinic_id"];
+                $clinic_name = $data["clinic_name"];
+                $clinic_address = $data["clinic_address"];
+                $clinic_phone = $data["clinic_phone"];
 
-                $query = "UPDATE `vet` SET
-                            `vet_title` = '$vet_title', 
-                            `vet_givenname` = '$vet_givenname', 
-                            `vet_familyname` = '$vet_familyname', 
-                            `vet_phone` = '$vet_phone', 
-                            `vet_employed` = '$vet_employed', 
-                            `spec_id` = $spec_id, 
-                            `clinic_id` = $clinic_id 
-                            WHERE `vet_id` = $vet_id;";
+                $query = "UPDATE `clinic` SET 
+                            `clinic_name` = '$clinic_name',
+                            `clinic_address` = '$clinic_address',
+                            `clinic_phone` = '$clinic_phone' 
+                        WHERE `clinic_id` = $clinic_id";
+
 
                 if ($this->conn->runSql($query)) {
                     $result = ['status' => true, 'type' => 'update', 'msg' => 'Berhasil Diupdate'];
@@ -86,8 +75,8 @@ class Operation
     public function delete($data) {
         $result = ['status' => false, 'type' => 'delete', 'msg' => 'Gagal Dihapus'];
         try {
-            $vet_id = $data["vet_id"];
-            $query = "DELETE FROM `vet` WHERE `vet_id` = $vet_id;";
+            $clinic_id = $data["clinic_id"];
+            $query = "DELETE FROM `clinic` WHERE `clinic_id` = $clinic_id";
 
             if ($this->conn->runSql($query)) {
                 $result = ['status' => true, 'type' => 'delete', 'msg' => 'Berhasil Dihapus'];

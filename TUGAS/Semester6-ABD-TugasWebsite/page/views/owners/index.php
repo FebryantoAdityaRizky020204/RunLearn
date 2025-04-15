@@ -7,7 +7,15 @@ $loc = dirname(__FILE__);
 $queryUsr = "SELECT `owner_id`, `owner_givenname`, `owner_familyname`, `owner_address`, 
                 CAST(AES_DECRYPT(`owner_phone`, 'adit') AS CHAR) AS `owner_phone_decrypted`
                 FROM `owners`"; 
-$datas = $conn->fetchAll($queryUsr);
+
+try {
+    $datas = $conn->fetchAll($queryUsr);
+} catch (Exception $e) {
+    $datas = [
+        'status' => false,
+        'msg' => $e->getMessage()
+    ];
+}
 ?>
 
 <div class="row">
@@ -37,6 +45,17 @@ $datas = $conn->fetchAll($queryUsr);
                                         <div class="container-fluid">
                                             <div class="row">
                                                 <div class="col-12 p-0">
+                                                    <?php
+                                                        if(isset($datas['status'])) {
+                                                            if($datas['status'] == false) {
+                                                                echo '<div class="card mb-1">
+                                                                        <div class="alert alert-danger mb-0" role="alert">
+                                                                            <strong>Something Wrong!</strong> </br>'.$datas['msg'].'
+                                                                        </div>
+                                                                    </div>';
+                                                            }
+                                                        } else {
+                                                    ?>
                                                     <button class="btn btn-primary mb-2 btn-sm "
                                                         style="font-size: .7rem;" data-bs-toggle="modal"
                                                         data-bs-target="#exampleModal">
@@ -119,6 +138,7 @@ $datas = $conn->fetchAll($queryUsr);
                                                             </div>
                                                         </div>
                                                     </div>
+                                                    <?php } ?>
                                                 </div>
                                             </div>
                                         </div>
