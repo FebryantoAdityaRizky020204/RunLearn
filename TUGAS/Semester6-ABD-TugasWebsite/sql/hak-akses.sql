@@ -33,9 +33,12 @@ CREATE USER 'vet_user' IDENTIFIED BY 'vet_password' DEFAULT ROLE 'vet_role';
 
 CREATE ROLE pet_owner_role;
 
-GRANT SELECT, UPDATE ON sahabat_satwa.owners TO pet_owner_role;
-GRANT SELECT, UPDATE ON sahabat_satwa.animal TO pet_owner_role;
+GRANT SELECT, UPDATE, INSERT, DELETE ON sahabat_satwa.owners TO pet_owner_role;
+GRANT SELECT, UPDATE, INSERT, DELETE ON sahabat_satwa.animal TO pet_owner_role;
 GRANT SELECT ON sahabat_satwa.animal_type TO pet_owner_role;
 GRANT SELECT ON sahabat_satwa.visit TO pet_owner_role;
+GRANT SELECT ON sahabat_satwa.vet TO pet_owner_role;
+GRANT SELECT ON sahabat_satwa.drug TO pet_owner_role;
+GRANT SELECT ON sahabat_satwa.visit_drug TO pet_owner_role;
 
 CREATE USER 'pet_owner_user' IDENTIFIED BY 'pet_owner_password' DEFAULT ROLE 'pet_owner_role';

@@ -6,7 +6,7 @@
                 <div class="row">
                     <div class="col-lg-7">
                         <div class="header-text">
-                            <h4>KELOMPOK 6</h4>
+                            <h4>KELOMPOK 3</h4>
                         </div>
                     </div>
                 </div>

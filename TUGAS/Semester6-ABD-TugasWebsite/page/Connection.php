@@ -19,7 +19,7 @@ class Connection {
                 $username = 'admin_user';
                 $password = 'admin_password';
                 break;
-            case 'Pemilik':
+            case 'PetOwner':
                 $username = 'pet_owner_user';
                 $password = 'pet_owner_password';
                 break;

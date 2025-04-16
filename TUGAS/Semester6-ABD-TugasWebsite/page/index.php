@@ -5,6 +5,9 @@
 
     if (isset($_POST['connectAs']) && !empty($_POST['connectAs'])) {
         $_SESSION['connectAs'] = $_POST['connectAs'];
+        $_SESSION['flash_status'] = true;
+        $_SESSION['flash_msg'] = "berhasil terhubung sebagai " . $_POST['connectAs'];
+        exit();
     }
 
     $procedure = null;
@@ -27,8 +30,6 @@
         if($result['status'] === 'PROCEDURE') {
             $procedure = $result['result'];
             unset($_POST);
-            // header("Location: ./$theGet");
-            // exit();
         } else {
             unset($_POST);
             $_SESSION['flash_status'] = $result['status'];
@@ -82,7 +83,7 @@
                 <?php endif; ?>
 
                 <p class="card-text text-dark">
-                    Data <?= $_SESSION['flash_msg']; ?>
+                    <?= $_SESSION['flash_msg']; ?>
                 </p>
             </div>
         </div>
@@ -108,13 +109,14 @@
                             <label for="connect">Connect Sebagai</label>
                             <select name="connect" id="connect" class="form-control"
                                 style="font-size: .7rem !important;">
-                                <option value="root" selected disabled>--Pilih--</option>
+                                <option value="root" 
+                                    <?php echo ($_SESSION['connectAs'] ?? '') == 'root' ? 'selected' : ''?>>root</option>
                                 <option value="Administrator"
                                     <?php echo ($_SESSION['connectAs'] ?? '') == 'Administrator' ? 'selected' : ''?>>
                                     Administrator
                                 </option>
-                                <option value="Pemilik"
-                                    <?php echo ($_SESSION['connectAs'] ?? '') == 'Pemilik' ? 'selected' : ''?>>
+                                <option value="PetOwner"
+                                    <?php echo ($_SESSION['connectAs'] ?? '') == 'PetOwner' ? 'selected' : ''?>>
                                     Pet Owner
                                 </option>
                                 <option value="Dokter"
@@ -141,7 +143,7 @@
                             <li><a id="link-visit_drug" href="visit_drug">Visit Drug</a></li>
                             <!-- <li><a id="link-audit-log" href="audit-log">AuditLog</a></li> -->
                             <li><a id="link-procedure" href="procedure">Procedure</a></li>
-                            <li><a id="reset" href="./reset.php">RESET</a></li>
+                            <!-- <li><a id="reset" href="./reset.php">RESET</a></li> -->
                         </ul>
                         <a class='menu-trigger'>
                             <span>Menu</span>
