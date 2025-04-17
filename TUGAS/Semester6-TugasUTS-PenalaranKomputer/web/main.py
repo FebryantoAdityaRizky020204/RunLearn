@@ -1,0 +1,96 @@
+import streamlit as st
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.preprocessing import MinMaxScaler, LabelEncoder
+from pgmpy.models import DiscreteBayesianNetwork
+from pgmpy.estimators import MaximumLikelihoodEstimator
+from pgmpy.inference import VariableElimination
+
+st.set_page_config(layout="wide")
+st.title("Analisis dan Klasifikasi Data Student Performance")
+
+# Load data
+df_raw = pd.read_csv("./../Student_performance_data_.csv")
+
+st.header("1. Data Awal")
+st.subheader("Preview Data")
+st.dataframe(df_raw.head())
+
+st.subheader("Statistik Deskriptif")
+st.dataframe(df_raw.describe(include='all'))
+
+st.subheader("Missing Values")
+st.dataframe(df_raw.isnull().sum())
+
+# Mapping label kategorikal
+df_processed = df_raw.copy()
+label_maps = {
+    'Gender': {0: "Male", 1: "Female"},
+    'Ethnicity': {0: "Caucasian", 1: "African American", 2: "Asian", 3: "Other"},
+    'ParentalEducation': {0: "None", 1: "High School", 2: "Some College", 3: "Bachelor's", 4: "Higher"},
+    'ParentalSupport': {0: "None", 1: "Low", 2: "Moderate", 3: "High", 4: "Very High"},
+    'Extracurricular': {0: "No", 1: "Yes"},
+    'Sports': {0: "No", 1: "Yes"},
+    'Music': {0: "No", 1: "Yes"},
+    'Volunteering': {0: "No", 1: "Yes"},
+    'GradeClass': {0: 'A', 1: 'B', 2: 'C', 3: 'D', 4: 'F'},
+    'Tutoring': {0: 'No', 1: 'Yes'}
+}
+for col, mapping in label_maps.items():
+    df_processed[col] = df_processed[col].map(mapping)
+
+features_to_scale = ['Age', 'StudyTimeWeekly', 'Absences', 'GPA']
+df_scaled = df_processed.copy()
+scaler = MinMaxScaler()
+df_scaled[features_to_scale] = scaler.fit_transform(df_scaled[features_to_scale])
+
+st.header("2. Analisis Korelasi")
+df_encoded = df_scaled.copy()
+for col in df_encoded.select_dtypes(include='object').columns:
+    df_encoded[col] = LabelEncoder().fit_transform(df_encoded[col])
+
+corr_matrix = df_encoded.drop(columns=['StudentID']).corr()
+fig, ax = plt.subplots(figsize=(12, 8))
+sns.heatmap(corr_matrix, annot=True, fmt=".2f", cmap="coolwarm", ax=ax)
+st.pyplot(fig)
+
+st.header("3. Visualisasi Distribusi Data")
+selected_col = st.selectbox("Pilih kolom untuk visualisasi", df_scaled.columns)
+
+fig2, ax2 = plt.subplots(figsize=(6, 4))
+if df_scaled[selected_col].dtype == 'object':
+    sns.countplot(data=df_scaled, x=selected_col, ax=ax2)
+else:
+    sns.histplot(df_scaled[selected_col], kde=True, color='skyblue', bins=10, ax=ax2)
+st.pyplot(fig2)
+
+st.header("4. Bayesian Network dan Prediksi")
+
+# Struktur Bayesian Network - Tentukan berdasarkan pemahaman domain atau algoritma (ini manual)
+model_bn = DiscreteBayesianNetwork([
+    ('ParentalSupport', 'GPA'),
+    ('ParentalEducation', 'GPA'),
+    ('StudyTimeWeekly', 'GPA'),
+    ('GPA', 'GradeClass'),
+    ('Tutoring', 'GradeClass'),
+    ('Gender', 'GradeClass')
+])
+
+# Estimasi parameter (CPT) menggunakan Maximum Likelihood
+model_bn.fit(df_scaled, estimator=MaximumLikelihoodEstimator)
+
+# Inisialisasi inferensi
+infer_bn = VariableElimination(model_bn)
+
+# Prediksi berdasarkan evidence
+q1 = infer_bn.map_query(variables=['GPA'], evidence={'ParentalSupport': 3, 'StudyTimeWeekly': 2})
+q2 = infer_bn.map_query(variables=['GradeClass'], evidence={'GPA': q1['GPA'], 'Tutoring': 1})
+
+# Tampilkan hasil prediksi
+st.subheader("Prediksi GPA dan GradeClass")
+st.write("Prediksi GPA:", q1['GPA'])
+st.write("Prediksi GradeClass:", q2['GradeClass'])
+
+st.success("Analisis korelasi, distribusi data, dan prediksi Bayesian Network berhasil ditampilkan.")
