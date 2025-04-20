@@ -1,0 +1,44 @@
+.btn-edit {
+    background-color: #ff9900;
+    border-color: #ff9900;
+    color: #fff;
+}
+
+.btn-edit:hover {
+    background-color: #e68a00;
+    border-color: #e68a00;
+}
+.navbar {
+    background-color: #ff9900;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-brand {
+    font-size: 1.5rem;
+    color: #ff9900;
+    font-weight: bold;
+}
+
+.navbar-nav .nav-item .nav-link {
+    color: #ff9900 !important;
+    font-size: 1rem;
+    margin-right: 20px;
+}
+
+.navbar-nav .nav-item .nav-link:hover {
+    color: #ff9900 !important;
+}
+
+.navbar-nav .nav-item img {
+    border-radius: 50%;
+}
+
+.navbar-toggler-icon {
+    background-color: #ff9900;
+}
+
+.navbar-nav .nav-item .nav-link.active {
+    color: #ff8c00 !important;
+    font-weight: bold;
+}

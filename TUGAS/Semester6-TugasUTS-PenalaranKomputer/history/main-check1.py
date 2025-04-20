@@ -65,3 +65,32 @@ if df_scaled[selected_col].dtype == 'object':
 else:
     sns.histplot(df_scaled[selected_col], kde=True, color='skyblue', bins=10, ax=ax2)
 st.pyplot(fig2)
+
+st.header("4. Bayesian Network dan Prediksi")
+
+# Struktur Bayesian Network - Tentukan berdasarkan pemahaman domain atau algoritma (ini manual)
+model_bn = DiscreteBayesianNetwork([
+    ('ParentalSupport', 'GPA'),
+    ('ParentalEducation', 'GPA'),
+    ('StudyTimeWeekly', 'GPA'),
+    ('GPA', 'GradeClass'),
+    ('Tutoring', 'GradeClass'),
+    ('Gender', 'GradeClass')
+])
+
+# Estimasi parameter (CPT) menggunakan Maximum Likelihood
+model_bn.fit(df_scaled, estimator=MaximumLikelihoodEstimator)
+
+# Inisialisasi inferensi
+infer_bn = VariableElimination(model_bn)
+
+# Prediksi berdasarkan evidence
+q1 = infer_bn.map_query(variables=['GPA'], evidence={'ParentalSupport': 3, 'StudyTimeWeekly': 2})
+q2 = infer_bn.map_query(variables=['GradeClass'], evidence={'GPA': q1['GPA'], 'Tutoring': 1})
+
+# Tampilkan hasil prediksi
+st.subheader("Prediksi GPA dan GradeClass")
+st.write("Prediksi GPA:", q1['GPA'])
+st.write("Prediksi GradeClass:", q2['GradeClass'])
+
+st.success("Analisis korelasi, distribusi data, dan prediksi Bayesian Network berhasil ditampilkan.")

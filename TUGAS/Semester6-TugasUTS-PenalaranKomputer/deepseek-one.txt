@@ -1,0 +1,67 @@
+# %% [markdown]
+# # Prediksi Performa Akademik Mahasiswa Menggunakan Penalaran Probabilistik
+
+## 1. Persiapan Data dan Pemahaman Dataset
+
+```python
+# %%
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+from pgmpy.models import BayesianNetwork
+from pgmpy.estimators import MaximumLikelihoodEstimator, BayesianEstimator
+from pgmpy.inference import VariableElimination
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import mean_absolute_error, accuracy_score
+from sklearn.naive_bayes import GaussianNB
+from hmmlearn import hmm
+import ipywidgets as widgets
+from IPython.display import display
+import warnings
+warnings.filterwarnings('ignore')
+
+# Membuat pemetaan untuk variabel kategorikal
+pemetaan = {
+    'Gender': {0: 'Laki-laki', 1: 'Perempuan'},
+    'Ethnicity': {0: 'Kaukasia', 1: 'Afrika-Amerika', 2: 'Asia', 3: 'Lainnya'},
+    'ParentalEducation': {
+        0: 'Tidak Sekolah',
+        1: 'SMA',
+        2: 'Perguruan Tinggi (Sebagian)',
+        3: 'Sarjana',
+        4: 'Pascasarjana'
+    },
+    'ParentalSupport': {
+        0: 'Tidak Ada',
+        1: 'Rendah', 
+        2: 'Sedang',
+        3: 'Tinggi',
+        4: 'Sangat Tinggi'
+    },
+    'GradeClass': {
+        0: 'A',
+        1: 'B',
+        2: 'C', 
+        3: 'D',
+        4: 'F'
+    },
+    'YaTidak': {0: 'Tidak', 1: 'Ya'}
+}
+
+# Memuat dataset
+data = pd.read_csv('dataset.csv')
+
+# Menerapkan pemetaan untuk kolom label
+data['Gender_Label'] = data['Gender'].map(pemetaan['Gender'])
+data['Ethnicity_Label'] = data['Ethnicity'].map(pemetaan['Ethnicity'])
+data['ParentalEducation_Label'] = data['ParentalEducation'].map(pemetaan['ParentalEducation'])
+data['ParentalSupport_Label'] = data['ParentalSupport'].map(pemetaan['ParentalSupport'])
+data['GradeClass_Label'] = data['GradeClass'].map(pemetaan['GradeClass'])
+
+# Untuk variabel biner
+for kolom in ['Tutoring', 'Extracurricular', 'Sports', 'Music', 'Volunteering']:
+    data[f'{kolom}_Label'] = data[kolom].map(pemetaan['YaTidak'])
+
+print("Ukuran dataset:", data.shape)
+data.head()
