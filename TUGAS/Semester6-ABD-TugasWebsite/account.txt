@@ -1,0 +1,25 @@
+AKUN YANG DIBUAT
+
+- Pet Owner
+username: adit
+password: adit
+
+
+- Dokter
+username: 
+password: 
+
+username: (default: )
+password: (default: )
+
+
+- Petugas Administrasi
+username: 
+password: 
+
+username: (default: )
+password: (default: )
+
+- Admin
+username:admin 
+password:admin

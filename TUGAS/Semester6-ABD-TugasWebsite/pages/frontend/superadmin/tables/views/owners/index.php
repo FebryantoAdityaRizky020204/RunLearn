@@ -333,7 +333,8 @@ function setFormEdit(encodedData) {
         form.querySelector('#owner_id').value = data.owner_id;
         form.querySelector('#owner_givenname').value = data.owner_givenname;
         form.querySelector('#owner_familyname').value = data.owner_familyname;
-        form.querySelector('#owner_address').value = data.owner_phone;
+        form.querySelector('#owner_address').value = data.owner_address;
+        form.querySelector('#owner_phone').value = data.owner_phone;
     } catch (err) {
         console.error("Gagal set data form:", err);
     }
