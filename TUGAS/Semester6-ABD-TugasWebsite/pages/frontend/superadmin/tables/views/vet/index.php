@@ -16,10 +16,10 @@ $queryUsr = "SELECT
 
 try {
     $datas = $conn->fetchAll($queryUsr);
-    
+
     $querySpec = "SELECT * from `specialisation`";
     $queryClinic = "SELECT * FROM `clinic`";
-    
+
     $specs = $conn->fetchAll($querySpec);
     $clinics = $conn->fetchAll($queryClinic);
 } catch (Exception $e) {
@@ -58,16 +58,16 @@ try {
                                             <div class="row">
                                                 <div class="col-12 p-0">
                                                     <?php
-                                                        if(isset($datas['status'])) {
-                                                            if($datas['status'] == false) {
-                                                                echo '<div class="card mb-1">
+                                                    if (isset($datas['status'])) {
+                                                        if ($datas['status'] == false) {
+                                                            echo '<div class="card mb-1">
                                                                         <div class="alert alert-danger mb-0" role="alert">
                                                                             <strong>Something Wrong!</strong> </br>'.$datas['msg'].'
                                                                         </div>
                                                                     </div>';
-                                                            }
-                                                        } else {
-                                                    ?>
+                                                        }
+                                                    } else {
+                                                        ?>
                                                     <button class="btn btn-primary mb-2 btn-sm "
                                                         style="font-size: .7rem;" data-bs-toggle="modal"
                                                         data-bs-target="#exampleModal">
@@ -112,16 +112,16 @@ try {
                                                                         </tr>
                                                                     </thead>
                                                                     <tbody>
-                                                                        <?php 
-                                                                        $num = 1;
-                                                                        foreach ($datas as $data) : ?>
+                                                                        <?php
+                                                                            $num = 1;
+                                                                            foreach ($datas as $data) : ?>
                                                                         <tr>
                                                                             <td>
                                                                                 <?= $num++ ?>
                                                                             </td>
                                                                             <td>
-                                                                                <?= $data['vet_title'] ?> 
-                                                                                <?= $data['vet_familyname'] ?> 
+                                                                                <?= $data['vet_title'] ?>
+                                                                                <?= $data['vet_familyname'] ?>
                                                                                 <?= $data['vet_givenname'] ?>
                                                                             </td>
                                                                             <td>
@@ -136,30 +136,27 @@ try {
                                                                             <td>
                                                                                 <?= $data['clinic_name'] ?>
                                                                             </td>
-                                                                            <?php 
-                                                                            $giveData = [
-                                                                                'vet_id' => $data['vet_id'],
-                                                                                'vet_title' => $data['vet_title'],
-                                                                                'vet_givenname' => $data['vet_givenname'],
-                                                                                'vet_familyname' => $data['vet_familyname'],
-                                                                                'vet_phone' => $data['vet_phone'],
-                                                                                'vet_employed' => $data['vet_employed'],
-                                                                                'spec_id' => $data['s_spec_id'],
-                                                                                'clinic_id' => $data['c_clinic_id']
-                                                                            ]
-                                                                            ?>
+                                                                            <?php
+                                                                                    $giveData = [
+                                                                                        'vet_id' => $data['vet_id'],
+                                                                                        'vet_title' => $data['vet_title'],
+                                                                                        'vet_givenname' => $data['vet_givenname'],
+                                                                                        'vet_familyname' => $data['vet_familyname'],
+                                                                                        'vet_phone' => $data['vet_phone'],
+                                                                                    ]
+                                                                                        ?>
                                                                             <td class="text-center">
                                                                                 <button
-                                                                                    onclick="setFormEdit('<?= base64_encode(json_encode($giveData)) ?>')"
+                                                                                    onclick="setFormResetPassword('<?= base64_encode(json_encode($giveData)) ?>')"
                                                                                     class="btn btn-warning btn-sm"
                                                                                     data-bs-toggle="modal"
-                                                                                    data-bs-target="#editModal">
+                                                                                    data-bs-target="#resetPasswordModal">
                                                                                     <i
-                                                                                        class="fa-solid fa-pen-to-square"></i>
-                                                                                    EDIT
+                                                                                        class="fa-solid fa-rotate-left"></i>
+                                                                                    Reset Password
                                                                                 </button>
                                                                                 <button
-                                                                                    onclick="setFormDelete('<?= $data['vet_id'] ?>', '<?= $data['vet_title'] . ' ' . $data['vet_familyname'] . ' ' . $data['vet_givenname'] ?>')"
+                                                                                    onclick="setFormDelete('<?= $data['vet_id'] ?>', '<?= $data['vet_title'].' '.$data['vet_familyname'].' '.$data['vet_givenname'] ?>')"
                                                                                     class="btn btn-danger btn-sm"
                                                                                     data-bs-toggle="modal"
                                                                                     data-bs-target="#deleteModal">
@@ -207,8 +204,8 @@ try {
                                 <div class="card-body smd-form">
                                     <form role="form" method="post" action="">
                                         <div class="mb-3">
-                                            <input type="text" class="form-control" id="vet_title"
-                                                placeholder="Title" name="vet_title">
+                                            <input type="text" class="form-control" id="vet_title" placeholder="Title"
+                                                name="vet_title">
                                         </div>
                                         <div class="mb-3">
                                             <input type="text" class="form-control" id="vet_givenname"
@@ -223,23 +220,24 @@ try {
                                                 placeholder="Num. Phone" name="vet_phone">
                                         </div>
                                         <div class="mb-3">
-                                            <input type="date" class="form-control" id="vet_employed" placeholder="Vet Employed"
-                                                name="vet_employed">
+                                            <input type="date" class="form-control" id="vet_employed"
+                                                placeholder="Vet Employed" name="vet_employed">
                                         </div>
-                                        
+
                                         <div class="mb-3">
                                             <select name="spec_id" id="spec_id" class="form-control">
-                                                <?php foreach($specs as $spec): ?>
+                                                <?php foreach ($specs as $spec) : ?>
                                                 <option value="<?= $spec['spec_id'] ?>">
-                                                    <?= $spec['spec_id'] . '-' . $spec['spec_description']; ?></option>
+                                                    <?= $spec['spec_id'].'-'.$spec['spec_description']; ?>
+                                                </option>
                                                 <?php endforeach; ?>
                                             </select>
                                         </div>
                                         <div class="mb-3">
                                             <select name="clinic_id" id="clinic_id" class="form-control">
-                                                <?php foreach($clinics as $clinic): ?>
+                                                <?php foreach ($clinics as $clinic) : ?>
                                                 <option value="<?= $clinic['clinic_id'] ?>">
-                                                    <?= $clinic['clinic_id'] . '-' . $clinic['clinic_name']; ?>
+                                                    <?= $clinic['clinic_id'].'-'.$clinic['clinic_name']; ?>
                                                 </option>
                                                 <?php endforeach; ?>
                                             </select>
@@ -272,7 +270,7 @@ try {
 
 
 <!-- Edit DataModal -->
-<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModal" aria-hidden="true">
+<div class="modal fade" id="resetPasswordModal" tabindex="-1" aria-labelledby="resetPasswordModal" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-body">
@@ -281,63 +279,32 @@ try {
                         <div class="col-md-12 d-flex flex-column mx-auto">
                             <div class="card card-plain mt-8">
                                 <div class="card-header text-left bg-transparent">
-                                    <h3 class="font-weight-bolder text-warning text-gradient">
-                                        <span id="title-form" style="font-size: 1.5rem;">EDIT DATA</span>
+                                    <h3 class="font-weight-bolder text-warning text-gradient text-center ">
+                                        <span id="title-form" style="font-size: 1.5rem;">RESET PASSWORD</span>
                                     </h3>
+                                </div>
+                                <div class="display-1 text-center text-warning py-2">
+                                    <i class="fa-solid fa-circle-exclamation"></i>
+                                    <p class="h6 mt-2 text-dark">
+                                        YAKIN INGIN MERESET PASSWORD - <span id="reset-name">##</span>
+                                    </p>
                                 </div>
                                 <div class="card-body smd-form">
                                     <form role="form" method="post" action="">
                                         <input type="hidden" class="form-control" id="vet_id" name="vet_id">
-                                        <div class="mb-3">
-                                            <input type="text" class="form-control" id="vet_title"
-                                                placeholder="Title" name="vet_title">
-                                        </div>
-                                        <div class="mb-3">
-                                            <input type="text" class="form-control" id="vet_givenname"
-                                                placeholder="Given Name" name="vet_givenname">
-                                        </div>
-                                        <div class="mb-3">
-                                            <input type="text" class="form-control" id="vet_familyname"
-                                                placeholder="Title" name="vet_familyname">
-                                        </div>
-                                        <div class="mb-3">
-                                            <input type="number" class="form-control" id="vet_phone"
-                                                placeholder="Num. Phone" name="vet_phone">
-                                        </div>
-                                        <div class="mb-3">
-                                            <input type="date" class="form-control" id="vet_employed" placeholder="Vet Employed"
-                                                name="vet_employed">
-                                        </div>
-                                        
-                                        <div class="mb-3">
-                                            <select name="spec_id" id="spec_id" class="form-control">
-                                                <?php foreach($specs as $spec): ?>
-                                                <option value="<?= $spec['spec_id'] ?>">
-                                                    <?= $spec['spec_id'] . '-' . $spec['spec_description']; ?></option>
-                                                <?php endforeach; ?>
-                                            </select>
-                                        </div>
-                                        <div class="mb-3">
-                                            <select name="clinic_id" id="clinic_id" class="form-control">
-                                                <?php foreach($clinics as $clinic): ?>
-                                                <option value="<?= $clinic['clinic_id'] ?>">
-                                                    <?= $clinic['clinic_id'] . '-' . $clinic['clinic_name']; ?>
-                                                </option>
-                                                <?php endforeach; ?>
-                                            </select>
-                                        </div>
-                                        <input type="hidden" name="type" value="edit">
+                                        <input type="hidden" name="type" value="reset-password">
+                                        <input type="hidden" name="vet_phone" id="vet_phone">
                                         <div class="text-center row">
                                             <div class="col-md-6">
                                                 <button type="button"
-                                                    class="btn btn-danger col-md-5 bg-gradient-info w-100 mt-4 mb-0"
+                                                    class="btn btn-danger col-md-5 bg-gradient-info w-100 mt-1 mb-0"
                                                     data-bs-dismiss="modal" aria-label="Close">BATAL</button>
                                             </div>
                                             <div class="col-md-6">
                                                 <button name="submit" value="submit" type="submit" id="button-form"
                                                     type="button"
-                                                    class="btn btn-primary col-md-5 bg-gradient-info w-100 mt-4 mb-0">
-                                                    Update Data
+                                                    class="btn btn-primary col-md-5 bg-gradient-info w-100 mt-1 mb-0">
+                                                    RESET
                                                 </button>
                                             </div>
                                         </div>
@@ -405,37 +372,32 @@ try {
 
 
 <script>
-    function setFormEdit(encodedData) {
-        try {
-            let decoded = atob(encodedData);
-            let data = JSON.parse(decoded);
+function setFormResetPassword(encodedData) {
+    try {
+        let decoded = atob(encodedData);
+        let data = JSON.parse(decoded);
 
-            let form = document.getElementById('editModal');
+        let form = document.getElementById('resetPasswordModal');
+        console.log(data)
 
-            form.querySelector('#vet_id').value = data.vet_id;
-            form.querySelector('#vet_title').value = data.vet_title;
-            form.querySelector('#vet_familyname').value = data.vet_familyname;
-            form.querySelector('#vet_givenname').value = data.vet_givenname;
-            form.querySelector('#vet_phone').value = data.vet_phone;
-            form.querySelector('#vet_employed').value = data.vet_employed;
-            form.querySelector('#spec_id').value = data.spec_id;
-            form.querySelector('#clinic_id').value = data.clinic_id;
-
-        } catch (err) {
-            console.error("Gagal set data form:", err);
-        }
+        form.querySelector('#vet_id').value = data.vet_id;
+        form.querySelector('#reset-name').innerHTML = `${data.vet_title} ${data.vet_familyname} ${data.vet_givenname}`;
+        form.querySelector('#vet_phone').value = data.vet_phone;
+    } catch (err) {
+        console.error("Gagal set data form:", err);
     }
+}
 
 
-    function setFormDelete(id, name) {
-        let deleteForm = document.getElementById("deleteModal");
-        deleteForm.querySelector("#vet_id").value = id;
-        deleteForm.querySelector("#delete-id").innerText = name;
-    }
+function setFormDelete(id, name) {
+    let deleteForm = document.getElementById("deleteModal");
+    deleteForm.querySelector("#vet_id").value = id;
+    deleteForm.querySelector("#delete-id").innerText = name;
+}
 
 
-    let inputs = document.querySelectorAll("input");
-    inputs.forEach((inp) => {
-        inp.setAttribute("autocomplete", "off");
-    });
+let inputs = document.querySelectorAll("input");
+inputs.forEach((inp) => {
+    inp.setAttribute("autocomplete", "off");
+});
 </script>

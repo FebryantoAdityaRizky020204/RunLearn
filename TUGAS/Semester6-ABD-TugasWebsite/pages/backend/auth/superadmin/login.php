@@ -23,7 +23,7 @@ if (! empty($username) && ! empty($password)) {
     if (! password_verify($password, $user['password'])) {
         echo json_encode([
             'status' => 'error',
-            'message' => 'Password salah',
+            'message' => 'Username atau Password Salah',
         ]);
         exit;
     }

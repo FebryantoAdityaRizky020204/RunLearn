@@ -1,10 +1,12 @@
 <?php
-include_once '../../Connection.php';
+include_once './../../../../backend/Connection/PetugasAdministrasiConnection.php';
 $conn = new Connection();
 
 $loc = dirname(__FILE__);
 
-$queryUsr = "SELECT * FROM `drug`";
+$queryUsr = "SELECT `owner_id`, `owner_givenname`, `owner_familyname`, `owner_address`, `owner_phone`
+                FROM `owners`";
+
 try {
     $datas = $conn->fetchAll($queryUsr);
 } catch (Exception $e) {
@@ -14,6 +16,7 @@ try {
     ];
 }
 ?>
+
 <div class="row">
     <div class="col-lg-12">
         <div class="page-content">
@@ -22,7 +25,7 @@ try {
                 <div class="row">
                     <div class="col-lg-7">
                         <div class="header-text">
-                            <h4>TABEL <em>DRUG</em></h4>
+                            <h4>TABEL <em>OWNERS</em></h4>
                         </div>
                     </div>
                 </div>
@@ -71,19 +74,19 @@ try {
                                                                             </th>
                                                                             <th
                                                                                 class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-1">
-                                                                                Drug Name
+                                                                                Owner Name
                                                                             </th>
                                                                             <th
                                                                                 class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-1">
-                                                                                Usage
+                                                                                Address
                                                                             </th>
                                                                             <th
                                                                                 class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-1">
-                                                                                Stock
+                                                                                Num. Phone
                                                                             </th>
                                                                             <th
                                                                                 class="text-uppercase text-center text-secondary text-xs font-weight-bolder opacity-7 ps-1">
-                                                                                Action
+                                                                                OPTION
                                                                             </th>
                                                                         </tr>
                                                                     </thead>
@@ -93,43 +96,38 @@ try {
                                                                             foreach ($datas as $data) : ?>
                                                                         <tr>
                                                                             <td>
+                                                                                <!-- <?= $data['owner_id'] ?> -->
                                                                                 <?= $num++ ?>
                                                                             </td>
                                                                             <td>
-                                                                                <?= $data['drug_name'] ?>
+                                                                                <?= $data['owner_givenname'] ?>
+                                                                                <?= $data['owner_familyname'] ?>
                                                                             </td>
                                                                             <td>
-                                                                                <?= $data['drug_usage'] ?>
+                                                                                <?= $data['owner_address'] ?>
                                                                             </td>
                                                                             <td>
-                                                                                <?= $data['stock'] ?>
+                                                                                <?= $data['owner_phone'] ?>
                                                                             </td>
-                                                                            <?php
-                                                                                    $giveData = [
-                                                                                        'drug_id' => $data['drug_id'],
-                                                                                        'drug_name' => $data['drug_name'],
-                                                                                        'drug_usage' => $data['drug_usage'],
-                                                                                        'stock' => $data['stock']
-                                                                                    ]
-                                                                                        ?>
                                                                             <td class="text-center">
                                                                                 <button
-                                                                                    onclick="setFormEdit('<?= base64_encode(json_encode($giveData)) ?>')"
+                                                                                    onclick="setFormResetPassword('<?= base64_encode(json_encode($data)) ?>')"
                                                                                     class="btn btn-warning btn-sm"
                                                                                     data-bs-toggle="modal"
-                                                                                    data-bs-target="#editModal">
+                                                                                    data-bs-target="#resetPasswordModal">
                                                                                     <i
-                                                                                        class="fa-solid fa-pen-to-square"></i>
-                                                                                    EDIT
+                                                                                        class="fa-solid fa-rotate-left"></i>
+                                                                                    Reset Password
                                                                                 </button>
                                                                                 <button
-                                                                                    onclick="setFormDelete('<?= $data['drug_id'] ?>', '<?= $data['drug_name'] ?>')"
+                                                                                    onclick="setFormDelete('<?= $data['owner_id'] ?>')"
                                                                                     class="btn btn-danger btn-sm"
                                                                                     data-bs-toggle="modal"
                                                                                     data-bs-target="#deleteModal">
                                                                                     <i class="fa-solid fa-trash"></i>
                                                                                     DELETE
                                                                                 </button>
+                                                                                <!-- <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"></div> -->
                                                                             </td>
                                                                         </tr>
                                                                         <?php endforeach; ?>
@@ -171,16 +169,20 @@ try {
                                 <div class="card-body smd-form">
                                     <form role="form" method="post" action="">
                                         <div class="mb-3">
-                                            <input type="text" class="form-control" id="drug_name"
-                                                placeholder="Drug Name" name="drug_name">
+                                            <input type="text" class="form-control" id="owner_givenname"
+                                                placeholder="Given Name" name="owner_givenname">
                                         </div>
                                         <div class="mb-3">
-                                            <textarea name="drug_usage" class="form-control" id="drug_usage" rows="3"
-                                                placeholder="Usage"></textarea>
+                                            <input type="text" class="form-control" id="owner_familyname"
+                                                placeholder="Family Name" name="owner_familyname">
                                         </div>
                                         <div class="mb-3">
-                                            <input type="text" class="form-control" id="stock" placeholder="Drug Stock"
-                                                name="stock">
+                                            <textarea name="owner_address" class="form-control" id="owner_address"
+                                                rows="3" placeholder="Address"></textarea>
+                                        </div>
+                                        <div class="mb-3">
+                                            <input type="number" class="form-control" id="owner_phone"
+                                                placeholder="Num. Phone" name="owner_phone">
                                         </div>
                                         <input type="hidden" name="type" value="insert">
                                         <div class="text-center row">
@@ -210,7 +212,7 @@ try {
 
 
 <!-- Edit DataModal -->
-<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModal" aria-hidden="true">
+<div class="modal fade" id="resetPasswordModal" tabindex="-1" aria-labelledby="resetPasswordModal" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-body">
@@ -218,38 +220,28 @@ try {
                     <div class="row">
                         <div class="col-md-12 d-flex flex-column mx-auto">
                             <div class="card card-plain mt-8">
-                                <div class="card-header text-left bg-transparent">
-                                    <h3 class="font-weight-bolder text-warning text-gradient">
-                                        <span id="title-form" style="font-size: 1.5rem;">EDIT DATA</span>
-                                    </h3>
+                                <div class="display-1 text-center text-danger py-2">
+                                    <i class="fa-solid fa-circle-exclamation"></i>
+                                    <p class="h6 mt-2 text-dark">
+                                        YAKIN INGIN RESET PASSWORD <span id="delete-nama">##</span>
+                                    </p>
                                 </div>
                                 <div class="card-body smd-form">
                                     <form role="form" method="post" action="">
-                                        <input type="hidden" class="form-control" id="drug_id" name="drug_id">
-                                        <div class="mb-3">
-                                            <input type="text" class="form-control" id="drug_name"
-                                                placeholder="Drug Name" name="drug_name">
-                                        </div>
-                                        <div class="mb-3">
-                                            <textarea name="drug_usage" class="form-control" id="drug_usage" rows="3"
-                                                placeholder="Usage"></textarea>
-                                        </div>
-                                        <div class="mb-3">
-                                            <input type="text" class="form-control" id="stock" placeholder="Drug Stock"
-                                                name="stock">
-                                        </div>
-                                        <input type="hidden" name="type" value="edit">
+                                        <input type="hidden" class="form-control" id="owner_id" name="owner_id">
+                                        <input type="hidden" class="form-control" id="owner_phone" name="owner_phone">
+                                        <input type="hidden" name="type" value="reset-password">
                                         <div class="text-center row">
                                             <div class="col-md-6">
                                                 <button type="button"
-                                                    class="btn btn-danger col-md-5 bg-gradient-info w-100 mt-4 mb-0"
+                                                    class="btn btn-danger col-md-5 bg-gradient-info w-100 mt-1 mb-0"
                                                     data-bs-dismiss="modal" aria-label="Close">BATAL</button>
                                             </div>
                                             <div class="col-md-6">
                                                 <button name="submit" value="submit" type="submit" id="button-form"
                                                     type="button"
-                                                    class="btn btn-primary col-md-5 bg-gradient-info w-100 mt-4 mb-0">
-                                                    Update Data
+                                                    class="btn btn-primary col-md-5 bg-gradient-info w-100 mt-1 mb-0">
+                                                    RESET
                                                 </button>
                                             </div>
                                         </div>
@@ -282,12 +274,13 @@ try {
                                 <div class="display-1 text-center text-danger py-2">
                                     <i class="fa-solid fa-circle-exclamation"></i>
                                     <p class="h6 mt-2 text-dark">
-                                        YAKIN INGIN MENGHAPUS DATA - <span id="delete-id">##</span>
+                                        YAKIN INGIN MENGHAPUS DATA <span id="delete-id">##</span>
                                     </p>
                                 </div>
                                 <div class="card-body smd-form">
                                     <form role="form" method="post" action="">
-                                        <input type="hidden" class="form-control" id="drug_id" name="drug_id">
+                                        <input type="hidden" class="form-control" id="owner_id" placeholder="Given Name"
+                                            name="owner_id">
                                         <input type="hidden" name="type" value="delete">
                                         <div class="text-center row">
                                             <div class="col-md-6">
@@ -316,28 +309,24 @@ try {
 
 
 <script>
-function setFormEdit(encodedData) {
+function setFormResetPassword(encodedData) {
     try {
-        let decoded = atob(encodedData);
-        let data = JSON.parse(decoded);
+        let decoded = atob(encodedData); // decode base64
+        let data = JSON.parse(decoded); // parse JSON
 
-        let form = document.getElementById('editModal');
-
-        form.querySelector('#drug_id').value = data.drug_id;
-        form.querySelector('#drug_name').value = data.drug_name;
-        form.querySelector('#drug_usage').value = data.drug_usage;
-        form.querySelector('#stock').value = data.stock;
-
+        let form = document.getElementById('resetPasswordModal');
+        form.querySelector('#owner_id').value = data.owner_id;
+        form.querySelector('#owner_phone').value = data.owner_phone;
+        form.querySelector('#delete-nama').innerHTML = `(${data.owner_givenname} ${data.owner_familyname})`;
     } catch (err) {
         console.error("Gagal set data form:", err);
     }
 }
 
-
-function setFormDelete(id, name) {
+function setFormDelete(id) {
     let deleteForm = document.getElementById("deleteModal");
-    deleteForm.querySelector("#drug_id").value = id;
-    deleteForm.querySelector("#delete-id").innerText = name;
+    deleteForm.querySelector("#owner_id").value = id;
+    deleteForm.querySelector("#delete-id").innerHTML = id;
 }
 
 

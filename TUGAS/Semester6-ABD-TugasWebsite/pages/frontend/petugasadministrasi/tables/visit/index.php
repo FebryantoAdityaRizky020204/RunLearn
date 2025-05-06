@@ -1,12 +1,30 @@
 <?php
-include_once '../../Connection.php';
+include_once './../../../../backend/Connection/PetugasAdministrasiConnection.php';
 $conn = new Connection();
 
 $loc = dirname(__FILE__);
 
-$queryUsr = "SELECT * FROM `drug`";
+$queryUsr = "SELECT 
+                `visit`.*,
+                `animal`.`animal_id` AS `a_animal_id`, 
+                `animal`.`animal_name`,
+                `vet`.`vet_id` AS `v_vet_id`, 
+                `vet`.`vet_title`, `vet`.`vet_givenname`, `vet`.`vet_familyname` 
+            FROM `visit`
+            INNER JOIN `animal` ON `visit`.`animal_id` = `animal`.`animal_id`
+            INNER JOIN `vet` ON `visit`.`vet_id` = `vet`.`vet_id`
+            ORDER BY `visit`.`visit_id` ASC;";
+
 try {
     $datas = $conn->fetchAll($queryUsr);
+
+    $queryAnimal = "SELECT * FROM `animal`";
+    $queryVet = "SELECT `vet_id`, `vet_title`, `vet_givenname`, `vet_familyname` FROM `vet`";
+    $queryVisit = "SELECT * FROM `visit`";
+
+    $animals = $conn->fetchAll($queryAnimal);
+    $vets = $conn->fetchAll($queryVet);
+    $visits = $conn->fetchAll($queryVisit);
 } catch (Exception $e) {
     $datas = [
         'status' => false,
@@ -14,6 +32,7 @@ try {
     ];
 }
 ?>
+
 <div class="row">
     <div class="col-lg-12">
         <div class="page-content">
@@ -22,7 +41,7 @@ try {
                 <div class="row">
                     <div class="col-lg-7">
                         <div class="header-text">
-                            <h4>TABEL <em>DRUG</em></h4>
+                            <h4>TABEL <em>ANIMAL</em></h4>
                         </div>
                     </div>
                 </div>
@@ -71,15 +90,23 @@ try {
                                                                             </th>
                                                                             <th
                                                                                 class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-1">
-                                                                                Drug Name
+                                                                                Visit Date
                                                                             </th>
                                                                             <th
                                                                                 class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-1">
-                                                                                Usage
+                                                                                Notes
                                                                             </th>
                                                                             <th
                                                                                 class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-1">
-                                                                                Stock
+                                                                                Animal Name
+                                                                            </th>
+                                                                            <th
+                                                                                class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-1">
+                                                                                Vet
+                                                                            </th>
+                                                                            <th
+                                                                                class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-1">
+                                                                                Visit Ref.
                                                                             </th>
                                                                             <th
                                                                                 class="text-uppercase text-center text-secondary text-xs font-weight-bolder opacity-7 ps-1">
@@ -96,20 +123,32 @@ try {
                                                                                 <?= $num++ ?>
                                                                             </td>
                                                                             <td>
-                                                                                <?= $data['drug_name'] ?>
+                                                                                <?= $data['visit_date_time'] ?>
                                                                             </td>
                                                                             <td>
-                                                                                <?= $data['drug_usage'] ?>
+                                                                                (id: <?= $data['visit_id'] ?>)
+                                                                                <?= $data['visit_notes'] ?>
                                                                             </td>
                                                                             <td>
-                                                                                <?= $data['stock'] ?>
+                                                                                <?= $data['animal_name'] ?>
+                                                                            </td>
+                                                                            <td>
+                                                                                <?= $data['vet_title'] ?>
+                                                                                <?= $data['vet_givenname'] ?>
+                                                                                <?= $data['vet_familyname'] ?>
+                                                                            </td>
+                                                                            <td>
+                                                                                id:
+                                                                                <?= ($data['from_visit_id']) ? $data['from_visit_id'] : '-' ?>
                                                                             </td>
                                                                             <?php
                                                                                     $giveData = [
-                                                                                        'drug_id' => $data['drug_id'],
-                                                                                        'drug_name' => $data['drug_name'],
-                                                                                        'drug_usage' => $data['drug_usage'],
-                                                                                        'stock' => $data['stock']
+                                                                                        'visit_id' => $data['visit_id'],
+                                                                                        'visit_date_time' => $data['visit_date_time'],
+                                                                                        'visit_notes' => $data['visit_notes'],
+                                                                                        'animal_id' => $data['a_animal_id'],
+                                                                                        'vet_id' => $data['v_vet_id'],
+                                                                                        'from_visit_id' => $data['from_visit_id']
                                                                                     ]
                                                                                         ?>
                                                                             <td class="text-center">
@@ -123,7 +162,7 @@ try {
                                                                                     EDIT
                                                                                 </button>
                                                                                 <button
-                                                                                    onclick="setFormDelete('<?= $data['drug_id'] ?>', '<?= $data['drug_name'] ?>')"
+                                                                                    onclick="setFormDelete('<?= $data['visit_id'] ?>')"
                                                                                     class="btn btn-danger btn-sm"
                                                                                     data-bs-toggle="modal"
                                                                                     data-bs-target="#deleteModal">
@@ -171,16 +210,40 @@ try {
                                 <div class="card-body smd-form">
                                     <form role="form" method="post" action="">
                                         <div class="mb-3">
-                                            <input type="text" class="form-control" id="drug_name"
-                                                placeholder="Drug Name" name="drug_name">
+                                            <input type="date" class="form-control" id="visit_date_time"
+                                                placeholder="Date" name="visit_date_time">
                                         </div>
                                         <div class="mb-3">
-                                            <textarea name="drug_usage" class="form-control" id="drug_usage" rows="3"
-                                                placeholder="Usage"></textarea>
+                                            <textarea name="visit_notes" class="form-control" id="visit_notes" rows="3"
+                                                placeholder="Notes"></textarea>
                                         </div>
                                         <div class="mb-3">
-                                            <input type="text" class="form-control" id="stock" placeholder="Drug Stock"
-                                                name="stock">
+                                            <select name="animal_id" id="animal_id" class="form-control">
+                                                <?php foreach ($animals as $animal) : ?>
+                                                <option value="<?= $animal['animal_id'] ?>">
+                                                    <?= $animal['animal_id'].'-'.$animal['animal_name']; ?>
+                                                </option>
+                                                <?php endforeach; ?>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <select name="vet_id" id="vet_id" class="form-control">
+                                                <?php foreach ($vets as $vet) : ?>
+                                                <option value="<?= $vet['vet_id'] ?>">
+                                                    <?= $vet['vet_id'].'-'.$vet['vet_title'].' '.$vet['vet_givenname'].' '.$vet['vet_familyname']; ?>
+                                                </option>
+                                                <?php endforeach; ?>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <select name="from_visit_id" id="from_visit_id" class="form-control">
+                                                <option value="">none</option>
+                                                <?php foreach ($visits as $visit) : ?>
+                                                <option value="<?= $visit['visit_id'] ?>">
+                                                    <?= 'id: '.$visit['visit_id']; ?>
+                                                </option>
+                                                <?php endforeach; ?>
+                                            </select>
                                         </div>
                                         <input type="hidden" name="type" value="insert">
                                         <div class="text-center row">
@@ -225,18 +288,42 @@ try {
                                 </div>
                                 <div class="card-body smd-form">
                                     <form role="form" method="post" action="">
-                                        <input type="hidden" class="form-control" id="drug_id" name="drug_id">
+                                        <input type="hidden" class="form-control" id="visit_id" name="visit_id">
                                         <div class="mb-3">
-                                            <input type="text" class="form-control" id="drug_name"
-                                                placeholder="Drug Name" name="drug_name">
+                                            <input type="date" class="form-control" id="visit_date_time"
+                                                placeholder="Date" name="visit_date_time">
                                         </div>
                                         <div class="mb-3">
-                                            <textarea name="drug_usage" class="form-control" id="drug_usage" rows="3"
-                                                placeholder="Usage"></textarea>
+                                            <textarea name="visit_notes" class="form-control" id="visit_notes" rows="3"
+                                                placeholder="Notes"></textarea>
                                         </div>
                                         <div class="mb-3">
-                                            <input type="text" class="form-control" id="stock" placeholder="Drug Stock"
-                                                name="stock">
+                                            <select name="animal_id" id="animal_id" class="form-control">
+                                                <?php foreach ($animals as $animal) : ?>
+                                                <option value="<?= $animal['animal_id'] ?>">
+                                                    <?= $animal['animal_id'].'-'.$animal['animal_name']; ?>
+                                                </option>
+                                                <?php endforeach; ?>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <select name="vet_id" id="vet_id" class="form-control">
+                                                <?php foreach ($vets as $vet) : ?>
+                                                <option value="<?= $vet['vet_id'] ?>">
+                                                    <?= $vet['vet_id'].'-'.$vet['vet_title'].' '.$vet['vet_givenname'].' '.$vet['vet_familyname']; ?>
+                                                </option>
+                                                <?php endforeach; ?>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <select name="from_visit_id" id="from_visit_id" class="form-control">
+                                                <option value="">none</option>
+                                                <?php foreach ($visits as $visit) : ?>
+                                                <option value="<?= $visit['visit_id'] ?>">
+                                                    <?= 'id: '.$visit['visit_id']; ?>
+                                                </option>
+                                                <?php endforeach; ?>
+                                            </select>
                                         </div>
                                         <input type="hidden" name="type" value="edit">
                                         <div class="text-center row">
@@ -287,7 +374,8 @@ try {
                                 </div>
                                 <div class="card-body smd-form">
                                     <form role="form" method="post" action="">
-                                        <input type="hidden" class="form-control" id="drug_id" name="drug_id">
+                                        <input type="hidden" class="form-control" id="visit_id" placeholder="Given Name"
+                                            name="visit_id">
                                         <input type="hidden" name="type" value="delete">
                                         <div class="text-center row">
                                             <div class="col-md-6">
@@ -323,10 +411,14 @@ function setFormEdit(encodedData) {
 
         let form = document.getElementById('editModal');
 
-        form.querySelector('#drug_id').value = data.drug_id;
-        form.querySelector('#drug_name').value = data.drug_name;
-        form.querySelector('#drug_usage').value = data.drug_usage;
-        form.querySelector('#stock').value = data.stock;
+        form.querySelector('#visit_id').value = data.visit_id;
+        form.querySelector('#visit_date_time').value = data.visit_date_time;
+        form.querySelector('#visit_notes').value = data.visit_notes;
+        form.querySelector('#animal_id').value = data.animal_id;
+        form.querySelector('#vet_id').value = data.vet_id;
+        if (data.from_visit_id != null) {
+            form.querySelector('#from_visit_id').value = data.from_visit_id;
+        }
 
     } catch (err) {
         console.error("Gagal set data form:", err);
@@ -334,10 +426,10 @@ function setFormEdit(encodedData) {
 }
 
 
-function setFormDelete(id, name) {
+function setFormDelete(id) {
     let deleteForm = document.getElementById("deleteModal");
-    deleteForm.querySelector("#drug_id").value = id;
-    deleteForm.querySelector("#delete-id").innerText = name;
+    deleteForm.querySelector("#visit_id").value = id;
+    deleteForm.querySelector("#delete-id").innerText = `id: ${id}`;
 }
 
 

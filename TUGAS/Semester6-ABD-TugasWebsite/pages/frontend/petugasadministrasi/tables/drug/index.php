@@ -1,5 +1,5 @@
 <?php
-include_once '../../Connection.php';
+include_once './../../../../backend/Connection/PetugasAdministrasiConnection.php';
 $conn = new Connection();
 
 $loc = dirname(__FILE__);
@@ -14,6 +14,7 @@ try {
     ];
 }
 ?>
+
 <div class="row">
     <div class="col-lg-12">
         <div class="page-content">

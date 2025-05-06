@@ -1,12 +1,22 @@
 <?php
-include_once '../../Connection.php';
+include_once './../../../../backend/Connection/PetugasAdministrasiConnection.php';
 $conn = new Connection();
 
 $loc = dirname(__FILE__);
 
-$queryUsr = "SELECT * FROM `drug`";
 try {
+    $queryUsr = 'SELECT * FROM `animal` 
+        INNER JOIN `owners` ON animal.owner_id = owners.owner_id
+        INNER JOIN `animal_type` ON animal.at_id = animal_type.at_id
+        ORDER BY `animal`.`animal_id` ASC';
+
     $datas = $conn->fetchAll($queryUsr);
+
+    $queryOwner = 'SELECT `owner_id`, `owner_givenname`, `owner_familyname` FROM `owners`';
+    $queryAnimalType = 'SELECT `at_id`, `at_description` FROM `animal_type`';
+
+    $owners = $conn->fetchAll($queryOwner);
+    $animalTypes = $conn->fetchAll($queryAnimalType);
 } catch (Exception $e) {
     $datas = [
         'status' => false,
@@ -14,6 +24,7 @@ try {
     ];
 }
 ?>
+
 <div class="row">
     <div class="col-lg-12">
         <div class="page-content">
@@ -22,7 +33,7 @@ try {
                 <div class="row">
                     <div class="col-lg-7">
                         <div class="header-text">
-                            <h4>TABEL <em>DRUG</em></h4>
+                            <h4>TABEL <em>ANIMAL</em></h4>
                         </div>
                     </div>
                 </div>
@@ -71,15 +82,19 @@ try {
                                                                             </th>
                                                                             <th
                                                                                 class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-1">
-                                                                                Drug Name
+                                                                                Animal Name
                                                                             </th>
                                                                             <th
                                                                                 class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-1">
-                                                                                Usage
+                                                                                Born
                                                                             </th>
                                                                             <th
                                                                                 class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-1">
-                                                                                Stock
+                                                                                Owner
+                                                                            </th>
+                                                                            <th
+                                                                                class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-1">
+                                                                                Type
                                                                             </th>
                                                                             <th
                                                                                 class="text-uppercase text-center text-secondary text-xs font-weight-bolder opacity-7 ps-1">
@@ -90,26 +105,32 @@ try {
                                                                     <tbody>
                                                                         <?php
                                                                             $num = 1;
-                                                                            foreach ($datas as $data) : ?>
+                                                                            foreach ($datas as $data) :
+                                                                                ?>
                                                                         <tr>
                                                                             <td>
                                                                                 <?= $num++ ?>
                                                                             </td>
                                                                             <td>
-                                                                                <?= $data['drug_name'] ?>
+                                                                                <?= $data['animal_name'] ?>
                                                                             </td>
                                                                             <td>
-                                                                                <?= $data['drug_usage'] ?>
+                                                                                <?= $data['animal_born'] ?>
                                                                             </td>
                                                                             <td>
-                                                                                <?= $data['stock'] ?>
+                                                                                <?= $data['owner_givenname'] ?>
+                                                                                <?= $data['owner_familyname'] ?>
+                                                                            </td>
+                                                                            <td>
+                                                                                <?= $data['at_description'] ?>
                                                                             </td>
                                                                             <?php
                                                                                     $giveData = [
-                                                                                        'drug_id' => $data['drug_id'],
-                                                                                        'drug_name' => $data['drug_name'],
-                                                                                        'drug_usage' => $data['drug_usage'],
-                                                                                        'stock' => $data['stock']
+                                                                                        'animal_id' => $data['animal_id'],
+                                                                                        'animal_name' => $data['animal_name'],
+                                                                                        'animal_born' => $data['animal_born'],
+                                                                                        'owner_id' => $data['owner_id'],
+                                                                                        'at_id' => $data['at_id']
                                                                                     ]
                                                                                         ?>
                                                                             <td class="text-center">
@@ -123,7 +144,7 @@ try {
                                                                                     EDIT
                                                                                 </button>
                                                                                 <button
-                                                                                    onclick="setFormDelete('<?= $data['drug_id'] ?>', '<?= $data['drug_name'] ?>')"
+                                                                                    onclick="setFormDelete('<?= $data['animal_id'] ?>', '<?= $data['animal_name'] ?>')"
                                                                                     class="btn btn-danger btn-sm"
                                                                                     data-bs-toggle="modal"
                                                                                     data-bs-target="#deleteModal">
@@ -171,16 +192,30 @@ try {
                                 <div class="card-body smd-form">
                                     <form role="form" method="post" action="">
                                         <div class="mb-3">
-                                            <input type="text" class="form-control" id="drug_name"
-                                                placeholder="Drug Name" name="drug_name">
+                                            <input type="text" class="form-control" id="animal_name"
+                                                placeholder="Animal Name" name="animal_name">
                                         </div>
                                         <div class="mb-3">
-                                            <textarea name="drug_usage" class="form-control" id="drug_usage" rows="3"
-                                                placeholder="Usage"></textarea>
+                                            <input type="date" class="form-control" id="animal_born" placeholder="Born"
+                                                name="animal_born">
                                         </div>
                                         <div class="mb-3">
-                                            <input type="text" class="form-control" id="stock" placeholder="Drug Stock"
-                                                name="stock">
+                                            <select name="owner_id" id="owner_id" class="form-control">
+                                                <?php foreach ($owners as $owr) : ?>
+                                                <option value="<?= $owr['owner_id'] ?>">
+                                                    <?= $owr['owner_id'].'-'.$owr['owner_givenname'].' '.$owr['owner_familyname']; ?>
+                                                </option>
+                                                <?php endforeach; ?>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <select name="at_id" id="at_id" class="form-control">
+                                                <?php foreach ($animalTypes as $antp) : ?>
+                                                <option value="<?= $antp['at_id'] ?>">
+                                                    <?= $antp['at_id'].'-'.$antp['at_description']; ?>
+                                                </option>
+                                                <?php endforeach; ?>
+                                            </select>
                                         </div>
                                         <input type="hidden" name="type" value="insert">
                                         <div class="text-center row">
@@ -225,18 +260,32 @@ try {
                                 </div>
                                 <div class="card-body smd-form">
                                     <form role="form" method="post" action="">
-                                        <input type="hidden" class="form-control" id="drug_id" name="drug_id">
+                                        <input type="hidden" class="form-control" id="animal_id" name="animal_id">
                                         <div class="mb-3">
-                                            <input type="text" class="form-control" id="drug_name"
-                                                placeholder="Drug Name" name="drug_name">
+                                            <input type="text" class="form-control" id="animal_name"
+                                                placeholder="Animal Name" name="animal_name">
                                         </div>
                                         <div class="mb-3">
-                                            <textarea name="drug_usage" class="form-control" id="drug_usage" rows="3"
-                                                placeholder="Usage"></textarea>
+                                            <input type="date" class="form-control" id="animal_born" placeholder="Born"
+                                                name="animal_born">
                                         </div>
                                         <div class="mb-3">
-                                            <input type="text" class="form-control" id="stock" placeholder="Drug Stock"
-                                                name="stock">
+                                            <select name="owner_id" id="owner_id" class="form-control">
+                                                <?php foreach ($owners as $owr) : ?>
+                                                <option value="<?= $owr['owner_id'] ?>">
+                                                    <?= $owr['owner_id'].'-'.$owr['owner_givenname'].' '.$owr['owner_familyname']; ?>
+                                                </option>
+                                                <?php endforeach; ?>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <select name="at_id" id="at_id" class="form-control">
+                                                <?php foreach ($animalTypes as $antp) : ?>
+                                                <option value="<?= $antp['at_id'] ?>">
+                                                    <?= $antp['at_id'].'-'.$antp['at_description']; ?>
+                                                </option>
+                                                <?php endforeach; ?>
+                                            </select>
                                         </div>
                                         <input type="hidden" name="type" value="edit">
                                         <div class="text-center row">
@@ -287,7 +336,8 @@ try {
                                 </div>
                                 <div class="card-body smd-form">
                                     <form role="form" method="post" action="">
-                                        <input type="hidden" class="form-control" id="drug_id" name="drug_id">
+                                        <input type="hidden" class="form-control" id="animal_id"
+                                            placeholder="Given Name" name="animal_id">
                                         <input type="hidden" name="type" value="delete">
                                         <div class="text-center row">
                                             <div class="col-md-6">
@@ -323,10 +373,11 @@ function setFormEdit(encodedData) {
 
         let form = document.getElementById('editModal');
 
-        form.querySelector('#drug_id').value = data.drug_id;
-        form.querySelector('#drug_name').value = data.drug_name;
-        form.querySelector('#drug_usage').value = data.drug_usage;
-        form.querySelector('#stock').value = data.stock;
+        form.querySelector('#animal_id').value = data.animal_id;
+        form.querySelector('#animal_name').value = data.animal_name;
+        form.querySelector('#animal_born').value = data.animal_born;
+        form.querySelector('#owner_id').value = data.owner_id;
+        form.querySelector('#at_id').value = data.at_id;
 
     } catch (err) {
         console.error("Gagal set data form:", err);
@@ -336,7 +387,7 @@ function setFormEdit(encodedData) {
 
 function setFormDelete(id, name) {
     let deleteForm = document.getElementById("deleteModal");
-    deleteForm.querySelector("#drug_id").value = id;
+    deleteForm.querySelector("#animal_id").value = id;
     deleteForm.querySelector("#delete-id").innerText = name;
 }
 

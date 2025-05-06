@@ -1,25 +1,35 @@
 AKUN YANG DIBUAT
 
 - Pet Owner
-username: adit
-password: adit
+username: 1234
+password: 1234
+
+username-default: nohp
+password-default: nohp
 
 
 - Dokter
-username: 
-password: 
+username: 1234
+password: 1234
 
-username: (default: )
-password: (default: )
+username-default: nohp
+password-default: nohp
 
 
 - Petugas Administrasi
-username: 
-password: 
+username: coba
+password: coba
 
-username: (default: )
-password: (default: )
+username-default: nohp
+password-default: nohp
 
 - Admin
 username:admin 
 password:admin
+
+
+
+
+* username dan password default digunakan ketika akun didaftarkan oleh orang lain,
+misalnya ketika pet.administrasi atau admin mendaftarkan akun pet owner
+atau ketika admin mendaftarkan akun pet.administrasi atau dokter

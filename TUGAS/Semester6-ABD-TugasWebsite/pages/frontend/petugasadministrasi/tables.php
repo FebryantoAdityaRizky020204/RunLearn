@@ -4,21 +4,21 @@ if (! session_id()) {
 }
 
 $loginAs = $_SESSION['loginAs'] ?? null;
-if ($loginAs !== 'superadmin') {
-    header('Location: ./../../index.php');
+if ($loginAs !== 'petugasadministrasi') {
+    header('Location: ./../../../index.php');
     exit;
 }
 
-$titlePage = 'Tables - SuperAdmin Sahabat Satwa';
+$titlePage = 'Tables - Petugas Admin Sahabat Satwa';
 $procedure = null;
 
-include_once './../../backend/superadmin/tables/Connection.php';
+include_once './../../backend/Connection/PetugasAdministrasiConnection.php';
 $conn = new Connection();
 
 // Ambil nilai dari POST (AJAX) atau GET (fallback manual)
 $theGet = $_GET['page'] ?? 'home';
 
-$operationPath = "./../../backend/superadmin/tables/operation/$theGet/operation.php";
+$operationPath = "./../../backend/petugasadministrasi/$theGet/operation.php";
 if (file_exists($operationPath)) {
     require_once $operationPath;
     $opr = new Operation();
@@ -111,17 +111,9 @@ if (isset($_POST['submit']) && isset($opr)) {
                 <div class="col-5 p-2 align-items-center">
                     <select name="tables-name" id="tables-name" class="form-select fw-bold" style="font-size: 12px;">
                         <option value="owners">Owners</option>
-                        <option value="PetAdministrasi">Pet.Administrasi</option>
                         <option value="animal">Animal</option>
-                        <option value="animal_type">AnimalType</option>
-                        <option value="clinic">Clinic</option>
                         <option value="drug">Drug</option>
-                        <option value="specialisation">Specialisation</option>
-                        <option value="spec_visit">Spec.Visit</option>
-                        <option value="vet">Vet</option>
                         <option value="visit">Visit</option>
-                        <option value="visit_drug">Visit Drug</option>
-                        <option value="procedure">Procedure</option>
                     </select>
                 </div>
             </div>
@@ -157,7 +149,7 @@ let tableName = $('#tables-name').val(thePage);
 
 function loadTable() {
     if (thePage === "procedure") {
-        $.post(`./tables/views/${thePage}/index.php`, {
+        $.post(`./tables/${thePage}/index.php`, {
             resultProcedure: dataFromPHP,
             page: thePage
         }, function(response) {
@@ -167,7 +159,7 @@ function loadTable() {
             mainTables.html("<h4 class='text-danger'>Halaman tidak ditemukan.</h4>");
         });
     } else {
-        $.post(`./tables/views/${thePage}/index.php`, {
+        $.post(`./tables/${thePage}/index.php`, {
             page: thePage
         }, function(response) {
             mainTables.html(response);

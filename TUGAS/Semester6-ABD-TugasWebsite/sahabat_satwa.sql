@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Waktu pembuatan: 23 Apr 2025 pada 02.09
--- Versi server: 8.0.30
--- Versi PHP: 8.3.12
+-- Generation Time: May 06, 2025 at 03:17 PM
+-- Server version: 8.0.30
+-- PHP Version: 8.1.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,7 +24,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `animal`
+-- Table structure for table `animal`
 --
 
 CREATE TABLE `animal` (
@@ -36,17 +36,18 @@ CREATE TABLE `animal` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Dumping data untuk tabel `animal`
+-- Dumping data for table `animal`
 --
 
 INSERT INTO `animal` (`animal_id`, `animal_name`, `animal_born`, `owner_id`, `at_id`) VALUES
-(1, 'Dony', '2022-12-12', 3, 1),
-(3, 'Dogy', '2020-02-12', 3, 2);
+(1, 'Cast', '2022-12-12', 3, 1),
+(3, 'Gukg', '2020-02-12', 3, 2),
+(4, 'Mint', '2020-06-01', 5, 2);
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `animal_type`
+-- Table structure for table `animal_type`
 --
 
 CREATE TABLE `animal_type` (
@@ -55,7 +56,7 @@ CREATE TABLE `animal_type` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Dumping data untuk tabel `animal_type`
+-- Dumping data for table `animal_type`
 --
 
 INSERT INTO `animal_type` (`at_id`, `at_description`) VALUES
@@ -65,7 +66,7 @@ INSERT INTO `animal_type` (`at_id`, `at_description`) VALUES
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `clinic`
+-- Table structure for table `clinic`
 --
 
 CREATE TABLE `clinic` (
@@ -76,7 +77,7 @@ CREATE TABLE `clinic` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Dumping data untuk tabel `clinic`
+-- Dumping data for table `clinic`
 --
 
 INSERT INTO `clinic` (`clinic_id`, `clinic_name`, `clinic_address`, `clinic_phone`) VALUES
@@ -85,7 +86,7 @@ INSERT INTO `clinic` (`clinic_id`, `clinic_name`, `clinic_address`, `clinic_phon
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `drug`
+-- Table structure for table `drug`
 --
 
 CREATE TABLE `drug` (
@@ -98,7 +99,7 @@ CREATE TABLE `drug` (
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `owners`
+-- Table structure for table `owners`
 --
 
 CREATE TABLE `owners` (
@@ -112,16 +113,17 @@ CREATE TABLE `owners` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Dumping data untuk tabel `owners`
+-- Dumping data for table `owners`
 --
 
 INSERT INTO `owners` (`owner_id`, `owner_givenname`, `owner_familyname`, `owner_address`, `owner_phone`, `username`, `password`) VALUES
-(3, 'adit', 'rizky', 'adadeh', 1234, 'adit', '$2y$10$7beQaNlxn5g3qpuQWLixXee5ACe9BBmqi6rytZltwBzbpz6Wdo8T.');
+(3, 'adit', 'rizky', 'adadeh coba', 1234, '1234', '$2y$10$rlxANr26wn9X4RVBzJCPM.f4h3t9sL5kmUFVGTAhexsIUr6cEDwum'),
+(5, 'Meylia', 'Wijayanto', 'Jl. Coba', 987, '0987', '$2y$10$xwW80m5U0mGnHtquwScOIetT.5m3YPvqaVLYGiZNwQJge0A.kzdIe');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `petugas_administrasi`
+-- Table structure for table `petugas_administrasi`
 --
 
 CREATE TABLE `petugas_administrasi` (
@@ -134,16 +136,16 @@ CREATE TABLE `petugas_administrasi` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Dumping data untuk tabel `petugas_administrasi`
+-- Dumping data for table `petugas_administrasi`
 --
 
 INSERT INTO `petugas_administrasi` (`petugasadmin_id`, `petugasadmin_nama`, `petugasadmin_nohp`, `username`, `password`, `clinic_id`) VALUES
-(1, 'adit', 987654321, '1234', '$2y$10$PhDP8uY1WCUOiO1lOhyfYunuxcjvr6H3ms3sRXiIcMe8q6Q7.0miS', 1);
+(3, 'Adit Mencoba', 56789, 'coba', '$2y$10$7g1piUSivrooGjkt0CeC0eurXNBN2uJi5W8aNQVNLdPRWLOguu7TW', 1);
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `specialisation`
+-- Table structure for table `specialisation`
 --
 
 CREATE TABLE `specialisation` (
@@ -152,7 +154,7 @@ CREATE TABLE `specialisation` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Dumping data untuk tabel `specialisation`
+-- Dumping data for table `specialisation`
 --
 
 INSERT INTO `specialisation` (`spec_id`, `spec_description`) VALUES
@@ -161,7 +163,7 @@ INSERT INTO `specialisation` (`spec_id`, `spec_description`) VALUES
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `spec_visit`
+-- Table structure for table `spec_visit`
 --
 
 CREATE TABLE `spec_visit` (
@@ -173,26 +175,27 @@ CREATE TABLE `spec_visit` (
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `superadmin`
+-- Table structure for table `superadmin`
 --
 
 CREATE TABLE `superadmin` (
   `admin_id` int NOT NULL,
+  `nama_admin` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `username` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Dumping data untuk tabel `superadmin`
+-- Dumping data for table `superadmin`
 --
 
-INSERT INTO `superadmin` (`admin_id`, `username`, `password`) VALUES
-(1, 'admin', '$2y$10$AorFrxlGw9Vcp1qaWckwROH6tWZFGb7ty0gBqh6MiA75s9d6XB.ri');
+INSERT INTO `superadmin` (`admin_id`, `nama_admin`, `username`, `password`) VALUES
+(1, 'Ahmad Iqbal', 'admin', '$2y$10$a5fGP4gIUtaSX6UMdkSFSu63FLLWrBKvmDJ7OB.tLMdxS84E6HMRC');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `vet`
+-- Table structure for table `vet`
 --
 
 CREATE TABLE `vet` (
@@ -209,16 +212,16 @@ CREATE TABLE `vet` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Dumping data untuk tabel `vet`
+-- Dumping data for table `vet`
 --
 
 INSERT INTO `vet` (`vet_id`, `vet_title`, `vet_givenname`, `vet_familyname`, `vet_phone`, `vet_employed`, `spec_id`, `clinic_id`, `username`, `password`) VALUES
-(1, 'Dr.', 'Aditya', 'Rizky', '1234', '2004-02-02', 1, 1, '1234', '$2y$10$UqB8TpCXyv1LISqbhfr3iuaUlUFqfZt.apgwYHIAoL3BNSzTlF9u2');
+(1, 'Dr.', 'Aditya', 'Rizky', '1234', '2004-02-02', 1, 1, '1234', '$2y$10$2KIu4tlq2Y680J63uwwsHeyo3zta4K0oo/TDrfWVHsXXBzhzyhGzW');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `visit`
+-- Table structure for table `visit`
 --
 
 CREATE TABLE `visit` (
@@ -230,10 +233,17 @@ CREATE TABLE `visit` (
   `from_visit_id` int DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+--
+-- Dumping data for table `visit`
+--
+
+INSERT INTO `visit` (`visit_id`, `visit_date_time`, `visit_notes`, `animal_id`, `vet_id`, `from_visit_id`) VALUES
+(1, '2025-05-06', 'Sakit Gigi', 1, 1, NULL);
+
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `visit_drug`
+-- Table structure for table `visit_drug`
 --
 
 CREATE TABLE `visit_drug` (
@@ -249,7 +259,7 @@ CREATE TABLE `visit_drug` (
 --
 
 --
--- Indeks untuk tabel `animal`
+-- Indexes for table `animal`
 --
 ALTER TABLE `animal`
   ADD PRIMARY KEY (`animal_id`),
@@ -257,57 +267,57 @@ ALTER TABLE `animal`
   ADD KEY `at_id` (`at_id`);
 
 --
--- Indeks untuk tabel `animal_type`
+-- Indexes for table `animal_type`
 --
 ALTER TABLE `animal_type`
   ADD PRIMARY KEY (`at_id`);
 
 --
--- Indeks untuk tabel `clinic`
+-- Indexes for table `clinic`
 --
 ALTER TABLE `clinic`
   ADD PRIMARY KEY (`clinic_id`);
 
 --
--- Indeks untuk tabel `drug`
+-- Indexes for table `drug`
 --
 ALTER TABLE `drug`
   ADD PRIMARY KEY (`drug_id`);
 
 --
--- Indeks untuk tabel `owners`
+-- Indexes for table `owners`
 --
 ALTER TABLE `owners`
   ADD PRIMARY KEY (`owner_id`);
 
 --
--- Indeks untuk tabel `petugas_administrasi`
+-- Indexes for table `petugas_administrasi`
 --
 ALTER TABLE `petugas_administrasi`
   ADD PRIMARY KEY (`petugasadmin_id`),
   ADD KEY `clinic_id` (`clinic_id`);
 
 --
--- Indeks untuk tabel `specialisation`
+-- Indexes for table `specialisation`
 --
 ALTER TABLE `specialisation`
   ADD PRIMARY KEY (`spec_id`);
 
 --
--- Indeks untuk tabel `spec_visit`
+-- Indexes for table `spec_visit`
 --
 ALTER TABLE `spec_visit`
   ADD PRIMARY KEY (`clinic_id`,`vet_id`),
   ADD KEY `vet_id` (`vet_id`);
 
 --
--- Indeks untuk tabel `superadmin`
+-- Indexes for table `superadmin`
 --
 ALTER TABLE `superadmin`
   ADD PRIMARY KEY (`admin_id`);
 
 --
--- Indeks untuk tabel `vet`
+-- Indexes for table `vet`
 --
 ALTER TABLE `vet`
   ADD PRIMARY KEY (`vet_id`),
@@ -315,7 +325,7 @@ ALTER TABLE `vet`
   ADD KEY `clinic_id` (`clinic_id`);
 
 --
--- Indeks untuk tabel `visit`
+-- Indexes for table `visit`
 --
 ALTER TABLE `visit`
   ADD PRIMARY KEY (`visit_id`),
@@ -324,115 +334,115 @@ ALTER TABLE `visit`
   ADD KEY `from_visit_id` (`from_visit_id`);
 
 --
--- Indeks untuk tabel `visit_drug`
+-- Indexes for table `visit_drug`
 --
 ALTER TABLE `visit_drug`
   ADD PRIMARY KEY (`visit_id`,`drug_id`),
   ADD KEY `drug_id` (`drug_id`);
 
 --
--- AUTO_INCREMENT untuk tabel yang dibuang
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT untuk tabel `animal`
+-- AUTO_INCREMENT for table `animal`
 --
 ALTER TABLE `animal`
-  MODIFY `animal_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `animal_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT untuk tabel `animal_type`
+-- AUTO_INCREMENT for table `animal_type`
 --
 ALTER TABLE `animal_type`
   MODIFY `at_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT untuk tabel `clinic`
+-- AUTO_INCREMENT for table `clinic`
 --
 ALTER TABLE `clinic`
   MODIFY `clinic_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT untuk tabel `drug`
+-- AUTO_INCREMENT for table `drug`
 --
 ALTER TABLE `drug`
-  MODIFY `drug_id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `drug_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT untuk tabel `owners`
+-- AUTO_INCREMENT for table `owners`
 --
 ALTER TABLE `owners`
-  MODIFY `owner_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `owner_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT untuk tabel `petugas_administrasi`
+-- AUTO_INCREMENT for table `petugas_administrasi`
 --
 ALTER TABLE `petugas_administrasi`
-  MODIFY `petugasadmin_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `petugasadmin_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT untuk tabel `specialisation`
+-- AUTO_INCREMENT for table `specialisation`
 --
 ALTER TABLE `specialisation`
   MODIFY `spec_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT untuk tabel `spec_visit`
+-- AUTO_INCREMENT for table `spec_visit`
 --
 ALTER TABLE `spec_visit`
   MODIFY `clinic_id` int NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT untuk tabel `superadmin`
+-- AUTO_INCREMENT for table `superadmin`
 --
 ALTER TABLE `superadmin`
   MODIFY `admin_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT untuk tabel `vet`
+-- AUTO_INCREMENT for table `vet`
 --
 ALTER TABLE `vet`
-  MODIFY `vet_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `vet_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT untuk tabel `visit`
+-- AUTO_INCREMENT for table `visit`
 --
 ALTER TABLE `visit`
-  MODIFY `visit_id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `visit_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
+-- Constraints for dumped tables
 --
 
 --
--- Ketidakleluasaan untuk tabel `animal`
+-- Constraints for table `animal`
 --
 ALTER TABLE `animal`
   ADD CONSTRAINT `animal_ibfk_1` FOREIGN KEY (`owner_id`) REFERENCES `owners` (`owner_id`),
   ADD CONSTRAINT `animal_ibfk_2` FOREIGN KEY (`at_id`) REFERENCES `animal_type` (`at_id`);
 
 --
--- Ketidakleluasaan untuk tabel `petugas_administrasi`
+-- Constraints for table `petugas_administrasi`
 --
 ALTER TABLE `petugas_administrasi`
   ADD CONSTRAINT `petugas_administrasi_ibfk_1` FOREIGN KEY (`clinic_id`) REFERENCES `clinic` (`clinic_id`);
 
 --
--- Ketidakleluasaan untuk tabel `spec_visit`
+-- Constraints for table `spec_visit`
 --
 ALTER TABLE `spec_visit`
   ADD CONSTRAINT `spec_visit_ibfk_1` FOREIGN KEY (`vet_id`) REFERENCES `vet` (`vet_id`),
   ADD CONSTRAINT `spec_visit_ibfk_2` FOREIGN KEY (`clinic_id`) REFERENCES `clinic` (`clinic_id`);
 
 --
--- Ketidakleluasaan untuk tabel `vet`
+-- Constraints for table `vet`
 --
 ALTER TABLE `vet`
   ADD CONSTRAINT `vet_ibfk_1` FOREIGN KEY (`spec_id`) REFERENCES `specialisation` (`spec_id`),
   ADD CONSTRAINT `vet_ibfk_2` FOREIGN KEY (`clinic_id`) REFERENCES `clinic` (`clinic_id`);
 
 --
--- Ketidakleluasaan untuk tabel `visit`
+-- Constraints for table `visit`
 --
 ALTER TABLE `visit`
   ADD CONSTRAINT `visit_ibfk_1` FOREIGN KEY (`vet_id`) REFERENCES `vet` (`vet_id`),
@@ -440,7 +450,7 @@ ALTER TABLE `visit`
   ADD CONSTRAINT `visit_ibfk_3` FOREIGN KEY (`from_visit_id`) REFERENCES `visit` (`visit_id`);
 
 --
--- Ketidakleluasaan untuk tabel `visit_drug`
+-- Constraints for table `visit_drug`
 --
 ALTER TABLE `visit_drug`
   ADD CONSTRAINT `visit_drug_ibfk_1` FOREIGN KEY (`visit_id`) REFERENCES `visit` (`visit_id`),

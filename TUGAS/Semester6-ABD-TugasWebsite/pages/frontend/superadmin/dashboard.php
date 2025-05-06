@@ -16,6 +16,26 @@ $admin_id = $_SESSION["dataLogin"]["admin_id"] ?? null;
 $adminQuery = "SELECT * FROM `superadmin` WHERE `admin_id` = $admin_id";
 $admin = $conn->singleFetch($adminQuery);
 
+if (isset($_POST["submit"])) {
+    if ($_POST["type"] == "update-admin") {
+        $admin_id = $_POST["admin_id"];
+        $username = $_POST["username"];
+        $password = $_POST["password"];
+        $nama_admin = $_POST["nama_admin"];
+
+        if ($password == "") {
+            $query = "UPDATE `superadmin` SET `username`='$username', `nama_admin`='$nama_admin' WHERE `admin_id`=$admin_id";
+        } else {
+            $password = password_hash($password, PASSWORD_DEFAULT);
+            $query = "UPDATE `superadmin` SET `username`='$username', `password`='$password', `nama_admin`='$nama_admin' WHERE `admin_id`=$admin_id";
+        }
+        $conn->runSql($query);
+        header("Location: ./dashboard.php");
+        exit();
+    }
+}
+
+
 $titlePage = 'Dashboard - SuperAdmin Sahabat Satwa';
 ?>
 
@@ -72,43 +92,51 @@ $titlePage = 'Dashboard - SuperAdmin Sahabat Satwa';
                         <div class="card-header fw-bold">
                             My Profile
                         </div>
-                        <div class="card-body">
-                            <div class="mb-3 row">
-                                <label for="staticEmail" class="col-4 col-form-label">Nama</label>
-                                <div class="col-8">
-                                    <input type="text" id="nama_admin" class="form-control"
-                                        value="<?= $admin['nama_admin'] ?>" readonly>
+                        <form action="" method="POST">
+                            <input type="hidden" name="type" value="update-admin">
+                            <input type="hidden" name="admin_id" value="<?= $admin_id ?>">
+                            <div class="card-body">
+                                <div class="mb-3 row">
+                                    <label for="staticEmail" class="col-4 col-form-label">Nama</label>
+                                    <div class="col-8">
+                                        <input type="text" name="nama_admin" id="nama_admin" class="form-control"
+                                            value="<?= $admin['nama_admin'] ?>" readonly autocomplete="off">
+                                    </div>
+                                </div>
+                                <div class="mb-3 row">
+                                    <label for="staticEmail" class="col-4 col-form-label">Username</label>
+                                    <div class="col-8">
+                                        <input type="text" name="username" id="username" class="form-control"
+                                            value="<?= $admin['username'] ?>" readonly autocomplete="off">
+                                    </div>
+                                </div>
+                                <div class="mb-3 row">
+                                    <label for="inputPassword" class="col-4 col-form-label">Password</label>
+                                    <div class="col-8">
+                                        <input type="password" name="password" id="password" class="form-control"
+                                            id="inputPassword" value="----------" readonly>
+                                        <p class="small text-danger" id="password-warning" hidden>
+                                            *kosongkan jika tidak ingin mengubah password
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="mb-3 row">
-                                <label for="staticEmail" class="col-4 col-form-label">Username</label>
-                                <div class="col-8">
-                                    <input type="text" id="username" class="form-control"
-                                        value="<?= $admin['username'] ?>" readonly>
-                                </div>
+                            <div class="card-footer text-body-secondary">
+                                <button class="btn btn-warning btn-sm" data-bs-toggle="modal" type="button">
+                                    <i class="fa-solid fa-pen-to-square"></i>
+                                    EDIT
+                                </button>
+                                <button class="btn btn-danger btn-sm" data-bs-toggle="modal" hidden type="button">
+                                    <i class="fa-solid fa-xmark"></i>
+                                    BATAL
+                                </button>
+                                <button name="submit" class="btn btn-primary btn-sm" data-bs-toggle="modal" hidden
+                                    type="submit">
+                                    <i class="fa-solid fa-pen-to-square"></i>
+                                    SIMPAN
+                                </button>
                             </div>
-                            <div class="mb-3 row">
-                                <label for="inputPassword" class="col-4 col-form-label">Password</label>
-                                <div class="col-8">
-                                    <input type="password" id="password" class="form-control" id="inputPassword"
-                                        value="----------" readonly>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-footer text-body-secondary">
-                            <button class="btn btn-warning btn-sm" data-bs-toggle="modal">
-                                <i class="fa-solid fa-pen-to-square"></i>
-                                EDIT
-                            </button>
-                            <button class="btn btn-danger btn-sm" data-bs-toggle="modal" hidden>
-                                <i class="fa-solid fa-xmark"></i>
-                                BATAL
-                            </button>
-                            <button class="btn btn-primary btn-sm" data-bs-toggle="modal" hidden>
-                                <i class="fa-solid fa-pen-to-square"></i>
-                                SIMPAN
-                            </button>
-                        </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -146,6 +174,8 @@ document.addEventListener('DOMContentLoaded', function() {
         editButton.setAttribute('hidden', true);
         cancelButton.removeAttribute('hidden');
         saveButton.removeAttribute('hidden');
+        document.getElementById('password').value = '';
+        document.getElementById('password-warning').removeAttribute('hidden');
     });
 
     cancelButton.addEventListener('click', function() {
@@ -155,6 +185,8 @@ document.addEventListener('DOMContentLoaded', function() {
         editButton.removeAttribute('hidden');
         saveButton.setAttribute('hidden', true);
         cancelButton.setAttribute('hidden', true);
+        document.getElementById('password').value = '----------';
+        document.getElementById('password-warning').setAttribute('hidden', true);
     });
 });
 </script>

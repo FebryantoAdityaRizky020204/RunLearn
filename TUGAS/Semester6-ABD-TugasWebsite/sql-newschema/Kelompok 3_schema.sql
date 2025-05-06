@@ -46,7 +46,7 @@ CREATE TABLE `specialisation` (
 DROP TABLE IF EXISTS `vet`;
 CREATE TABLE `vet` (
   `vet_id` int NOT NULL AUTO_INCREMENT,
-  `vet_title` char(4) NOT NULL,
+  `vet_title` char(10) NOT NULL,
   `vet_givenname` varchar(30) DEFAULT NULL,
   `vet_familyname` varchar(30) DEFAULT NULL,
   `vet_phone` varchar(14) NOT NULL,

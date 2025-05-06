@@ -111,13 +111,13 @@ try {
                                                                             </td>
                                                                             <td class="text-center">
                                                                                 <button
-                                                                                    onclick="setFormEdit('<?= base64_encode(json_encode($data)) ?>')"
+                                                                                    onclick="setFormResetPassword('<?= base64_encode(json_encode($data)) ?>')"
                                                                                     class="btn btn-warning btn-sm"
                                                                                     data-bs-toggle="modal"
-                                                                                    data-bs-target="#editModal">
+                                                                                    data-bs-target="#resetPasswordModal">
                                                                                     <i
-                                                                                        class="fa-solid fa-pen-to-square"></i>
-                                                                                    EDIT
+                                                                                        class="fa-solid fa-rotate-left"></i>
+                                                                                    Reset Password
                                                                                 </button>
                                                                                 <button
                                                                                     onclick="setFormDelete('<?= $data['owner_id'] ?>')"
@@ -212,7 +212,7 @@ try {
 
 
 <!-- Edit DataModal -->
-<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModal" aria-hidden="true">
+<div class="modal fade" id="resetPasswordModal" tabindex="-1" aria-labelledby="resetPasswordModal" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-body">
@@ -220,43 +220,28 @@ try {
                     <div class="row">
                         <div class="col-md-12 d-flex flex-column mx-auto">
                             <div class="card card-plain mt-8">
-                                <div class="card-header text-left bg-transparent">
-                                    <h3 class="font-weight-bolder text-warning text-gradient">
-                                        <span id="title-form" style="font-size: 1.5rem;">EDIT DATA</span>
-                                    </h3>
+                                <div class="display-1 text-center text-danger py-2">
+                                    <i class="fa-solid fa-circle-exclamation"></i>
+                                    <p class="h6 mt-2 text-dark">
+                                        YAKIN INGIN RESET PASSWORD <span id="delete-nama">##</span>
+                                    </p>
                                 </div>
                                 <div class="card-body smd-form">
                                     <form role="form" method="post" action="">
-                                        <input type="hidden" class="form-control" id="owner_id" placeholder="Given Name"
-                                            name="owner_id">
-                                        <div class="mb-3">
-                                            <input type="text" class="form-control" id="owner_givenname"
-                                                placeholder="Given Name" name="owner_givenname">
-                                        </div>
-                                        <div class="mb-3">
-                                            <input type="text" class="form-control" id="owner_familyname"
-                                                placeholder="Family Name" name="owner_familyname">
-                                        </div>
-                                        <div class="mb-3">
-                                            <textarea name="owner_address" class="form-control" id="owner_address"
-                                                rows="3" placeholder="Address"></textarea>
-                                        </div>
-                                        <div class="mb-3">
-                                            <input type="number" class="form-control" id="owner_phone"
-                                                placeholder="Num. Phone" name="owner_phone">
-                                        </div>
-                                        <input type="hidden" name="type" value="edit">
+                                        <input type="hidden" class="form-control" id="owner_id" name="owner_id">
+                                        <input type="hidden" class="form-control" id="owner_phone" name="owner_phone">
+                                        <input type="hidden" name="type" value="reset-password">
                                         <div class="text-center row">
                                             <div class="col-md-6">
                                                 <button type="button"
-                                                    class="btn btn-danger col-md-5 bg-gradient-info w-100 mt-4 mb-0"
+                                                    class="btn btn-danger col-md-5 bg-gradient-info w-100 mt-1 mb-0"
                                                     data-bs-dismiss="modal" aria-label="Close">BATAL</button>
                                             </div>
                                             <div class="col-md-6">
                                                 <button name="submit" value="submit" type="submit" id="button-form"
                                                     type="button"
-                                                    class="btn btn-primary col-md-5 bg-gradient-info w-100 mt-4 mb-0">
-                                                    Update Data
+                                                    class="btn btn-primary col-md-5 bg-gradient-info w-100 mt-1 mb-0">
+                                                    RESET
                                                 </button>
                                             </div>
                                         </div>
@@ -324,17 +309,15 @@ try {
 
 
 <script>
-function setFormEdit(encodedData) {
+function setFormResetPassword(encodedData) {
     try {
         let decoded = atob(encodedData); // decode base64
         let data = JSON.parse(decoded); // parse JSON
 
-        let form = document.getElementById('editModal');
+        let form = document.getElementById('resetPasswordModal');
         form.querySelector('#owner_id').value = data.owner_id;
-        form.querySelector('#owner_givenname').value = data.owner_givenname;
-        form.querySelector('#owner_familyname').value = data.owner_familyname;
-        form.querySelector('#owner_address').value = data.owner_address;
         form.querySelector('#owner_phone').value = data.owner_phone;
+        form.querySelector('#delete-nama').innerHTML = `(${data.owner_givenname} ${data.owner_familyname})`;
     } catch (err) {
         console.error("Gagal set data form:", err);
     }
