@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: May 20, 2025 at 02:13 PM
+-- Generation Time: May 21, 2025 at 03:36 PM
 -- Server version: 8.0.30
 -- PHP Version: 8.1.10
 
@@ -99,16 +99,18 @@ CREATE TABLE `drug` (
   `drug_id` int NOT NULL,
   `drug_name` varchar(50) NOT NULL,
   `drug_usage` varchar(100) NOT NULL,
-  `stock` int NOT NULL
+  `stock` int NOT NULL,
+  `price` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `drug`
 --
 
-INSERT INTO `drug` (`drug_id`, `drug_name`, `drug_usage`, `stock`) VALUES
-(2, 'Amoxicillin', 'Antibiotic for infections', 20),
-(3, 'Metacam', 'Pain relief', 20);
+INSERT INTO `drug` (`drug_id`, `drug_name`, `drug_usage`, `stock`, `price`) VALUES
+(2, 'Amoxicillin', 'Antibiotic for infections', 20, 5000),
+(3, 'Metacam', 'Pain relief', 20, 10000),
+(4, 'Doxycycline', 'Antibiotic for bacterial infections', 20, 15000);
 
 -- --------------------------------------------------------
 
@@ -169,17 +171,19 @@ CREATE TABLE `queue` (
   `animal_id` int NOT NULL,
   `queue_number` int NOT NULL,
   `queue_date` date NOT NULL,
-  `queue_status` varchar(20) NOT NULL
+  `queue_status` varchar(20) NOT NULL,
+  `vet_id` int DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `queue`
 --
 
-INSERT INTO `queue` (`queue_id`, `clinic_id`, `owner_id`, `animal_id`, `queue_number`, `queue_date`, `queue_status`) VALUES
-(1, 1, 1, 1, 1, '2025-05-19', 'cancel'),
-(2, 1, 3, 3, 1, '2025-05-20', 'finish'),
-(4, 1, 3, 1, 1, '2025-05-20', 'finish');
+INSERT INTO `queue` (`queue_id`, `clinic_id`, `owner_id`, `animal_id`, `queue_number`, `queue_date`, `queue_status`, `vet_id`) VALUES
+(1, 1, 1, 1, 1, '2025-05-19', 'cancel', 1),
+(2, 1, 3, 3, 1, '2025-05-20', 'finish', 1),
+(4, 1, 3, 1, 1, '2025-05-20', 'finish', 1),
+(5, 1, 3, 1, 1, '2025-05-21', 'doktercheck', 1);
 
 -- --------------------------------------------------------
 
@@ -189,15 +193,16 @@ INSERT INTO `queue` (`queue_id`, `clinic_id`, `owner_id`, `animal_id`, `queue_nu
 
 CREATE TABLE `specialisation` (
   `spec_id` int NOT NULL,
-  `spec_description` varchar(30) NOT NULL
+  `spec_description` varchar(30) NOT NULL,
+  `medical_cost` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `specialisation`
 --
 
-INSERT INTO `specialisation` (`spec_id`, `spec_description`) VALUES
-(1, 'Surgery');
+INSERT INTO `specialisation` (`spec_id`, `spec_description`, `medical_cost`) VALUES
+(1, 'General', 120000);
 
 -- --------------------------------------------------------
 
@@ -300,6 +305,35 @@ CREATE TABLE `visit_drug` (
 INSERT INTO `visit_drug` (`visit_drug_dose`, `visit_drug_frequency`, `visit_drug_qtysupplied`, `drug_id`, `visit_id`) VALUES
 ('1 pil', '2 kali sehari', 2, 2, 10),
 ('1 pil', '3 kali sehari', 1, 3, 10);
+
+--
+-- Triggers `visit_drug`
+--
+DELIMITER $$
+CREATE TRIGGER `cek_stok_obat_sebelum_pembelian` BEFORE INSERT ON `visit_drug` FOR EACH ROW BEGIN
+  DECLARE stok_saat_ini INT;
+
+  -- Ambil stok saat ini dari tabel drug
+  SELECT `stock` INTO stok_saat_ini
+  FROM `drug`
+  WHERE `drug_id` = NEW.`drug_id`;
+
+  -- Cek apakah stok mencukupi
+  IF stok_saat_ini < NEW.`visit_drug_qtysupplied` THEN
+    SIGNAL SQLSTATE '45000'
+    SET MESSAGE_TEXT = 'Stock Obat tidak Mencukupi';
+  END IF;
+END
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `kurangi_stok_obat_setelah_pembelian` AFTER INSERT ON `visit_drug` FOR EACH ROW BEGIN
+  UPDATE `drug`
+  SET `stock` = `stock` - NEW.`visit_drug_qtysupplied`
+  WHERE `drug`.`drug_id` = NEW.`drug_id`;
+END
+$$
+DELIMITER ;
 
 --
 -- Indexes for dumped tables
@@ -421,7 +455,7 @@ ALTER TABLE `clinic`
 -- AUTO_INCREMENT for table `drug`
 --
 ALTER TABLE `drug`
-  MODIFY `drug_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `drug_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `owners`
@@ -439,7 +473,7 @@ ALTER TABLE `petugas_administrasi`
 -- AUTO_INCREMENT for table `queue`
 --
 ALTER TABLE `queue`
-  MODIFY `queue_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `queue_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `specialisation`
