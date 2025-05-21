@@ -1,11 +1,12 @@
 <?php
-require_once dirname(__FILE__) . '/../../Connection.php';
+require_once dirname(__FILE__).'/../../Connection.php';
 
 class Operation
 {
     public $conn;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->conn = new Connection();
     }
 
@@ -25,34 +26,39 @@ class Operation
         return $result;
     }
 
-    public function insert($data) {
+    public function insert($data)
+    {
         $result = ['status' => false, 'type' => 'insert', 'msg' => 'Gagal Ditambahkan'];
         try {
-            if (!empty($data)) {
+            if (! empty($data)) {
                 $spec_description = $data["spec_description"];
+                $medical_cost = $data["medical_cost"];
 
-                $query = "INSERT INTO `specialisation` (`spec_description`) VALUES
-                    ('$spec_description');";
+                $query = "INSERT INTO `specialisation` (`spec_description`, `medical_cost`) VALUES
+                    ('$spec_description', $medical_cost);";
 
                 if ($this->conn->runSql($query)) {
                     $result = ['status' => true, 'type' => 'insert', 'msg' => 'Berhasil Ditambahkan'];
                 }
             }
         } catch (Throwable $e) {
-            $result['msg'] = 'Error Insert: ' . $e->getMessage();
+            $result['msg'] = 'Error Insert: '.$e->getMessage();
         }
         return $result;
     }
 
-    public function update($data) {
+    public function update($data)
+    {
         $result = ['status' => false, 'type' => 'update', 'msg' => 'Gagal Diupdate'];
         try {
-            if (!empty($data)) {
+            if (! empty($data)) {
                 $spec_id = $data["spec_id"];
                 $spec_description = $data["spec_description"];
+                $medical_cost = $data["medical_cost"];
 
                 $query = "UPDATE `specialisation` SET
-                            `spec_description` = '$spec_description'
+                            `spec_description` = '$spec_description',
+                            `medical_cost` = '$medical_cost' 
                         WHERE `spec_id` = $spec_id;";
 
                 if ($this->conn->runSql($query)) {
@@ -60,12 +66,13 @@ class Operation
                 }
             }
         } catch (Throwable $e) {
-            $result['msg'] = 'Error Update: ' . $e->getMessage();
+            $result['msg'] = 'Error Update: '.$e->getMessage();
         }
         return $result;
     }
 
-    public function delete($data) {
+    public function delete($data)
+    {
         $result = ['status' => false, 'type' => 'delete', 'msg' => 'Gagal Dihapus'];
         try {
             $spec_id = $data["spec_id"];
@@ -75,7 +82,7 @@ class Operation
                 $result = ['status' => true, 'type' => 'delete', 'msg' => 'Berhasil Dihapus'];
             }
         } catch (Throwable $e) {
-            $result['msg'] = 'Error Delete: ' . $e->getMessage();
+            $result['msg'] = 'Error Delete: '.$e->getMessage();
         }
         return $result;
     }

@@ -85,12 +85,6 @@ if (isset($_POST['submit']) && isset($opr)) {
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" href="./tables.php?page=owners">
-                        <i class="fa-solid fa-table"></i>
-                        Tables
-                    </a>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link" href="./logout.php">
                         <i class="fa-solid fa-right-from-bracket"></i>
                         Logout

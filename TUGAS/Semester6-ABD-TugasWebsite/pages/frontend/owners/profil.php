@@ -44,12 +44,6 @@ $titlePage = 'Profile - Owner Sahabat Satwa';
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" href="./profil.php">
-                        <i class="fa-solid fa-user"></i>
-                        Profil
-                    </a>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link" href="./logout.php">
                         <i class="fa-solid fa-right-from-bracket"></i>
                         Logout
@@ -106,6 +100,9 @@ $titlePage = 'Profile - Owner Sahabat Satwa';
                                 <label for="password" class="form-label">Password</label>
                                 <input type="password" class="form-control" id="password" value="adadehrahasia"
                                     disabled>
+                                <span class="text-danger" style="font-size: .8rem;" id="password-warning" hidden>
+                                    *Kosongkan jika tidak ingin mengganti password
+                                </span>
                             </div>
                             <button type="button" id="editButton" class="btn btn-small btn-warning">
                                 Edit Profil
@@ -148,6 +145,9 @@ $('#editButton').click(function() {
     $('#owner_address').prop('disabled', false);
     $('#owner_phone').prop('disabled', false);
     $('#username').prop('disabled', false);
+    $("#password").prop('disabled', false);
+    $("#password").val("");
+    $("#password-warning").prop('hidden', false);
 
     $(this).hide();
     $('#saveButton').removeAttr('hidden').fadeIn(300);
@@ -160,6 +160,9 @@ $('#cancelButton').click(function() {
     $('#owner_address').val(history.owner_address).prop('disabled', true);
     $('#owner_phone').val(history.owner_phone).prop('disabled', true);
     $('#username').val(history.username).prop('disabled', true);
+    $("#password-warning").prop('hidden', true);
+    $("#password").prop('disabled', true);
+    $("#password").val("adadeh");
 
     $(this).hide();
     $('#saveButton').hide();
@@ -173,6 +176,7 @@ $('#saveButton').click(function() {
         owner_address: $('#owner_address').val(),
         owner_phone: $('#owner_phone').val(),
         username: $('#username').val(),
+        password: $('#password').val(),
         owner_id: $('#owner_id').val()
     }
 
@@ -200,6 +204,9 @@ $('#saveButton').click(function() {
             $('#owner_address').val(history.owner_address).prop('disabled', true);
             $('#owner_phone').val(history.owner_phone).prop('disabled', true);
             $('#username').val(history.username).prop('disabled', true);
+            $('#password').val(history.username).prop('disabled', true);
+            $("#password").val("adadeh");
+            $("#password-warning").prop('hidden', true);
 
             $("#saveButton").hide();
             $('#cancelButton').hide();

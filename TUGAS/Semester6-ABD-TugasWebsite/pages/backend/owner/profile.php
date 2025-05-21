@@ -10,6 +10,8 @@ $owner_familyname = $_POST['owner_familyname'] ?? '';
 $owner_address = $_POST['owner_address'] ?? '';
 $owner_phone = $_POST['owner_phone'] ?? '';
 $username = $_POST['username'] ?? '';
+$password = $_POST['password'] ?? '';
+$password = password_hash($password, PASSWORD_DEFAULT);
 $owner_id = $_POST['owner_id'] ?? '';
 
 // Simulasi validasi login
@@ -18,12 +20,24 @@ if (! empty($username) &&
     ! empty($owner_familyname) &&
     ! empty($owner_address) &&
     ! empty($owner_phone)) {
-    $query = "UPDATE `owners` SET 
+    if ($password == '') {
+        $query = "UPDATE `owners` SET 
                 `owner_givenname` = '$owner_givenname',
                 `owner_familyname` = '$owner_familyname',
                 `owner_address` = '$owner_address',
-                `owner_phone` = $owner_phone 
+                `owner_phone` = $owner_phone,
+                `username` = '$username' 
                 WHERE `owner_id` = $owner_id";
+    } else {
+        $query = "UPDATE `owners` SET 
+                `owner_givenname` = '$owner_givenname',
+                `owner_familyname` = '$owner_familyname',
+                `owner_address` = '$owner_address',
+                `owner_phone` = $owner_phone,
+                `username` = '$username',
+                `password` = '$password' 
+                WHERE `owner_id` = $owner_id";
+    }
 
     if ($conn->runSql($query)) {
         $user = $conn->singleFetch("SELECT * FROM owners WHERE owner_id = $owner_id");

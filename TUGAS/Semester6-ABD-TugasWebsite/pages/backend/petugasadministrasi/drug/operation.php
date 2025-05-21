@@ -34,9 +34,10 @@ class Operation
                 $drug_name = $data["drug_name"];
                 $drug_usage = $data["drug_usage"];
                 $stock = $data["stock"];
+                $price = $data["price"];
 
-                $query = "INSERT INTO `drug` (`drug_name`, `drug_usage`, `stock`) VALUES
-                                ('$drug_name', '$drug_usage', $stock);";
+                $query = "INSERT INTO `drug` (`drug_name`, `drug_usage`, `stock`, `price`) VALUES
+                                ('$drug_name', '$drug_usage', $stock, $price);";
 
                 if ($this->conn->runSql($query)) {
                     $result = ['status' => true, 'type' => 'insert', 'msg' => 'Berhasil Ditambahkan'];
@@ -57,11 +58,13 @@ class Operation
                 $drug_name = $data["drug_name"];
                 $drug_usage = $data["drug_usage"];
                 $stock = $data["stock"];
+                $price = $data["price"];
 
                 $query = "UPDATE `drug` SET
                             `drug_name` = '$drug_name',
                             `drug_usage` = '$drug_usage',
-                            `stock` = $stock 
+                            `stock` = $stock,
+                            `price` = $price 
                         WHERE drug_id = $drug_id;";
 
                 if ($this->conn->runSql($query)) {

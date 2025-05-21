@@ -23,6 +23,11 @@ CREATE TABLE `clinic` (
   `clinic_name` varchar(50) NOT NULL,
   `clinic_address` varchar(80) NOT NULL,
   `clinic_phone` varchar(14) NOT NULL,
+  `clinic_start_day` varchar(15) NOT NULL,
+  `clinic_end_day` varchar(15) NOT NULL,
+  `clinic_start_time` TIME NOT NULL,
+  `clinic_end_time` TIME NOT NULL,
+  `clinic_status` varchar(20) NOT NULL,
   PRIMARY KEY (`clinic_id`)
 );
 
@@ -39,6 +44,7 @@ DROP TABLE IF EXISTS `specialisation`;
 CREATE TABLE `specialisation` (
   `spec_id` int NOT NULL AUTO_INCREMENT,
   `spec_description` varchar(30) NOT NULL,
+  `medical_cost` int NOT NULL,
   PRIMARY KEY (`spec_id`)
 );
 
@@ -80,6 +86,8 @@ CREATE TABLE `drug` (
   `drug_id` int NOT NULL AUTO_INCREMENT,
   `drug_name` varchar(50) NOT NULL,
   `drug_usage` varchar(100) NOT NULL,
+  `stock` int NOT NULL,
+  `price` int NOT NULL,
   PRIMARY KEY (`drug_id`)
 );
 
@@ -130,4 +138,19 @@ CREATE TABLE `superadmin` (
   `superadmin_username` varchar(255) NOT NULL,
   `superadmin_password` varchar(255) NOT NULL,
   PRIMARY KEY (`superadmin_id`)
+);
+
+
+CREATE TABLE `sahabat_satwa`.`queue` (
+  `queue_id` INT NOT NULL AUTO_INCREMENT , 
+  `clinic_id` INT NOT NULL, 
+  `animal_id` INT NOT NULL, 
+  `owner_id` INT NOT NULL, 
+  `queue_number` INT NOT NULL, 
+  `queue_date` DATE NOT NULL, 
+  `queue_status` VARCHAR(20) NOT NULL, 
+  `vet_id` INT, 
+  PRIMARY KEY (`queue_id`), 
+  FOREIGN KEY (`clinic_id`) REFERENCES `clinic` (`clinic_id`),
+  FOREIGN KEY (`animal_id`) REFERENCES `animal` (`animal_id`)
 );

@@ -46,12 +46,6 @@ $titlePage = 'Hewan Peliharaan - Owner Sahabat Satwa';
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="./profil.php">
-                        <i class="fa-solid fa-user"></i>
-                        Profil
-                    </a>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link" href="./logout.php">
                         <i class="fa-solid fa-right-from-bracket"></i>
                         Logout

@@ -22,9 +22,11 @@ WHERE `vet_id` = $vet_id;
 
 $visit = $conn->fetchAll($visitQuery);
 
+$today = date("Y-m-d");
+$queue = $conn->fetchAll("SELECT * FROM `queue` 
+        WHERE `queue`.`queue_date` = '$today' AND `queue_status` = 'doktercheck' AND `vet_id` = $vet_id ORDER BY `queue_number` ASC LIMIT 1;");
 
-
-$titlePage = 'Kunjungan - SuperAdmin Sahabat Satwa';
+$titlePage = 'Kunjungan - Dokter Sahabat Satwa';
 ?>
 
 
@@ -74,92 +76,121 @@ $titlePage = 'Kunjungan - SuperAdmin Sahabat Satwa';
 
             <hr class="border border-3 opacity-75" style="border-color: #ff9900 !important;">
 
-            <div class="row my-2">
-                <div class="col-12 col-md-8">
-                    <div class="card">
-                        <div class="card-header fw-bold">
-                            <a href="./kunjungan-baru.php" class="btn btn-primary btn-sm">
-                                <i class="fa-solid fa-plus"></i>
-                                Kunjungan Baru
-                            </a>
+            <div class="row">
+                <div class="col-12 col-md-7">
+                    <div class="row my-2">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header fw-bold">
+                                    KUNJUNGAN
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
 
-                <div class="col-12 col-md-8 mt-3">
-                    <div class="card mb-1">
-                        <div class="card-body px-0 pt-0 pb-2">
-                            <div class="table-responsive p-0">
-                                <table class="table align-items-center mb-0">
-                                    <thead>
-                                        <tr>
-                                            <th
-                                                class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7">
-                                                NO
-                                            </th>
-                                            <th
-                                                class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-1">
-                                                Owner Name
-                                            </th>
-                                            <th
-                                                class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-1">
-                                                Pet Name
-                                            </th>
-                                            <th
-                                                class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-1">
-                                                Tgl. Kunjungan
-                                            </th>
-                                            <th
-                                                class="text-uppercase text-center text-secondary text-xs font-weight-bolder opacity-7 ps-1">
-                                                OPTION
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php
-                                        if ($visit == []) :
-                                            ?>
-                                        <tr>
-                                            <td colspan="5" class="text-center text-sm fw-bold text-danger py-3">
-                                                DATA KOSONG
-                                            </td>
-                                        </tr>
-                                        <?php else : ?>
-                                        <?php
-                                            $no = 1;
-                                            foreach ($visit as $vst) :
-                                                ?>
-                                        <tr>
-                                            <td><?= $no++; ?></td>
-                                            <td><?= $vst["owner_givenname"] ?> <?php $vst["owner_familyname"] ?>
-                                            </td>
-                                            <td><?= $vst["animal_name"] ?></td>
-                                            e_ <td><?= $vst["visit_date_time"] ?></td>
-                                            <td class="text-center">
-                                                <a href="./detail-kunjungan.php?id=<?= base64_encode($vst['visit_id']) ?>"
-                                                    class="btn btn-primary btn-sm">
-                                                    <i class="fa-solid fa-circle-info"></i>
-                                                    DETAIL
-                                                </a>
-                                                <!-- <button onclick="setFormDelete('1')" class="btn btn-danger btn-sm"
+                        <div class="col-12 mt-3" style="font-size: .9rem;">
+                            <div class="card mb-1">
+                                <div class="card-body px-0 pt-0 pb-2">
+                                    <div class="table-responsive p-0">
+                                        <table class="table align-items-center mb-0">
+                                            <thead>
+                                                <tr>
+                                                    <th
+                                                        class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7">
+                                                        NO
+                                                    </th>
+                                                    <th
+                                                        class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-1">
+                                                        Owner Name
+                                                    </th>
+                                                    <th
+                                                        class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-1">
+                                                        Pet Name
+                                                    </th>
+                                                    <th
+                                                        class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-1">
+                                                        Tgl. Kunjungan
+                                                    </th>
+                                                    <th
+                                                        class="text-uppercase text-center text-secondary text-xs font-weight-bolder opacity-7 ps-1">
+                                                        OPTION
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php
+                                                if ($visit == []) :
+                                                    ?>
+                                                <tr>
+                                                    <td colspan="5"
+                                                        class="text-center text-sm fw-bold text-danger py-3">
+                                                        DATA KOSONG
+                                                    </td>
+                                                </tr>
+                                                <?php else : ?>
+                                                <?php
+                                                    $no = 1;
+                                                    foreach ($visit as $vst) :
+                                                        ?>
+                                                <tr>
+                                                    <td><?= $no++; ?></td>
+                                                    <td><?= $vst["owner_givenname"] ?> <?php $vst["owner_familyname"] ?>
+                                                    </td>
+                                                    <td><?= $vst["animal_name"] ?></td>
+                                                    <td><?= $vst["visit_date_time"] ?></td>
+                                                    <td class="text-center">
+                                                        <a href="./detail-kunjungan.php?id=<?= base64_encode($vst['visit_id']) ?>"
+                                                            class="btn btn-primary btn-sm">
+                                                            <i class="fa-solid fa-circle-info"></i>
+                                                            DETAIL
+                                                        </a>
+                                                        <!-- <button onclick="setFormDelete('1')" class="btn btn-danger btn-sm"
                                                     data-bs-toggle="modal" data-bs-target="#deleteModal">
                                                     <i class="fa-solid fa-trash"></i>
                                                     DELETE
                                                 </button> -->
-                                            </td>
-                                        </tr>
-                                        <?php endforeach; ?>
-                                        <?php endif; ?>
-                                    </tbody>
-                                </table>
+                                                    </td>
+                                                </tr>
+                                                <?php endforeach; ?>
+                                                <?php endif; ?>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
+                <div class="col-12 col-md-4">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header fw-bold">
+                                <span>DOKTER CHECK</span>
+                            </div>
+                        </div>
+                    </div>
+                    <?php if (! empty($queue)) : ?>
+                    <?php foreach ($queue as $q) : ?>
+                    <div class="col-12 mt-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    No Antrian: <?= $q["queue_number"] ?>
+                                </h5>
+                                <a href="./kunjungan-baru.php?queueid=<?= $q['queue_id'] ?>"
+                                    class="btn btn-primary btn-sm">
+                                    <i class="fa-solid fa-plus"></i>
+                                    Kunjungan Baru
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <?php endforeach; ?>
+                    <?php endif; ?>
+                </div>
+
+            </div>
         </div>
-    </div>
 </main>
 
 <footer>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: May 06, 2025 at 03:17 PM
+-- Generation Time: May 20, 2025 at 02:13 PM
 -- Server version: 8.0.30
 -- PHP Version: 8.1.10
 
@@ -41,7 +41,7 @@ CREATE TABLE `animal` (
 
 INSERT INTO `animal` (`animal_id`, `animal_name`, `animal_born`, `owner_id`, `at_id`) VALUES
 (1, 'Cast', '2022-12-12', 3, 1),
-(3, 'Gukg', '2020-02-12', 3, 2),
+(3, 'Gukk', '2020-02-12', 3, 2),
 (4, 'Mint', '2020-06-01', 5, 2);
 
 -- --------------------------------------------------------
@@ -73,15 +73,21 @@ CREATE TABLE `clinic` (
   `clinic_id` int NOT NULL,
   `clinic_name` varchar(50) NOT NULL,
   `clinic_address` varchar(80) NOT NULL,
-  `clinic_phone` varchar(14) NOT NULL
+  `clinic_phone` varchar(14) NOT NULL,
+  `clinic_start_day` varchar(15) NOT NULL,
+  `clinic_end_day` varchar(15) NOT NULL,
+  `clinic_start_time` time NOT NULL,
+  `clinic_end_time` time NOT NULL,
+  `clinic_status` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `clinic`
 --
 
-INSERT INTO `clinic` (`clinic_id`, `clinic_name`, `clinic_address`, `clinic_phone`) VALUES
-(1, 'Sahabat Satwa Center', 'Jl. Ndak Tau', '987654');
+INSERT INTO `clinic` (`clinic_id`, `clinic_name`, `clinic_address`, `clinic_phone`, `clinic_start_day`, `clinic_end_day`, `clinic_start_time`, `clinic_end_time`, `clinic_status`) VALUES
+(1, 'Sahabat Satwa Center', 'Jl. Yos Sudarso No.311', '987654', 'Senin', 'Jumat', '08:00:00', '16:00:00', 'Normal'),
+(3, 'Sahabat Satwa Cab. Meranti', 'Jl. Meranti No.26', '8984293', 'Senin', 'Jumat', '08:00:00', '16:00:00', 'Normal');
 
 -- --------------------------------------------------------
 
@@ -95,6 +101,14 @@ CREATE TABLE `drug` (
   `drug_usage` varchar(100) NOT NULL,
   `stock` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `drug`
+--
+
+INSERT INTO `drug` (`drug_id`, `drug_name`, `drug_usage`, `stock`) VALUES
+(2, 'Amoxicillin', 'Antibiotic for infections', 20),
+(3, 'Metacam', 'Pain relief', 20);
 
 -- --------------------------------------------------------
 
@@ -117,8 +131,8 @@ CREATE TABLE `owners` (
 --
 
 INSERT INTO `owners` (`owner_id`, `owner_givenname`, `owner_familyname`, `owner_address`, `owner_phone`, `username`, `password`) VALUES
-(3, 'adit', 'rizky', 'adadeh coba', 1234, '1234', '$2y$10$rlxANr26wn9X4RVBzJCPM.f4h3t9sL5kmUFVGTAhexsIUr6cEDwum'),
-(5, 'Meylia', 'Wijayanto', 'Jl. Coba', 987, '0987', '$2y$10$xwW80m5U0mGnHtquwScOIetT.5m3YPvqaVLYGiZNwQJge0A.kzdIe');
+(3, 'adit', 'rizky', 'adadeh', 1234, '1234', '$2y$10$neG8y6YZdr.qblV3hNIKzu6/.Cy4.Wm/C9Sg5Z/Sokqiuk1C.0hTy'),
+(5, 'Meylia', 'Wijayanti', 'Jl. Coba', 987, '0987', '$2y$10$xwW80m5U0mGnHtquwScOIetT.5m3YPvqaVLYGiZNwQJge0A.kzdIe');
 
 -- --------------------------------------------------------
 
@@ -140,7 +154,32 @@ CREATE TABLE `petugas_administrasi` (
 --
 
 INSERT INTO `petugas_administrasi` (`petugasadmin_id`, `petugasadmin_nama`, `petugasadmin_nohp`, `username`, `password`, `clinic_id`) VALUES
-(3, 'Adit Mencoba', 56789, 'coba', '$2y$10$7g1piUSivrooGjkt0CeC0eurXNBN2uJi5W8aNQVNLdPRWLOguu7TW', 1);
+(3, 'Adit', 56789, 'coba', '$2y$10$7g1piUSivrooGjkt0CeC0eurXNBN2uJi5W8aNQVNLdPRWLOguu7TW', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `queue`
+--
+
+CREATE TABLE `queue` (
+  `queue_id` int NOT NULL,
+  `clinic_id` int NOT NULL,
+  `owner_id` int NOT NULL,
+  `animal_id` int NOT NULL,
+  `queue_number` int NOT NULL,
+  `queue_date` date NOT NULL,
+  `queue_status` varchar(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `queue`
+--
+
+INSERT INTO `queue` (`queue_id`, `clinic_id`, `owner_id`, `animal_id`, `queue_number`, `queue_date`, `queue_status`) VALUES
+(1, 1, 1, 1, 1, '2025-05-19', 'cancel'),
+(2, 1, 3, 3, 1, '2025-05-20', 'finish'),
+(4, 1, 3, 1, 1, '2025-05-20', 'finish');
 
 -- --------------------------------------------------------
 
@@ -238,7 +277,7 @@ CREATE TABLE `visit` (
 --
 
 INSERT INTO `visit` (`visit_id`, `visit_date_time`, `visit_notes`, `animal_id`, `vet_id`, `from_visit_id`) VALUES
-(1, '2025-05-06', 'Sakit Gigi', 1, 1, NULL);
+(10, '2025-05-20', 'Sakit Baru', 1, 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -253,6 +292,14 @@ CREATE TABLE `visit_drug` (
   `drug_id` int NOT NULL,
   `visit_id` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `visit_drug`
+--
+
+INSERT INTO `visit_drug` (`visit_drug_dose`, `visit_drug_frequency`, `visit_drug_qtysupplied`, `drug_id`, `visit_id`) VALUES
+('1 pil', '2 kali sehari', 2, 2, 10),
+('1 pil', '3 kali sehari', 1, 3, 10);
 
 --
 -- Indexes for dumped tables
@@ -296,6 +343,14 @@ ALTER TABLE `owners`
 ALTER TABLE `petugas_administrasi`
   ADD PRIMARY KEY (`petugasadmin_id`),
   ADD KEY `clinic_id` (`clinic_id`);
+
+--
+-- Indexes for table `queue`
+--
+ALTER TABLE `queue`
+  ADD PRIMARY KEY (`queue_id`),
+  ADD KEY `clinic_id` (`clinic_id`),
+  ADD KEY `animal_id` (`animal_id`);
 
 --
 -- Indexes for table `specialisation`
@@ -360,13 +415,13 @@ ALTER TABLE `animal_type`
 -- AUTO_INCREMENT for table `clinic`
 --
 ALTER TABLE `clinic`
-  MODIFY `clinic_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `clinic_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `drug`
 --
 ALTER TABLE `drug`
-  MODIFY `drug_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `drug_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `owners`
@@ -379,6 +434,12 @@ ALTER TABLE `owners`
 --
 ALTER TABLE `petugas_administrasi`
   MODIFY `petugasadmin_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `queue`
+--
+ALTER TABLE `queue`
+  MODIFY `queue_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `specialisation`
@@ -408,7 +469,7 @@ ALTER TABLE `vet`
 -- AUTO_INCREMENT for table `visit`
 --
 ALTER TABLE `visit`
-  MODIFY `visit_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `visit_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- Constraints for dumped tables
@@ -426,6 +487,13 @@ ALTER TABLE `animal`
 --
 ALTER TABLE `petugas_administrasi`
   ADD CONSTRAINT `petugas_administrasi_ibfk_1` FOREIGN KEY (`clinic_id`) REFERENCES `clinic` (`clinic_id`);
+
+--
+-- Constraints for table `queue`
+--
+ALTER TABLE `queue`
+  ADD CONSTRAINT `queue_ibfk_1` FOREIGN KEY (`clinic_id`) REFERENCES `clinic` (`clinic_id`),
+  ADD CONSTRAINT `queue_ibfk_2` FOREIGN KEY (`animal_id`) REFERENCES `animal` (`animal_id`);
 
 --
 -- Constraints for table `spec_visit`

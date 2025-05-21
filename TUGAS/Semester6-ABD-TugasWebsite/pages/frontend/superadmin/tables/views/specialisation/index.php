@@ -42,17 +42,17 @@ try {
                                         <div class="container-fluid">
                                             <div class="row">
                                                 <div class="col-12 p-0">
-                                                <?php
-                                                        if(isset($datas['status'])) {
-                                                            if($datas['status'] == false) {
-                                                                echo '<div class="card mb-1">
+                                                    <?php
+                                                    if (isset($datas['status'])) {
+                                                        if ($datas['status'] == false) {
+                                                            echo '<div class="card mb-1">
                                                                         <div class="alert alert-danger mb-0" role="alert">
                                                                             <strong>Something Wrong!</strong> </br>'.$datas['msg'].'
                                                                         </div>
                                                                     </div>';
-                                                            }
-                                                        } else {
-                                                    ?>
+                                                        }
+                                                    } else {
+                                                        ?>
                                                     <button class="btn btn-primary mb-2 btn-sm "
                                                         style="font-size: .7rem;" data-bs-toggle="modal"
                                                         data-bs-target="#exampleModal">
@@ -75,15 +75,19 @@ try {
                                                                                 Spec. Description
                                                                             </th>
                                                                             <th
+                                                                                class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-1">
+                                                                                Medical Cost
+                                                                            </th>
+                                                                            <th
                                                                                 class="text-uppercase text-center text-secondary text-xs font-weight-bolder opacity-7 ps-1">
                                                                                 Action
                                                                             </th>
                                                                         </tr>
                                                                     </thead>
                                                                     <tbody>
-                                                                        <?php 
-                                                                        $num = 1;
-                                                                        foreach ($datas as $data) : ?>
+                                                                        <?php
+                                                                            $num = 1;
+                                                                            foreach ($datas as $data) : ?>
                                                                         <tr>
                                                                             <td>
                                                                                 <?= $num++ ?>
@@ -91,12 +95,17 @@ try {
                                                                             <td>
                                                                                 <?= $data['spec_description'] ?>
                                                                             </td>
-                                                                            <?php 
-                                                                            $giveData = [
-                                                                                'spec_id' => $data['spec_id'],
-                                                                                'spec_description' => $data['spec_description'],
-                                                                            ]
-                                                                            ?>
+                                                                            <td>
+                                                                                Rp.
+                                                                                <?= number_format($data['medical_cost'], 0, ',', '.'); ?>
+                                                                            </td>
+                                                                            <?php
+                                                                                    $giveData = [
+                                                                                        'spec_id' => $data['spec_id'],
+                                                                                        'spec_description' => $data['spec_description'],
+                                                                                        'medical_cost' => $data['medical_cost'],
+                                                                                    ]
+                                                                                        ?>
                                                                             <td class="text-center">
                                                                                 <button
                                                                                     onclick="setFormEdit('<?= base64_encode(json_encode($giveData)) ?>')"
@@ -159,6 +168,10 @@ try {
                                             <input type="text" class="form-control" id="spec_description"
                                                 placeholder="Spec. Description" name="spec_description">
                                         </div>
+                                        <div class="mb-3">
+                                            <input type="number" class="form-control" id="medical_cost"
+                                                placeholder="Spec. Description" name="medical_cost">
+                                        </div>
                                         <input type="hidden" name="type" value="insert">
                                         <div class="text-center row">
                                             <div class="col-md-6">
@@ -206,6 +219,10 @@ try {
                                         <div class="mb-3">
                                             <input type="text" class="form-control" id="spec_description"
                                                 placeholder="Spec. Description" name="spec_description">
+                                        </div>
+                                        <div class="mb-3">
+                                            <input type="number" class="form-control" id="medical_cost"
+                                                placeholder="Spec. Description" name="medical_cost">
                                         </div>
                                         <input type="hidden" name="type" value="edit">
                                         <div class="text-center row">
@@ -285,31 +302,32 @@ try {
 
 
 <script>
-    function setFormEdit(encodedData) {
-        try {
-            let decoded = atob(encodedData);
-            let data = JSON.parse(decoded);
+function setFormEdit(encodedData) {
+    try {
+        let decoded = atob(encodedData);
+        let data = JSON.parse(decoded);
 
-            let form = document.getElementById('editModal');
+        let form = document.getElementById('editModal');
 
-            form.querySelector('#spec_id').value = data.spec_id;
-            form.querySelector('#spec_description').value = data.spec_description;
+        form.querySelector('#spec_id').value = data.spec_id;
+        form.querySelector('#spec_description').value = data.spec_description;
+        form.querySelector('#medical_cost').value = data.medical_cost;
 
-        } catch (err) {
-            console.error("Gagal set data form:", err);
-        }
+    } catch (err) {
+        console.error("Gagal set data form:", err);
     }
+}
 
 
-    function setFormDelete(id, name) {
-        let deleteForm = document.getElementById("deleteModal");
-        deleteForm.querySelector("#spec_id").value = id;
-        deleteForm.querySelector("#delete-id").innerText = name;
-    }
+function setFormDelete(id, name) {
+    let deleteForm = document.getElementById("deleteModal");
+    deleteForm.querySelector("#spec_id").value = id;
+    deleteForm.querySelector("#delete-id").innerText = name;
+}
 
 
-    let inputs = document.querySelectorAll("input");
-    inputs.forEach((inp) => {
-        inp.setAttribute("autocomplete", "off");
-    });
+let inputs = document.querySelectorAll("input");
+inputs.forEach((inp) => {
+    inp.setAttribute("autocomplete", "off");
+});
 </script>

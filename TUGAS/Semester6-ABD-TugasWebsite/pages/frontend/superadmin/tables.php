@@ -111,6 +111,7 @@ if (isset($_POST['submit']) && isset($opr)) {
                 <div class="col-5 p-2 align-items-center">
                     <select name="tables-name" id="tables-name" class="form-select fw-bold" style="font-size: 12px;">
                         <option value="owners">Owners</option>
+                        <option value="pemasukan">Pemasukan</option>
                         <option value="PetAdministrasi">Pet.Administrasi</option>
                         <option value="animal">Animal</option>
                         <option value="animal_type">AnimalType</option>

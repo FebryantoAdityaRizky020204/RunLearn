@@ -3,31 +3,30 @@ if (! session_id()) {
     session_start();
 }
 
-include_once './../../backend/Connection/DokterConnection.php';
+include_once './../../backend/Connection/OwnerConnection.php';
 $conn = new Connection();
 
 $loginAs = $_SESSION['loginAs'] ?? null;
-if ($loginAs !== 'dokter') {
+if ($loginAs !== 'owner') {
     header('Location: ./../../index.php');
     exit;
 }
 
-$visit_id = (int) base64_decode($_GET["id"]);
+$visit_id = (int) $_GET["visitid"];
 if (! is_numeric($visit_id)) {
-    header("Location: ./kunjungan.php");
+    header("Location: ./riwayat_kunjungan.php");
 }
 
-$vet_id = $_SESSION["dataLogin"]["vet_id"] ?? null;
 $visitQuery = "SELECT * 
 FROM `visit`
 INNER JOIN `animal` ON `animal`.`animal_id` = `visit`.`animal_id`
 INNER JOIN `owners` ON `owners`.`owner_id` = `animal`.`owner_id` 
-WHERE `vet_id` = $vet_id AND `visit`.`visit_id` = $visit_id;";
+WHERE `visit`.`visit_id` = $visit_id;";
 
 $visit = $conn->singleFetch($visitQuery);
 
 if ($visit == null) {
-    header("Location: ./kunjungan.php");
+    header("Location: ./riwayat_kunjungan.php");
 }
 
 $titlePage = 'Detail Kunjungan - SuperAdmin Sahabat Satwa';
@@ -52,19 +51,13 @@ $titlePage = 'Detail Kunjungan - SuperAdmin Sahabat Satwa';
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="./dashboard.php">
+                    <a class="nav-link active" href="./dashboard.php">
                         <i class="fa-solid fa-house"></i>
                         Beranda
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" href="./kunjungan.php">
-                        <i class="fa-solid fa-table"></i>
-                        Kunjungan
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active" href="./logout.php">
+                    <a class="nav-link" href="./logout.php">
                         <i class="fa-solid fa-right-from-bracket"></i>
                         Logout
                     </a>

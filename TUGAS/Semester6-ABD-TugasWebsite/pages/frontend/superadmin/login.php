@@ -1,4 +1,4 @@
-<?php $titlePage = "Login Dokter"; ?>
+<?php $titlePage = "Login Admin"; ?>
 <?php require_once './../templates/header.php' ?>
 <link rel="stylesheet" href="./css/login.css">
 

@@ -43,16 +43,16 @@ try {
                                             <div class="row">
                                                 <div class="col-12 p-0">
                                                     <?php
-                                                        if(isset($datas['status'])) {
-                                                            if($datas['status'] == false) {
-                                                                echo '<div class="card mb-1">
+                                                    if (isset($datas['status'])) {
+                                                        if ($datas['status'] == false) {
+                                                            echo '<div class="card mb-1">
                                                                         <div class="alert alert-danger mb-0" role="alert">
                                                                             <strong>Something Wrong!</strong> </br>'.$datas['msg'].'
                                                                         </div>
                                                                     </div>';
-                                                            }
-                                                        } else {
-                                                    ?>
+                                                        }
+                                                    } else {
+                                                        ?>
                                                     <button class="btn btn-primary mb-2 btn-sm "
                                                         style="font-size: .7rem;" data-bs-toggle="modal"
                                                         data-bs-target="#exampleModal">
@@ -83,15 +83,23 @@ try {
                                                                                 Num. Phone
                                                                             </th>
                                                                             <th
+                                                                                class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-1">
+                                                                                Jadwal
+                                                                            </th>
+                                                                            <th
+                                                                                class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-1">
+                                                                                Status
+                                                                            </th>
+                                                                            <th
                                                                                 class="text-uppercase text-center text-secondary text-xs font-weight-bolder opacity-7 ps-1">
                                                                                 Action
                                                                             </th>
                                                                         </tr>
                                                                     </thead>
                                                                     <tbody>
-                                                                        <?php 
-                                                                        $num = 1;
-                                                                        foreach ($datas as $data) : ?>
+                                                                        <?php
+                                                                            $num = 1;
+                                                                            foreach ($datas as $data) : ?>
                                                                         <tr>
                                                                             <td>
                                                                                 <?= $num++ ?>
@@ -105,14 +113,29 @@ try {
                                                                             <td>
                                                                                 <?= $data['clinic_phone'] ?>
                                                                             </td>
-                                                                            <?php 
-                                                                            $giveData = [
-                                                                                'clinic_id' => $data['clinic_id'],
-                                                                                'clinic_name' => $data['clinic_name'],
-                                                                                'clinic_address' => $data['clinic_address'],
-                                                                                'clinic_phone' => $data['clinic_phone'],
-                                                                            ]
-                                                                            ?>
+                                                                            <td>
+                                                                                <?= $data['clinic_start_day'] ?>-<?= $data['clinic_end_day'] ?>
+                                                                                <?= date("H:i", strtotime($data['clinic_start_time'])) ?>-<?= date("H:i", strtotime($data['clinic_end_time'])) ?>
+                                                                            </td>
+                                                                            <td>
+                                                                                <span
+                                                                                    class="badge text-bg-<?= ($data['clinic_status'] == 'Normal') ? 'success' : 'danger' ?>">
+                                                                                    <?= $data['clinic_status'] ?>
+                                                                                </span>
+                                                                            </td>
+                                                                            <?php
+                                                                                    $giveData = [
+                                                                                        'clinic_id' => $data['clinic_id'],
+                                                                                        'clinic_name' => $data['clinic_name'],
+                                                                                        'clinic_address' => $data['clinic_address'],
+                                                                                        'clinic_phone' => $data['clinic_phone'],
+                                                                                        'clinic_start_day' => $data['clinic_start_day'],
+                                                                                        'clinic_end_day' => $data['clinic_end_day'],
+                                                                                        'clinic_start_time' => $data['clinic_start_time'],
+                                                                                        'clinic_end_time' => $data['clinic_end_time'],
+                                                                                        'clinic_status' => $data['clinic_status'],
+                                                                                    ]
+                                                                                        ?>
                                                                             <td class="text-center">
                                                                                 <button
                                                                                     onclick="setFormEdit('<?= base64_encode(json_encode($giveData)) ?>')"
@@ -183,6 +206,46 @@ try {
                                             <input type="number" class="form-control" id="clinic_phone"
                                                 placeholder="Num. Phone" name="clinic_phone">
                                         </div>
+                                        <div class="mb-3">
+                                            <select name="clinic_start_day" id="clinic_start_day" class="form-control">
+                                                <option value="" selected disabled hidden>Start Day</option>
+                                                <option value="Senin">Senin</option>
+                                                <option value="Selasa">Selasa</option>
+                                                <option value="Rabu">Rabu</option>
+                                                <option value="Kamis">Kamis</option>
+                                                <option value="Jum'at">Jum'at</option>
+                                                <option value="Sabtu">Sabtu</option>
+                                                <option value="Minggu">Minggu</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <select name="clinic_end_day" id="clinic_end_day" class="form-control">
+                                                <option value="" selected disabled hidden>End Day</option>
+                                                <option value="Senin">Senin</option>
+                                                <option value="Selasa">Selasa</option>
+                                                <option value="Rabu">Rabu</option>
+                                                <option value="Kamis">Kamis</option>
+                                                <option value="Jum'at">Jum'at</option>
+                                                <option value="Sabtu">Sabtu</option>
+                                                <option value="Minggu">Minggu</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <input type="time" class="form-control" id="clinic_start_time"
+                                                placeholder="Start Time" name="clinic_start_time">
+                                        </div>
+                                        <div class="mb-3">
+                                            <input type="time" class="form-control" id="clinic_end_time"
+                                                placeholder="End Time" name="clinic_end_time">
+                                        </div>
+                                        <div class="mb-3">
+                                            <select name="clinic_status" id="clinic_status" class="form-control">
+                                                <option value="" selected disabled hidden>Status</option>
+                                                <option value="Normal">Normal</option>
+                                                <option value="Closed">Closed</option>
+                                            </select>
+                                        </div>
+
                                         <input type="hidden" name="type" value="insert">
                                         <div class="text-center row">
                                             <div class="col-md-6">
@@ -238,6 +301,45 @@ try {
                                         <div class="mb-3">
                                             <input type="number" class="form-control" id="clinic_phone"
                                                 placeholder="Num. Phone" name="clinic_phone">
+                                        </div>
+                                        <div class="mb-3">
+                                            <select name="clinic_start_day" id="clinic_start_day" class="form-control">
+                                                <option value="" selected disabled hidden>Start Day</option>
+                                                <option value="Senin">Senin</option>
+                                                <option value="Selasa">Selasa</option>
+                                                <option value="Rabu">Rabu</option>
+                                                <option value="Kamis">Kamis</option>
+                                                <option value="Jumat">Jumat</option>
+                                                <option value="Sabtu">Sabtu</option>
+                                                <option value="Minggu">Minggu</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <select name="clinic_end_day" id="clinic_end_day" class="form-control">
+                                                <option value="" selected disabled hidden>End Day</option>
+                                                <option value="Senin">Senin</option>
+                                                <option value="Selasa">Selasa</option>
+                                                <option value="Rabu">Rabu</option>
+                                                <option value="Kamis">Kamis</option>
+                                                <option value="Jumat">Jumat</option>
+                                                <option value="Sabtu">Sabtu</option>
+                                                <option value="Minggu">Minggu</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <input type="time" class="form-control" id="clinic_start_time"
+                                                placeholder="Start Time" name="clinic_start_time">
+                                        </div>
+                                        <div class="mb-3">
+                                            <input type="time" class="form-control" id="clinic_end_time"
+                                                placeholder="End Time" name="clinic_end_time">
+                                        </div>
+                                        <div class="mb-3">
+                                            <select name="clinic_status" id="clinic_status" class="form-control">
+                                                <option value="" selected disabled hidden>Status</option>
+                                                <option value="Normal">Normal</option>
+                                                <option value="Closed">Closed</option>
+                                            </select>
                                         </div>
                                         <input type="hidden" name="type" value="edit">
                                         <div class="text-center row">
@@ -317,33 +419,38 @@ try {
 
 
 <script>
-    function setFormEdit(encodedData) {
-        try {
-            let decoded = atob(encodedData);
-            let data = JSON.parse(decoded);
+function setFormEdit(encodedData) {
+    try {
+        let decoded = atob(encodedData);
+        let data = JSON.parse(decoded);
 
-            let form = document.getElementById('editModal');
+        let form = document.getElementById('editModal');
 
-            form.querySelector('#clinic_id').value = data.clinic_id;
-            form.querySelector('#clinic_name').value = data.clinic_name;
-            form.querySelector('#clinic_address').value = data.clinic_address;
-            form.querySelector('#clinic_phone').value = data.clinic_phone;
+        form.querySelector('#clinic_id').value = data.clinic_id;
+        form.querySelector('#clinic_name').value = data.clinic_name;
+        form.querySelector('#clinic_address').value = data.clinic_address;
+        form.querySelector('#clinic_phone').value = data.clinic_phone;
+        form.querySelector('#clinic_start_day').value = data.clinic_start_day;
+        form.querySelector('#clinic_end_day').value = data.clinic_end_day;
+        form.querySelector('#clinic_start_time').value = data.clinic_start_time;
+        form.querySelector('#clinic_end_time').value = data.clinic_end_time;
+        form.querySelector('#clinic_status').value = data.clinic_status;
 
-        } catch (err) {
-            console.error("Gagal set data form:", err);
-        }
+    } catch (err) {
+        console.error("Gagal set data form:", err);
     }
+}
 
 
-    function setFormDelete(id, name) {
-        let deleteForm = document.getElementById("deleteModal");
-        deleteForm.querySelector("#clinic_id").value = id;
-        deleteForm.querySelector("#delete-id").innerText = name;
-    }
+function setFormDelete(id, name) {
+    let deleteForm = document.getElementById("deleteModal");
+    deleteForm.querySelector("#clinic_id").value = id;
+    deleteForm.querySelector("#delete-id").innerText = name;
+}
 
 
-    let inputs = document.querySelectorAll("input");
-    inputs.forEach((inp) => {
-        inp.setAttribute("autocomplete", "off");
-    });
+let inputs = document.querySelectorAll("input");
+inputs.forEach((inp) => {
+    inp.setAttribute("autocomplete", "off");
+});
 </script>

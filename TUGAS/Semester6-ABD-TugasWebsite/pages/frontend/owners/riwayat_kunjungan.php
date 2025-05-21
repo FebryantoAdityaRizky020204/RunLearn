@@ -66,12 +66,6 @@ $titlePage = 'Kunjungan - Owner Sahabat Satwa';
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="./profil.php">
-                        <i class="fa-solid fa-user"></i>
-                        Profil
-                    </a>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link" href="./logout.php">
                         <i class="fa-solid fa-right-from-bracket"></i>
                         Logout
@@ -86,13 +80,14 @@ $titlePage = 'Kunjungan - Owner Sahabat Satwa';
     <h1 class="table-title text-center position-header">DAFTAR RIWAYAT KUNJUNGAN</h1>
 
     <div class="table-responsive">
-        <table class="table table-bordered table-hover text-center">
+        <table class="table table-hover text-center">
             <thead class="table-warning">
                 <tr>
                     <th scope="col">Waktu Kunjungan</th>
                     <th scope="col">Keterangan Kunjungan</th>
                     <th scope="col">Nama Hewan</th>
                     <th scope="col">Nama Dokter</th>
+                    <th scope="col">Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -107,6 +102,12 @@ $titlePage = 'Kunjungan - Owner Sahabat Satwa';
                     <td><?= $riwayat['visit_notes'] ?></td>
                     <td><?= $riwayat['animal_name'] ?></td>
                     <td><?= $riwayat['vet_title'].' '.$riwayat['vet_givenname'].' '.$riwayat['vet_familyname'] ?></td>
+                    <td>
+                        <a href="./detail-kunjungan.php?visitid=<?= $riwayat['visit_id'] ?>"
+                            class="btn btn-sm btn-primary">
+                            DETAIL
+                        </a>
+                    </td>
                 </tr>
                 <?php endforeach ?>
             </tbody>

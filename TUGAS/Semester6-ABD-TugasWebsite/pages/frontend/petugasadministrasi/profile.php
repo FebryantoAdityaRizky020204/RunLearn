@@ -3,26 +3,41 @@ if (! session_id()) {
     session_start();
 }
 
-include_once './../../backend/Connection/DokterConnection.php';
+include_once './../../backend/Connection/PetugasAdministrasiConnection.php';
 $conn = new Connection();
 
 $loginAs = $_SESSION['loginAs'] ?? null;
-if ($loginAs !== 'dokter') {
+if ($loginAs !== 'petugasadministrasi') {
     header('Location: ./../../index.php');
     exit;
 }
 
-$vet_id = $_SESSION["dataLogin"]["vet_id"] ?? null;
-$vetQuery = "SELECT * FROM `vet` WHERE `vet_id` = $vet_id";
-$vet = $conn->singleFetch($vetQuery);
+$petugasadmin_id = $_SESSION["dataLogin"]["petugasadmin_id"] ?? null;
+$petugasQuery = "SELECT * FROM `petugas_administrasi` WHERE `petugasadmin_id` = $petugasadmin_id";
+$petugas = $conn->singleFetch($petugasQuery);
 
-$clinic_id = $vet["clinic_id"];
-$clinic = $conn->singleFetch("SELECT * FROM `clinic` WHERE `clinic_id` = $clinic_id");
+if (isset($_POST["submit"])) {
+    if ($_POST["type"] == "update-admin") {
+        $petugasadmin_id = $_POST["petugasadmin_id"];
+        $petugasadmin_nama = $_POST["petugasadmin_nama"];
+        $petugasadmin_nohp = $_POST["petugasadmin_nohp"];
+        $username = $_POST["username"];
+        $password = $_POST["password"];
 
-$spec_id = $vet["spec_id"];
-$spec = $conn->singleFetch("SELECT * FROM `specialisation` WHERE `spec_id` = $spec_id");
+        if ($password == "") {
+            $query = "UPDATE `petugas_administrasi` SET `petugasadmin_nama`='$petugasadmin_nama', `petugasadmin_nohp`='$petugasadmin_nohp', `username`='$username' WHERE `petugasadmin_id`=$petugasadmin_id";
+        } else {
+            $password = password_hash($password, PASSWORD_DEFAULT);
+            $query = "UPDATE `petugas_administrasi` SET `petugasadmin_nama`='$petugasadmin_nama', `petugasadmin_nohp`='$petugasadmin_nohp', `username`='$username', `password` = '$password' WHERE `petugasadmin_id`=$petugasadmin_id";
+        }
+        $conn->runSql($query);
+        header("Location: ./profile.php");
+        exit();
+    }
+}
 
-$titlePage = 'Dashboard - Dokter Sahabat Satwa';
+
+$titlePage = 'Profile - Petugas Administrasi Sahabat Satwa';
 ?>
 
 
@@ -43,15 +58,9 @@ $titlePage = 'Dashboard - Dokter Sahabat Satwa';
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
-                    <a class="nav-link active" href="./dashboard.php">
+                    <a class="nav-link" href="./dashboard.php">
                         <i class="fa-solid fa-house"></i>
                         Beranda
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="./kunjungan.php">
-                        <i class="fa-solid fa-table"></i>
-                        Kunjungan
                     </a>
                 </li>
                 <li class="nav-item">
@@ -68,7 +77,7 @@ $titlePage = 'Dashboard - Dokter Sahabat Satwa';
 <main class="container justify-content-start mt-3">
     <div class="row align-items-center">
         <div class="col-md-12">
-            <h3>DOKTER</h3>
+            <h3>PETUGAS ADMINISTRASI</h3>
 
             <hr class="border border-3 opacity-75" style="border-color: #ff9900 !important;">
 
@@ -76,54 +85,40 @@ $titlePage = 'Dashboard - Dokter Sahabat Satwa';
                 <div class="col-12 col-md-8">
                     <div class="card">
                         <div class="card-header fw-bold">
-                            My Profile | <span class="badge text-bg-primary"><?= $clinic["clinic_name"] ?></span>
-                            <span class="badge text-bg-secondary"><?= $spec["spec_description"] ?></span>
+                            My Profile
                         </div>
                         <form action="" method="POST">
-                            <input type="hidden" name="type" value="update-dokter">
-                            <input type="hidden" name="vet_id" value="<?= $vet_id ?>">
+                            <input type="hidden" name="type" value="update-admin">
+                            <input type="hidden" name="petugasadmin_id" value="<?= $petugasadmin_id ?>">
                             <div class="card-body">
                                 <div class="mb-3 row">
-                                    <label for="staticEmail" class="col-4 col-form-label">Title</label>
+                                    <label for="staticEmail" class="col-4 col-form-label">Nama</label>
                                     <div class="col-8">
-                                        <input type="text" name="vet_title" id="vet_title" class="form-control"
-                                            value="<?= $vet['vet_title'] ?>" readonly autocomplete="off">
-                                    </div>
-                                </div>
-                                <div class="mb-3 row">
-                                    <label for="staticEmail" class="col-4 col-form-label">Givenname</label>
-                                    <div class="col-8">
-                                        <input type="text" name="vet_givenname" id="vet_givenname" class="form-control"
-                                            value="<?= $vet['vet_givenname'] ?>" readonly autocomplete="off">
-                                    </div>
-                                </div>
-                                <div class="mb-3 row">
-                                    <label for="staticEmail" class="col-4 col-form-label">Familyname</label>
-                                    <div class="col-8">
-                                        <input type="text" name="vet_familyname" id="vet_familyname"
-                                            class="form-control" value="<?= $vet['vet_familyname'] ?>" readonly
+                                        <input type="text" name="petugasadmin_nama" id="petugasadmin_nama"
+                                            class="form-control" value="<?= $petugas['petugasadmin_nama'] ?>" readonly
                                             autocomplete="off">
                                     </div>
                                 </div>
                                 <div class="mb-3 row">
-                                    <label for="staticEmail" class="col-4 col-form-label">No.Hp</label>
+                                    <label for="staticEmail" class="col-4 col-form-label">No.HP</label>
                                     <div class="col-8">
-                                        <input type="text" name="vet_phone" id="vet_phone" class="form-control"
-                                            value="<?= $vet['vet_phone'] ?>" readonly autocomplete="off">
+                                        <input type="text" name="petugasadmin_nohp" id="petugasadmin_nohp"
+                                            class="form-control" value="<?= $petugas['petugasadmin_nohp'] ?>" readonly
+                                            autocomplete="off">
                                     </div>
                                 </div>
                                 <div class="mb-3 row">
                                     <label for="staticEmail" class="col-4 col-form-label">Username</label>
                                     <div class="col-8">
                                         <input type="text" name="username" id="username" class="form-control"
-                                            value="<?= $vet['username'] ?>" readonly autocomplete="off">
+                                            value="<?= $petugas['username'] ?>" readonly autocomplete="off">
                                     </div>
                                 </div>
                                 <div class="mb-3 row">
                                     <label for="inputPassword" class="col-4 col-form-label">Password</label>
                                     <div class="col-8">
                                         <input type="password" name="password" id="password" class="form-control"
-                                            id="inputPassword" value="----------" readonly>
+                                            value="----------" readonly>
                                         <p class="small text-danger" id="password-warning" hidden>
                                             *kosongkan jika tidak ingin mengubah password
                                         </p>
@@ -139,7 +134,7 @@ $titlePage = 'Dashboard - Dokter Sahabat Satwa';
                                     <i class="fa-solid fa-xmark"></i>
                                     BATAL
                                 </button>
-                                <button class="btn btn-primary btn-sm" hidden type="button" id="editProfil">
+                                <button name="submit" class="btn btn-primary btn-sm" hidden type="submit">
                                     <i class="fa-solid fa-pen-to-square"></i>
                                     SIMPAN
                                 </button>
@@ -172,12 +167,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const cancelButton = document.querySelector('.btn-danger');
     const passwordInput = document.getElementById('password');
     const usernameInput = document.getElementById('username');
-    const vetGivenname = document.getElementById('vet_givenname');
-    const vetFamilyname = document.getElementById('vet_familyname');
-    const vetPhone = document.getElementById('vet_phone');
-    const vetTitle = document.getElementById('vet_title');
+    const namaInput = document.getElementById('petugasadmin_nama');
 
     editButton.addEventListener('click', function() {
+        namaInput.removeAttribute('readonly');
         usernameInput.removeAttribute('readonly');
         passwordInput.removeAttribute('readonly');
         passwordInput.focus();
@@ -186,14 +179,11 @@ document.addEventListener('DOMContentLoaded', function() {
         saveButton.removeAttribute('hidden');
         document.getElementById('password').value = '';
         document.getElementById('password-warning').removeAttribute('hidden');
-
-        vetGivenname.removeAttribute('readonly');
-        vetFamilyname.removeAttribute('readonly');
-        vetPhone.removeAttribute('readonly');
-        vetTitle.removeAttribute('readonly');
+        document.getElementById('petugasadmin_nohp').removeAttribute('readonly');
     });
 
     cancelButton.addEventListener('click', function() {
+        namaInput.setAttribute('readonly', true);
         usernameInput.setAttribute('readonly', true);
         passwordInput.setAttribute('readonly', true);
         editButton.removeAttribute('hidden');
@@ -201,46 +191,9 @@ document.addEventListener('DOMContentLoaded', function() {
         cancelButton.setAttribute('hidden', true);
         document.getElementById('password').value = '----------';
         document.getElementById('password-warning').setAttribute('hidden', true);
-
-        vetGivenname.setAttribute('readonly', true);
-        vetFamilyname.setAttribute('readonly', true);
-        vetPhone.setAttribute('readonly', true);
-        vetTitle.setAttribute('readonly', true);
+        document.getElementById('petugasadmin_nohp').setAttribute('readonly', true);
     });
 });
-
-
-$("#editProfil").click(function() {
-    let dataUpdate = {
-        type: 'update-dokter',
-        vet_id: <?= $vet_id ?>,
-        password: $('#password').val(),
-        username: $('#username').val(),
-        vet_givenname: $('#vet_givenname').val(),
-        vet_familyname: $('#vet_familyname').val(),
-        vet_phone: $('#vet_phone').val(),
-        vet_title: $('#vet_title').val(),
-    }
-
-    $.post('./../../backend/dokter/profile.php', dataUpdate, function(response) {
-        if (response.status === 'success') {
-            Swal.fire({
-                icon: 'success',
-                title: 'Edit Profil Berhasil',
-                timer: 2000,
-                showConfirmButton: false
-            });
-        } else {
-            Swal.fire({
-                icon: 'error',
-                title: 'Edit Profil Gagal',
-                text: response.message,
-            });
-        }
-    })
-
-    $(".btn-danger").click()
-})
 </script>
 
 <?php require_once './../templates/footer.php'; ?>

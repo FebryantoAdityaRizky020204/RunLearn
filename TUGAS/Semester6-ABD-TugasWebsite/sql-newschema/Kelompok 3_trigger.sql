@@ -31,3 +31,37 @@ INSERT INTO `visit` (`visit_id`, `visit_date_time`, `visit_notes`, `animal_id`, 
 
 -- panggil data visit
 SELECT * FROM sahabat_satwa.visit;
+
+-- Untuk mengurangi stock obat setelah pembelian
+DELIMITER $$
+CREATE TRIGGER `kurangi_stok_obat_setelah_pembelian`
+AFTER INSERT ON `visit_drug`
+FOR EACH ROW
+BEGIN
+  UPDATE `drug`
+  SET `stock` = `stock` - NEW.`visit_drug_qtysupplied`
+  WHERE `drug`.`drug_id` = NEW.`drug_id`;
+END$$
+DELIMITER ;
+
+
+-- Untuk mengecek apakah stock obat mencukupi sebelum dilakukan pembelian obat 
+DELIMITER $$
+CREATE TRIGGER `cek_stok_obat_sebelum_pembelian`
+BEFORE INSERT ON `visit_drug`
+FOR EACH ROW
+BEGIN
+  DECLARE stok_saat_ini INT;
+
+  -- Ambil stok saat ini dari tabel drug
+  SELECT `stock` INTO stok_saat_ini
+  FROM `drug`
+  WHERE `drug_id` = NEW.`drug_id`;
+
+  -- Cek apakah stok mencukupi
+  IF stok_saat_ini < NEW.`visit_drug_qtysupplied` THEN
+    SIGNAL SQLSTATE '45000'
+    SET MESSAGE_TEXT = 'Stock Obat tidak Mencukupi';
+  END IF;
+END$$
+DELIMITER ;

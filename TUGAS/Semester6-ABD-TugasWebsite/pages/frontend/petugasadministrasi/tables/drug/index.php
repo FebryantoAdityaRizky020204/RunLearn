@@ -83,6 +83,10 @@ try {
                                                                                 Stock
                                                                             </th>
                                                                             <th
+                                                                                class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-1">
+                                                                                Price
+                                                                            </th>
+                                                                            <th
                                                                                 class="text-uppercase text-center text-secondary text-xs font-weight-bolder opacity-7 ps-1">
                                                                                 Action
                                                                             </th>
@@ -105,12 +109,17 @@ try {
                                                                             <td>
                                                                                 <?= $data['stock'] ?>
                                                                             </td>
+                                                                            <td>
+                                                                                Rp.
+                                                                                <?= number_format($data['price'], 0, ',', '.'); ?>
+                                                                            </td>
                                                                             <?php
                                                                                     $giveData = [
                                                                                         'drug_id' => $data['drug_id'],
                                                                                         'drug_name' => $data['drug_name'],
                                                                                         'drug_usage' => $data['drug_usage'],
-                                                                                        'stock' => $data['stock']
+                                                                                        'stock' => $data['stock'],
+                                                                                        'price' => $data['price']
                                                                                     ]
                                                                                         ?>
                                                                             <td class="text-center">
@@ -183,6 +192,10 @@ try {
                                             <input type="text" class="form-control" id="stock" placeholder="Drug Stock"
                                                 name="stock">
                                         </div>
+                                        <div class="mb-3">
+                                            <input type="text" class="form-control" id="price" placeholder="Price"
+                                                name="price">
+                                        </div>
                                         <input type="hidden" name="type" value="insert">
                                         <div class="text-center row">
                                             <div class="col-md-6">
@@ -238,6 +251,10 @@ try {
                                         <div class="mb-3">
                                             <input type="text" class="form-control" id="stock" placeholder="Drug Stock"
                                                 name="stock">
+                                        </div>
+                                        <div class="mb-3">
+                                            <input type="text" class="form-control" id="price" placeholder="Price"
+                                                name="price">
                                         </div>
                                         <input type="hidden" name="type" value="edit">
                                         <div class="text-center row">
@@ -328,6 +345,7 @@ function setFormEdit(encodedData) {
         form.querySelector('#drug_name').value = data.drug_name;
         form.querySelector('#drug_usage').value = data.drug_usage;
         form.querySelector('#stock').value = data.stock;
+        form.querySelector('#price').value = data.price;
 
     } catch (err) {
         console.error("Gagal set data form:", err);
