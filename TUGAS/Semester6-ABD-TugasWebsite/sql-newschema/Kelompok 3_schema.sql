@@ -92,17 +92,6 @@ CREATE TABLE `drug` (
 );
 
 
--- Membuat Tabel `spec_visit`
-DROP TABLE IF EXISTS `spec_visit`;
-CREATE TABLE `spec_visit` (
-  `clinic_id` int NOT NULL AUTO_INCREMENT,
-  `vet_id` int NOT NULL,
-  `sv_count` int NOT NULL,
-  PRIMARY KEY (`clinic_id`,`vet_id`),
-  FOREIGN KEY (`vet_id`) REFERENCES `vet` (`vet_id`),
-  FOREIGN KEY (`clinic_id`) REFERENCES `clinic` (`clinic_id`)
-);
-
 -- Membuat Tabel `visit`
 DROP TABLE IF EXISTS `visit`;
 CREATE TABLE `visit` (

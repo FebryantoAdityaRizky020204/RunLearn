@@ -31,14 +31,33 @@ CREATE USER 'vet_user' IDENTIFIED BY 'vet_password' DEFAULT ROLE 'vet_role';
 
 -- ===========================================================
 
+CREATE ROLE petugas_administrasi_role;
+
+GRANT SELECT ON sahabat_satwa.owners TO 'petugas_administrasi_role';
+GRANT SELECT ON sahabat_satwa.clinic TO 'petugas_administrasi_role';
+GRANT SELECT ON sahabat_satwa.animal_type TO 'petugas_administrasi_role';
+GRANT SELECT ON sahabat_satwa.specialisation TO 'petugas_administrasi_role';
+GRANT SELECT ON sahabat_satwa.drug TO 'petugas_administrasi_role';
+GRANT SELECT, UPDATE ON sahabat_satwa.vet TO 'petugas_administrasi_role';
+GRANT SELECT, UPDATE ON sahabat_satwa.animal TO 'petugas_administrasi_role';
+GRANT SELECT, INSERT, UPDATE ON sahabat_satwa.visit TO 'petugas_administrasi_role';
+GRANT SELECT, INSERT ON sahabat_satwa.visit_drug TO 'petugas_administrasi_role';
+GRANT SELECT ON sahabat_satwa.spec_visit TO 'petugas_administrasi_role';
+GRANT INSERT, SELECT, UPDATE ON sahabat_satwa.queue TO 'petugas_administrasi_role';
+
+CREATE USER 'petugas_administrasi_user' IDENTIFIED BY 'petugas_administrasi_password' DEFAULT ROLE 'petugas_administrasi_role';
+
+-- ===========================================================
+
 CREATE ROLE pet_owner_role;
 
-GRANT SELECT, UPDATE, INSERT, DELETE ON sahabat_satwa.owners TO pet_owner_role;
-GRANT SELECT, UPDATE, INSERT, DELETE ON sahabat_satwa.animal TO pet_owner_role;
-GRANT SELECT ON sahabat_satwa.animal_type TO pet_owner_role;
-GRANT SELECT ON sahabat_satwa.visit TO pet_owner_role;
-GRANT SELECT ON sahabat_satwa.vet TO pet_owner_role;
-GRANT SELECT ON sahabat_satwa.drug TO pet_owner_role;
-GRANT SELECT ON sahabat_satwa.visit_drug TO pet_owner_role;
+GRANT SELECT, UPDATE, INSERT, DELETE ON sahabat_satwa.owners TO 'pet_owner_role';
+GRANT SELECT, UPDATE, INSERT, DELETE ON sahabat_satwa.animal TO 'pet_owner_role';
+GRANT SELECT ON sahabat_satwa.animal_type TO 'pet_owner_role';
+GRANT SELECT ON sahabat_satwa.visit TO 'pet_owner_role';
+GRANT SELECT ON sahabat_satwa.vet TO 'pet_owner_role';
+GRANT SELECT ON sahabat_satwa.drug TO 'pet_owner_role';
+GRANT SELECT ON sahabat_satwa.visit_drug TO 'pet_owner_role';
+GRANT INSERT, SELECT, UPDATE ON sahabat_satwa.queue TO 'pet_owner_role';
 
 CREATE USER 'pet_owner_user' IDENTIFIED BY 'pet_owner_password' DEFAULT ROLE 'pet_owner_role';
