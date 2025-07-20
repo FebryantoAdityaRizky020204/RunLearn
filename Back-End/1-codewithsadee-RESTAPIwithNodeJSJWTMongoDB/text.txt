@@ -1,0 +1,26 @@
+[npm init -y]
+[choose license : Apache 2.0]
+{configure pacjage.json and license}
+[npm install -D prettier]
+{configure .prettierrc and .prettierignore}
+[npm install -D typescript]
+{configure tsconfig.json}
+[npm install express]
+[npm install -D @types/express]
+[npm install -D ts-node]
+[npm install -D @types/node]
+[npm install -D nodemon]
+{configure nodemon.json}
+{configure package.json (change scripts)}
+[npm run dev]
+{ctrl-c}
+[npm install dotenv]
+[npm install -D tsconfig-paths]
+{configure nodemon.json}
+[npm install cors]
+[npm install -D @types/cors]
+[npm install cookie-parser compression helmet]
+[npm install -D @types/cookie-parser @types/compression]
+[npm install express-rate-limit]
+[npm install mongoose]
+[npm install winston]

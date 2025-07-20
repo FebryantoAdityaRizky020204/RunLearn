@@ -1,0 +1,5 @@
+[VIDEO YOUTUBE]
+nama: Tutorial Javascript Lengkap - Kenapa Coding
+link:
+
+notes: tidak mencoba semua materi, hanya beberapa yang belum terlalu paham saja
